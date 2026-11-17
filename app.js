@@ -7,7 +7,7 @@
  * ============================================================================
  */
 
-// IMPORTANT: Paste your deployed Google Apps Script Public API (/exec) URL below:
+// IMPORTANT: Replace this placeholder with your deployed PublicApi.gs (/exec) URL:
 const PUBLIC_API_URL = 'REPLACE_WITH_YOUR_PUBLIC_API_EXEC_URL';
 
 const APP_STATE = {
@@ -52,7 +52,8 @@ async function fetchPublicBootstrap() {
   }
 
   try {
-    const url = PUBLIC_API_URL + (PUBLIC_API_URL.indexOf('?') === -1 ? '?' : '&') + 'action=getPublicBootstrap';
+    const sep = PUBLIC_API_URL.indexOf('?') === -1 ? '?' : '&';
+    const url = PUBLIC_API_URL + sep + 'action=getPublicBootstrap';
     const res = await fetch(url, { method: 'GET', redirect: 'follow' });
     const json = await res.json();
     if (!json || !json.ok || !json.data) {
@@ -165,7 +166,9 @@ function applyBusinessSettings() {
 
   const phone = s.phone_number || '+91-0000000000';
   const telHref = 'tel:' + phone.replace(/[^+\d]/g, '');
-  const waHref = buildWhatsAppUrl(isBn ? 'নমস্কার, আমি কৃষি যন্ত্রপাতি সম্পর্কে জানতে চাই।' : 'Hello Belerhat AgriTech, I would like to enquire about agricultural equipment.');
+  const waHref = buildWhatsAppUrl(isBn
+    ? 'নমস্কার, আমি কৃষি যন্ত্রপাতি সম্পর্কে জানতে চাই।'
+    : 'Hello Belerhat AgriTech, I would like to enquire about agricultural equipment.');
 
   setText('brandName', bName);
   setText('brandTagline', tagline);
@@ -220,7 +223,6 @@ function applyBusinessSettings() {
   if (s.instagram_url) socialHtml.push('<a href="' + escAttr(s.instagram_url) + '" target="_blank" rel="noopener">Instagram</a>');
   document.getElementById('socialLinksWrap').innerHTML = socialHtml.join('');
 
-  // Enrich LocalBusiness JSON-LD accurately
   const ldEl = document.getElementById('ldJsonLocalBusiness');
   if (ldEl) {
     const ldObj = {
@@ -307,7 +309,6 @@ function populateDropdowns() {
   if (prevCat) catFilter.value = prevCat;
   if (prevParts) partsFilter.value = prevParts;
 
-  // Rental dropdown (only For_Rent equipment)
   const rentSelect = document.getElementById('rentEqSelect');
   const prevRent = rentSelect.value;
   const rentOpts = ['<option value="GENERAL">' + esc(t('opt_general_machine')) + '</option>'].concat(
@@ -320,7 +321,6 @@ function populateDropdowns() {
   if (prevRent) rentSelect.value = prevRent;
   onRentEquipmentChange();
 
-  // Sales dropdown (only For_Sale equipment)
   const salesSelect = document.getElementById('salesEqSelect');
   const prevSales = salesSelect.value;
   const salesOpts = ['<option value="GENERAL">' + esc(t('opt_general_sales')) + '</option>'].concat(
@@ -354,5 +354,494 @@ function getEqName(eq) {
   return APP_STATE.lang === 'bn' ? (eq.nameBn || eq.name) : eq.name;
 }
 
-function getMinPublicRentalRate(eqId) {
-  const rates = APP_STATE
+function getEqDesc(eq) {
+  return APP_STATE.lang === 'bn' ? (eq.descriptionBn || eq.description) : eq.description;
+}
+
+function getPublicRatesForEq(eqId) {
+  return APP_STATE.rentalRates.filter(function (r) { return r.equipmentId === eqId; });
+}
+
+function formatAvailability(status) {
+  return t('avail_' + status) || status;
+}
+
+function buildEquipmentCardHtml(eq) {
+  const name = getEqName(eq);
+  const catName = getCatName(eq.categoryId);
+  const imgUrl = eq.imageUrls && eq.imageUrls.length ? eq.imageUrls[0] : '';
+  const rates = getPublicRatesForEq(eq.id).filter(function (r) { return r.rateAmount !== null; });
+
+  const priceBits = [];
+  if (eq.forSale) {
+    if (eq.salePrice !== null) {
+      priceBits.push(t('lbl_sale_price') + ' ₹' + Number(eq.salePrice).toLocaleString('en-IN'));
+    } else {
+      priceBits.push(t('lbl_for_sale') + ' — ' + t('lbl_price_quote'));
+    }
+  }
+  if (eq.forRent) {
+    if (rates.length) {
+      const first = rates[0];
+      priceBits.push(t('lbl_rent_from') + ' ₹' + Number(first.rateAmount).toLocaleString('en-IN') + ' / ' + t('unit_' + first.rateType));
+    } else {
+      priceBits.push(t('lbl_for_rent') + ' — ' + t('lbl_price_quote'));
+    }
+  }
+
+  const waUrl = buildWhatsAppUrl(
+    (APP_STATE.lang === 'bn' ? 'নমস্কার, আমি এই যন্ত্রটি সম্পর্কে জানতে চাই: ' : 'Hello, I am interested in: ') + name
+  );
+
+  return (
+    '<article class="product-card">' +
+      '<div class="product-img-wrap">' +
+        (imgUrl
+          ? '<img src="' + escAttr(imgUrl) + '" alt="' + escAttr(name) + '" loading="lazy" />'
+          : '<div class="product-img-placeholder">🚜 ' + esc(name) + '</div>') +
+      '</div>' +
+      '<div class="product-body">' +
+        '<div class="product-cat">' + esc(catName) + '</div>' +
+        '<h3 class="product-title">' + esc(name) + '</h3>' +
+        '<div class="product-meta">' + esc([eq.brand, eq.model].filter(Boolean).join(' • ')) + '</div>' +
+        '<div class="product-badges">' +
+          '<span class="avail-pill avail-' + escAttr(eq.availabilityStatus) + '">' + esc(formatAvailability(eq.availabilityStatus)) + '</span>' +
+          (eq.forSale ? '<span class="avail-pill" style="background:#EEF2FF;color:#3730A3;">' + esc(t('lbl_for_sale')) + '</span>' : '') +
+          (eq.forRent ? '<span class="avail-pill" style="background:#ECFDF5;color:#065F46;">' + esc(t('lbl_for_rent')) + '</span>' : '') +
+        '</div>' +
+        (priceBits.length ? '<div class="product-price-row">' + priceBits.map(esc).join('<br>') + '</div>' : '') +
+        '<div class="product-actions">' +
+          '<button type="button" class="btn btn-outline btn-sm full-btn" onclick="openEquipmentDetail(\'' + escAttr(eq.id) + '\')">' + esc(t('lbl_view_specs')) + '</button>' +
+          (eq.forSale ? '<button type="button" class="btn btn-primary btn-sm" onclick="goToEnquiryWithMachine(\'SALES\', \'' + escAttr(eq.id) + '\')">' + esc(t('lbl_sales_enq')) + '</button>' : '') +
+          (eq.forRent ? '<button type="button" class="btn btn-amber btn-sm" onclick="goToEnquiryWithMachine(\'RENTAL\', \'' + escAttr(eq.id) + '\')">' + esc(t('lbl_rent_enq')) + '</button>' : '') +
+          '<a href="' + escAttr(waUrl) + '" target="_blank" rel="noopener" class="btn btn-wa btn-sm full-btn">💬 ' + esc(t('btn_whatsapp')) + '</a>' +
+        '</div>' +
+      '</div>' +
+    '</article>'
+  );
+}
+
+function renderFeatured() {
+  const wrap = document.getElementById('featuredGrid');
+  let featured = APP_STATE.equipment.filter(function (e) { return e.isFeatured; });
+  if (!featured.length) featured = APP_STATE.equipment.slice(0, 6);
+  if (!featured.length) {
+    wrap.innerHTML = '<div class="empty-state">' + esc(t('msg_no_equipment')) + '</div>';
+    return;
+  }
+  wrap.innerHTML = featured.slice(0, 6).map(buildEquipmentCardHtml).join('');
+}
+
+function renderCatalogue() {
+  const wrap = document.getElementById('catalogueGrid');
+  const q = (document.getElementById('catSearch').value || '').toLowerCase().trim();
+  const cat = document.getElementById('catCategoryFilter').value;
+  const mode = document.getElementById('catModeFilter').value;
+  const avail = document.getElementById('catAvailFilter').value;
+
+  const filtered = APP_STATE.equipment.filter(function (e) {
+    if (cat !== 'ALL' && e.categoryId !== cat) return false;
+    if (mode === 'SALE' && !e.forSale) return false;
+    if (mode === 'RENT' && !e.forRent) return false;
+    if (avail !== 'ALL' && e.availabilityStatus !== avail) return false;
+    if (q) {
+      const hay = [e.name, e.nameBn, e.brand, e.model, e.description, e.descriptionBn, e.suitableApplications].join(' ').toLowerCase();
+      if (hay.indexOf(q) === -1) return false;
+    }
+    return true;
+  });
+
+  wrap.innerHTML = filtered.length
+    ? filtered.map(buildEquipmentCardHtml).join('')
+    : '<div class="empty-state">' + esc(t('msg_no_equipment')) + '</div>';
+}
+
+function openEquipmentDetail(eqId) {
+  const eq = APP_STATE.equipment.find(function (e) { return e.id === eqId; });
+  if (!eq) return;
+
+  const name = getEqName(eq);
+  document.getElementById('eqDetailTitle').textContent = name;
+
+  const imgs = eq.imageUrls || [];
+  let galleryHtml = '';
+  if (imgs.length) {
+    galleryHtml =
+      '<div style="background:var(--sand-bg);border-radius:10px;overflow:hidden;max-height:300px;display:flex;justify-content:center;">' +
+        '<img id="eqDetailMainImg" src="' + escAttr(imgs[0]) + '" alt="' + escAttr(name) + '" style="max-height:300px;object-fit:contain;" />' +
+      '</div>' +
+      (imgs.length > 1
+        ? '<div class="gallery-thumbs">' + imgs.map(function (u, i) {
+            return '<img src="' + escAttr(u) + '" class="gallery-thumb' + (i === 0 ? ' active' : '') + '" onclick="switchDetailImage(this, \'' + escAttr(u) + '\')" />';
+          }).join('') + '</div>'
+        : '');
+  }
+
+  const specLines = (eq.specifications || '').split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean);
+  let specsHtml = '';
+  if (specLines.length) {
+    specsHtml = '<h4>' + esc(t('lbl_specs')) + '</h4><table class="spec-table">' +
+      specLines.map(function (line) {
+        const idx = line.indexOf(':');
+        if (idx !== -1) {
+          return '<tr><td>' + esc(line.slice(0, idx).trim()) + '</td><td>' + esc(line.slice(idx + 1).trim()) + '</td></tr>';
+        }
+        return '<tr><td colspan="2">' + esc(line) + '</td></tr>';
+      }).join('') + '</table>';
+  }
+
+  const rates = getPublicRatesForEq(eq.id);
+  let ratesHtml = '';
+  if (eq.forRent && rates.length) {
+    ratesHtml = '<h4>' + esc(t('lbl_rental_rates')) + '</h4><table class="spec-table">' +
+      rates.map(function (r) {
+        const priceTxt = r.rateAmount !== null
+          ? '₹' + Number(r.rateAmount).toLocaleString('en-IN')
+          : t('lbl_price_quote');
+        const extras = [];
+        if (r.operatorIncluded) extras.push(t('lbl_operator_incl'));
+        if (r.fuelIncluded) extras.push(t('lbl_fuel_incl'));
+        if (r.notes) extras.push(r.notes);
+        return '<tr><td>' + esc(t('unit_' + r.rateType)) + '</td><td><strong>' + esc(priceTxt) + '</strong>' +
+          (extras.length ? '<br><span class="muted">' + esc(extras.join(' • ')) + '</span>' : '') + '</td></tr>';
+      }).join('') + '</table>';
+  }
+
+  const waUrl = buildWhatsAppUrl(
+    (APP_STATE.lang === 'bn' ? 'নমস্কার, আমি এই যন্ত্রটি সম্পর্কে বিস্তারিত জানতে চাই: ' : 'Hello, please share quotation & details for: ') + name
+  );
+
+  document.getElementById('eqDetailBody').innerHTML =
+    galleryHtml +
+    '<div style="margin-top:12px;">' +
+      '<span class="avail-pill avail-' + escAttr(eq.availabilityStatus) + '">' + esc(formatAvailability(eq.availabilityStatus)) + '</span> ' +
+      '<span class="muted">' + esc([eq.brand, eq.model].filter(Boolean).join(' • ')) + '</span>' +
+    '</div>' +
+    (getEqDesc(eq) ? '<p>' + esc(getEqDesc(eq)) + '</p>' : '') +
+    (eq.suitableApplications ? '<p><strong>' + esc(t('lbl_suitable_apps')) + ':</strong> ' + esc(eq.suitableApplications) + '</p>' : '') +
+    specsHtml +
+    ratesHtml +
+    '<div class="btn-row" style="margin-top:16px;">' +
+      (eq.forSale ? '<button type="button" class="btn btn-primary" onclick="closeModal(\'eqDetailModal\');goToEnquiryWithMachine(\'SALES\', \'' + escAttr(eq.id) + '\')">' + esc(t('lbl_sales_enq')) + '</button>' : '') +
+      (eq.forRent ? '<button type="button" class="btn btn-amber" onclick="closeModal(\'eqDetailModal\');goToEnquiryWithMachine(\'RENTAL\', \'' + escAttr(eq.id) + '\')">' + esc(t('lbl_rent_enq')) + '</button>' : '') +
+      '<a href="' + escAttr(waUrl) + '" target="_blank" rel="noopener" class="btn btn-wa">💬 ' + esc(t('btn_whatsapp')) + '</a>' +
+    '</div>' +
+    '<div class="share-row">' +
+      '<button type="button" class="btn btn-outline btn-sm" onclick="shareEquipment(\'' + escAttr(eq.id) + '\')">🔗 ' + esc(t('lbl_share')) + ' / ' + esc(t('lbl_copy_link')) + '</button>' +
+    '</div>';
+
+  openModal('eqDetailModal');
+}
+
+function switchDetailImage(thumbEl, url) {
+  document.getElementById('eqDetailMainImg').src = url;
+  document.querySelectorAll('.gallery-thumb').forEach(function (img) { img.classList.remove('active'); });
+  thumbEl.classList.add('active');
+}
+
+function shareEquipment(eqId) {
+  const eq = APP_STATE.equipment.find(function (e) { return e.id === eqId; });
+  const shareUrl = window.location.origin + window.location.pathname + '#equipment=' + encodeURIComponent(eqId);
+  const title = eq ? getEqName(eq) : 'Belerhat AgriTech';
+
+  if (navigator.share) {
+    navigator.share({ title: title, url: shareUrl }).catch(function () {});
+  } else if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(shareUrl).then(function () { toast(t('msg_link_copied')); });
+  } else {
+    toast(shareUrl);
+  }
+}
+
+function goToEnquiryWithMachine(mode, eqId) {
+  if (mode === 'RENTAL') {
+    navigateTo('rental');
+    const sel = document.getElementById('rentEqSelect');
+    if (sel) {
+      sel.value = eqId;
+      onRentEquipmentChange();
+    }
+  } else {
+    navigateTo('sales');
+    const sel = document.getElementById('salesEqSelect');
+    if (sel) sel.value = eqId;
+  }
+}
+
+function onRentEquipmentChange() {
+  const eqId = document.getElementById('rentEqSelect').value;
+  const hint = document.getElementById('rentRateHint');
+  if (!eqId || eqId === 'GENERAL') {
+    hint.textContent = '';
+    return;
+  }
+  const rates = getPublicRatesForEq(eqId).filter(function (r) { return r.rateAmount !== null; });
+  if (!rates.length) {
+    hint.textContent = t('lbl_price_quote');
+    return;
+  }
+  hint.textContent = rates.map(function (r) {
+    return '₹' + Number(r.rateAmount).toLocaleString('en-IN') + ' / ' + t('unit_' + r.rateType);
+  }).join(' | ');
+}
+
+function renderSpareParts() {
+  const wrap = document.getElementById('partsGrid');
+  const q = (document.getElementById('partsSearch').value || '').toLowerCase().trim();
+  const cat = document.getElementById('partsCatFilter').value;
+
+  const filtered = APP_STATE.spareParts.filter(function (p) {
+    if (cat !== 'ALL' && p.categoryId !== cat) return false;
+    if (q) {
+      const hay = [p.partCode, p.name, p.nameBn, p.compatibleMachine, p.brandModel, p.description].join(' ').toLowerCase();
+      if (hay.indexOf(q) === -1) return false;
+    }
+    return true;
+  });
+
+  if (!filtered.length) {
+    wrap.innerHTML = '<div class="empty-state">' + esc(t('msg_no_parts')) + '</div>';
+    return;
+  }
+
+  wrap.innerHTML = filtered.map(function (p) {
+    const pName = APP_STATE.lang === 'bn' ? (p.nameBn || p.name) : p.name;
+    const priceText = p.price !== null
+      ? '₹' + Number(p.price).toLocaleString('en-IN')
+      : t('lbl_price_quote');
+    return (
+      '<article class="product-card">' +
+        '<div class="product-img-wrap">' +
+          (p.imageUrl
+            ? '<img src="' + escAttr(p.imageUrl) + '" alt="' + escAttr(pName) + '" loading="lazy" />'
+            : '<div class="product-img-placeholder">⚙️ ' + esc(pName) + '</div>') +
+        '</div>' +
+        '<div class="product-body">' +
+          '<div class="product-cat">' + esc(getCatName(p.categoryId)) + (p.partCode ? ' • ' + esc(p.partCode) : '') + '</div>' +
+          '<h3 class="product-title">' + esc(pName) + '</h3>' +
+          '<div class="product-meta">' + esc([p.compatibleMachine, p.brandModel].filter(Boolean).join(' • ')) + '</div>' +
+          '<div class="product-badges"><span class="avail-pill avail-' + escAttr(p.availabilityStatus) + '">' + esc(formatAvailability(p.availabilityStatus)) + '</span></div>' +
+          '<div class="product-price-row">' + esc(priceText) + '</div>' +
+          '<div class="product-actions">' +
+            '<button type="button" class="btn btn-primary btn-sm full-btn" onclick="openPartEnquiryModal(\'' + escAttr(p.id) + '\')">' + esc(t('lbl_part_enq')) + '</button>' +
+          '</div>' +
+        '</div>' +
+      '</article>'
+    );
+  }).join('');
+}
+
+function openPartEnquiryModal(partId) {
+  APP_STATE.formOpenedAt = Date.now();
+  const form = document.getElementById('partEnquiryForm');
+  form.reset();
+  const part = partId ? APP_STATE.spareParts.find(function (x) { return x.id === partId; }) : null;
+  document.getElementById('pePartId').value = part ? part.id : 'GENERAL';
+  document.getElementById('pePartName').value = part ? (APP_STATE.lang === 'bn' ? (part.nameBn || part.name) : part.name) : '';
+  document.getElementById('peMachineBrand').value = part ? [part.compatibleMachine, part.brandModel].filter(Boolean).join(' — ') : '';
+  openModal('partEnquiryModal');
+}
+
+/**
+ * ============================================================================
+ * REPAIR PHOTO PREVIEW & VALIDATION
+ * ============================================================================
+ */
+function previewServicePhoto(input) {
+  const preview = document.getElementById('servicePhotoPreview');
+  APP_STATE.servicePhotoDataUrl = '';
+  APP_STATE.servicePhotoName = '';
+  preview.innerHTML = '';
+
+  const file = input.files && input.files[0];
+  if (!file) return;
+
+  const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+  if (allowed.indexOf(file.type) === -1) {
+    input.value = '';
+    toast(t('msg_img_invalid_type'));
+    return;
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    input.value = '';
+    toast(t('msg_img_too_large'));
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function () {
+    APP_STATE.servicePhotoDataUrl = reader.result;
+    APP_STATE.servicePhotoName = file.name;
+    preview.innerHTML = '<img src="' + reader.result + '" alt="Upload preview" />';
+  };
+  reader.readAsDataURL(file);
+}
+
+/**
+ * ============================================================================
+ * ENQUIRY FORM SUBMISSION (HARDENED POST)
+ * ============================================================================
+ */
+async function handleEnquirySubmit(event, enquiryType) {
+  event.preventDefault();
+  const form = event.target;
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  if (!PUBLIC_API_URL || PUBLIC_API_URL.indexOf('REPLACE_WITH_') === 0) {
+    toast('Backend PUBLIC_API_URL is not configured yet in app.js.');
+    return;
+  }
+
+  const fd = new FormData(form);
+  const phoneDigits = String(fd.get('phone') || '').replace(/\D/g, '');
+  if (!/^[6-9]\d{9}$/.test(phoneDigits)) {
+    toast(t('msg_invalid_phone'));
+    return;
+  }
+
+  const payload = {
+    customerName: String(fd.get('customerName') || '').trim(),
+    phone: phoneDigits,
+    villageLocation: String(fd.get('villageLocation') || '').trim(),
+    customerNotes: String(fd.get('customerNotes') || '').trim(),
+    privacyConsent: Boolean(form.querySelector('input[name="privacyConsent"]').checked)
+  };
+
+  let itemSummary = '';
+
+  if (enquiryType === 'RENTAL') {
+    const eqId = String(fd.get('equipmentId') || 'GENERAL');
+    const eq = APP_STATE.equipment.find(function (x) { return x.id === eqId; });
+    payload.equipmentId = eqId;
+    payload.equipmentName = eq ? eq.name : 'General Rental Machinery';
+    payload.preferredDate = String(fd.get('preferredDate') || '');
+    payload.durationValue = Number(fd.get('durationValue') || 1);
+    payload.durationUnit = String(fd.get('durationUnit') || 'DAY');
+    payload.farmingActivity = String(fd.get('farmingActivity') || '').trim();
+    payload.landAreaAcres = String(fd.get('landAreaAcres') || '').trim();
+    payload.operatorRequired = String(fd.get('operatorRequired') || 'UNSURE');
+    payload.transportRequired = String(fd.get('transportRequired') || 'YES');
+    itemSummary = payload.equipmentName + ' (' + payload.preferredDate + ', ' + payload.durationValue + ' ' + payload.durationUnit + ')';
+  } else if (enquiryType === 'SALES') {
+    const eqId = String(fd.get('equipmentId') || 'GENERAL');
+    const eq = APP_STATE.equipment.find(function (x) { return x.id === eqId; });
+    payload.equipmentId = eqId;
+    payload.equipmentName = eq ? eq.name : 'General Equipment Sales';
+    payload.quantity = Number(fd.get('quantity') || 1);
+    payload.deliveryRequired = String(fd.get('deliveryRequired') || 'YES');
+    payload.financingSubsidyInterest = String(fd.get('financingSubsidyInterest') || 'NA');
+    payload.email = String(fd.get('email') || '').trim();
+    itemSummary = payload.equipmentName + ' x' + payload.quantity;
+  } else if (enquiryType === 'SERVICE') {
+    payload.serviceCategory = String(fd.get('serviceCategory') || 'REPAIR');
+    payload.equipmentType = String(fd.get('equipmentType') || '').trim();
+    payload.brandModel = String(fd.get('brandModel') || '').trim();
+    payload.preferredDate = String(fd.get('preferredDate') || '');
+    payload.problemDescription = String(fd.get('problemDescription') || '').trim();
+    if (APP_STATE.servicePhotoDataUrl) {
+      payload.imageBase64 = APP_STATE.servicePhotoDataUrl;
+      payload.imageName = APP_STATE.servicePhotoName;
+    }
+    itemSummary = payload.equipmentType + (payload.brandModel ? ' (' + payload.brandModel + ')' : '');
+  } else if (enquiryType === 'SPARE_PART') {
+    payload.partId = String(fd.get('partId') || 'GENERAL');
+    payload.partName = String(fd.get('partName') || '').trim();
+    payload.machineBrandModel = String(fd.get('machineBrandModel') || '').trim();
+    payload.quantity = Number(fd.get('quantity') || 1);
+    itemSummary = payload.partName + ' x' + payload.quantity;
+  } else if (enquiryType === 'CONTACT') {
+    itemSummary = 'General Contact Message';
+  }
+
+  submitBtn.disabled = true;
+  const origBtnText = submitBtn.textContent;
+  submitBtn.textContent = t('msg_submitting');
+
+  try {
+    const res = await fetch(PUBLIC_API_URL, {
+      method: 'POST',
+      mode: 'cors',
+      redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'submitEnquiry',
+        enquiryType: enquiryType,
+        formOpenedAt: APP_STATE.formOpenedAt,
+        hp_website: String(fd.get('hp_website') || ''),
+        payload: payload
+      })
+    });
+
+    const json = await res.json();
+    if (!json || !json.ok || !json.data) {
+      toast((json && json.error) || t('msg_submit_error'));
+      return;
+    }
+
+    form.reset();
+    APP_STATE.formOpenedAt = Date.now();
+    if (enquiryType === 'SERVICE') {
+      APP_STATE.servicePhotoDataUrl = '';
+      APP_STATE.servicePhotoName = '';
+      document.getElementById('servicePhotoPreview').innerHTML = '';
+    }
+    if (enquiryType === 'SPARE_PART') {
+      closeModal('partEnquiryModal');
+    }
+
+    showSuccessModal(json.data.enquiryId, enquiryType, payload, itemSummary);
+  } catch (err) {
+    console.error('Submission error:', err);
+    toast(t('msg_submit_error'));
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = origBtnText;
+  }
+}
+
+function showSuccessModal(refId, enquiryType, payload, itemSummary) {
+  document.getElementById('successMsg').textContent = t('msg_success_body');
+  document.getElementById('successRefId').textContent = refId;
+
+  const waMsg = [
+    'Belerhat AgriTech Enquiry Ref: ' + refId,
+    'Type: ' + enquiryType,
+    'Item: ' + itemSummary,
+    'Name: ' + payload.customerName,
+    'Mobile: ' + payload.phone,
+    payload.villageLocation ? ('Location: ' + payload.villageLocation) : ''
+  ].filter(Boolean).join('\n');
+
+  document.getElementById('successWaLink').href = buildWhatsAppUrl(waMsg);
+  openModal('successModal');
+}
+
+/**
+ * ============================================================================
+ * HELPERS
+ * ============================================================================
+ */
+function buildWhatsAppUrl(message) {
+  const rawNum = String((APP_STATE.settings && APP_STATE.settings.whatsapp_number) || '910000000000').replace(/\D/g, '');
+  const fullNum = rawNum.length === 10 ? '91' + rawNum : rawNum;
+  return 'https://wa.me/' + fullNum + '?text=' + encodeURIComponent(message || '');
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function setText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val || ''; }
+
+function esc(v) {
+  return String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, function (m) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+  });
+}
+function escAttr(v) { return esc(v); }
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(window._publicToastTimer);
+  window._publicToastTimer = setTimeout(function () { el.classList.remove('show'); }, 3600);
+}
