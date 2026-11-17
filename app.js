@@ -8,7 +8,7 @@
  */
 
 // IMPORTANT: Replace this placeholder with your deployed PublicApi.gs (/exec) URL:
-const PUBLIC_API_URL = 'REPLACE_WITH_YOUR_PUBLIC_API_EXEC_URL';
+const PUBLIC_API_URL = 'https://script.google.com/macros/s/AKfycbw65bxEN6dWw3559LkFKB7o3pe0Rwyng9NQtOCsjU6TcqT19aRsBU07I1bl223-4Xej/exec';
 
 const APP_STATE = {
   lang: localStorage.getItem('belerhat_lang') || 'bn',
