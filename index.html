@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="seoTitle">বেলেরহাট অ্যাগ্রিটেক | Belerhat AgriTech — Agricultural Equipment Sales, Rental &amp; Repair in Purba Bardhaman</title>
+  <meta id="seoDesc" name="description" content="Belerhat AgriTech in Belerhat, Purba Bardhaman, West Bengal: Modern agricultural equipment sales, farm machinery rental (power tiller, weeder, paddy harvester), repair &amp; spare parts." />
+  <meta name="keywords" content="Agricultural equipment in Belerhat, Farm machinery rental in Purba Bardhaman, Power weeder rental near Belerhat, Agricultural machinery sales in Bardhaman, Paddy harvesting machine rental, Farm equipment repair and spare parts" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="bn_IN" />
+  <meta property="og:locale:alternate" content="en_IN" />
+  <meta id="ogTitle" property="og:title" content="Belerhat AgriTech — Modern Farming. Smarter Equipment. Better Productivity." />
+  <meta id="ogDesc" property="og:description" content="Agricultural equipment sales, affordable farm machinery rental, repair and spare parts in Belerhat, Purba Bardhaman." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script id="ldJsonLocalBusiness" type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Belerhat AgriTech",
+    "description": "Agricultural equipment sales, machinery rental, repair and spare parts support in Belerhat, Purba Bardhaman.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Belerhat",
+      "addressRegion": "Purba Bardhaman, West Bengal",
+      "addressCountry": "IN"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- TOP UTILITY BAR -->
+  <div class="utility-bar">
+    <div class="container utility-inner">
+      <span id="topLocationText">📍 Belerhat, Purba Bardhaman, West Bengal</span>
+      <div class="utility-right">
+        <a id="topPhoneLink" href="tel:+910000000000" class="util-link">📞 <span id="topPhoneText">+91-0000000000</span></a>
+        <div class="lang-switch" role="group" aria-label="Language switcher">
+          <button type="button" id="btnLangBn" class="lang-btn active" onclick="setLanguage('bn')">বাংলা</button>
+          <button type="button" id="btnLangEn" class="lang-btn" onclick="setLanguage('en')">English</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="brand" onclick="navigateTo('home');return false;">
+        <div id="brandLogoWrap" class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="38" height="38" fill="none">
+            <rect width="40" height="40" rx="10" fill="#14452F"/>
+            <path d="M10 27C14 19 20 14 29 12C27 21 22 27 13 29" stroke="#86EFAC" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="14" cy="28" r="3" fill="#FBBF24"/>
+          </svg>
+        </div>
+        <div>
+          <div id="brandName" class="brand-name">বেলেরহাট অ্যাগ্রিটেক</div>
+          <div id="brandTagline" class="brand-tagline">আধুনিক চাষাবাদ। স্মার্ট যন্ত্রপাতি। বেশি ফলন।</div>
+        </div>
+      </a>
+
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
+
+      <nav id="mainNav" class="main-nav">
+        <a href="#home" class="nav-link active" data-route="home" data-i18n="nav_home" onclick="navigateTo('home');return false;">হোম</a>
+        <a href="#catalogue" class="nav-link" data-route="catalogue" data-i18n="nav_catalogue" onclick="navigateTo('catalogue');return false;">যন্ত্রপাতি</a>
+        <a href="#rental" class="nav-link" data-route="rental" data-i18n="nav_rental" onclick="navigateTo('rental');return false;">ভাড়া</a>
+        <a href="#sales" class="nav-link" data-route="sales" data-i18n="nav_sales" onclick="navigateTo('sales');return false;">ক্রয় অনুসন্ধান</a>
+        <a href="#service" class="nav-link" data-route="service" data-i18n="nav_service" onclick="navigateTo('service');return false;">মেরামত</a>
+        <a href="#parts" class="nav-link" data-route="parts" data-i18n="nav_parts" onclick="navigateTo('parts');return false;">স্পেয়ার পার্টস</a>
+        <a href="#about" class="nav-link" data-route="about" data-i18n="nav_about" onclick="navigateTo('about');return false;">আমাদের সম্পর্কে</a>
+        <a href="#contact" class="nav-link" data-route="contact" data-i18n="nav_contact" onclick="navigateTo('contact');return false;">যোগাযোগ</a>
+        <a id="headerWaBtn" href="#" target="_blank" rel="noopener" class="btn btn-wa btn-sm" data-i18n="btn_whatsapp">হোয়াটসঅ্যাপ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="appMain">
+    <!-- ==================== A. HOMEPAGE ==================== -->
+    <section id="page-home" class="page-section active">
+      <div class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <span class="hero-pill" data-i18n="hero_pill">বেলেরহাট ও পূর্ব বর্ধমানের কৃষকদের জন্য আধুনিক কৃষি পরিষেবা</span>
+            <h1 id="heroTitle" data-i18n="hero_title">আধুনিক কৃষি যন্ত্রপাতি — ক্রয়, ভাড়া, মেরামত ও স্পেয়ার পার্টস</h1>
+            <p id="heroSubtitle" class="hero-sub" data-i18n="hero_subtitle">আধুনিক চাষাবাদ। স্মার্ট যন্ত্রপাতি। বেশি ফলন। স্থানীয় কৃষক, কন্ট্রাক্টর ও এফপিও-দের জন্য নির্ভরযোগ্য কৃষি সরঞ্জাম সহায়তা।</p>
+            <div class="hero-actions">
+              <button type="button" class="btn btn-amber btn-lg" onclick="navigateTo('catalogue')" data-i18n="cta_browse_machines">যন্ত্রপাতি দেখুন</button>
+              <button type="button" class="btn btn-white btn-lg" onclick="navigateTo('rental')" data-i18n="cta_rent_enquiry">ভাড়ার অনুসন্ধান করুন</button>
+              <a id="heroWaBtn" href="#" target="_blank" rel="noopener" class="btn btn-wa btn-lg" data-i18n="cta_whatsapp_now">হোয়াটসঅ্যাপে কথা বলুন</a>
+            </div>
+          </div>
+          <div class="hero-card">
+            <h3 data-i18n="hero_highlights_title">আমাদের মূল পরিষেবা</h3>
+            <ul class="highlight-list">
+              <li><strong data-i18n="hl_sales_t">কৃষি যন্ত্রপাতি বিক্রয়</strong><span data-i18n="hl_sales_d">সঠিক পরামর্শ, কোটেশন ও ডেলিভারি সহায়তা</span></li>
+              <li><strong data-i18n="hl_rent_t">সাশ্রয়ী যন্ত্রপাতি ভাড়া</strong><span data-i18n="hl_rent_d">ঘণ্টা, দিন, একর বা মৌসুম ভিত্তিক ভাড়ার সুবিধা</span></li>
+              <li><strong data-i18n="hl_repair_t">মেরামত ও রক্ষণাবেক্ষণ</strong><span data-i18n="hl_repair_d">ওয়ার্কশপ ও জরুরি সারাই পরিষেবা</span></li>
+              <li><strong data-i18n="hl_parts_t">জেনুইন স্পেয়ার পার্টস</strong><span data-i18n="hl_parts_d">প্রয়োজনীয় যন্ত্রাংশের সহজলভ্যতা অনুসন্ধান</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Equipment -->
+      <div class="section-pad">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 data-i18n="featured_title">বিশেষ নির্বাচিত যন্ত্রপাতি</h2>
+              <p class="muted" data-i18n="featured_sub">ক্যাটালগ থেকে প্রাপ্যতা, বিক্রয় ও ভাড়ার তথ্য দেখুন</p>
+            </div>
+            <button type="button" class="btn btn-outline" onclick="navigateTo('catalogue')" data-i18n="view_all_catalogue">সব যন্ত্রপাতি দেখুন →</button>
+          </div>
+          <div id="featuredGrid" class="cards-grid">
+            <div class="skeleton-box" data-i18n="loading_data">তথ্য লোড হচ্ছে...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- How Rental Works -->
+      <div class="section-pad bg-sand">
+        <div class="container">
+          <h2 class="text-center" data-i18n="how_rental_title">আমাদের ভাড়া পরিষেবা কীভাবে কাজ করে</h2>
+          <p class="muted text-center" data-i18n="how_rental_sub">কোনো অগ্রিম অনলাইন পেমেন্ট ছাড়াই সহজ ৪টি ধাপে ভাড়ার অনুরোধ পাঠান</p>
+          <div class="steps-grid">
+            <div class="step-card"><span class="step-num">১</span><h4 data-i18n="step1_t">যন্ত্র নির্বাচন করুন</h4><p data-i18n="step1_d">ক্যাটালগ বা ভাড়ার ফর্ম থেকে আপনার কাজের উপযোগী যন্ত্র বেছে নিন।</p></div>
+            <div class="step-card"><span class="step-num">২</span><h4 data-i18n="step2_t">তারিখ ও জমির তথ্য দিন</h4><p data-i18n="step2_d">সম্ভাব্য তারিখ, সময়কাল, গ্রাম, জমির পরিমাণ ও অপারেটরের প্রয়োজন উল্লেখ করুন।</p></div>
+            <div class="step-card"><span class="step-num">৩</span><h4 data-i18n="step3_t">মালিক যাচাই ও কোটেশন</h4><p data-i18n="step3_d">আমরা যন্ত্রের প্রাপ্যতা যাচাই করে ফোন বা হোয়াটসঅ্যাপে চূড়ান্ত ভাড়া জানাব।</p></div>
+            <div class="step-card"><span class="step-num">৪</span><h4 data-i18n="step4_t">নিশ্চিতকরণ ও কাজ শুরু</h4><p data-i18n="step4_d">আপনার সম্মতির পর বুকিং নিশ্চিত হবে এবং সময়মতো যন্ত্র পৌঁছে যাবে।</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Repair & Why Choose Us + Service Area -->
+      <div class="section-pad">
+        <div class="container split-2">
+          <div class="info-panel">
+            <span class="badge-soft" data-i18n="repair_badge">ওয়ার্কশপ ও মেরামতি সহায়তা</span>
+            <h2 data-i18n="repair_panel_t">কৃষি যন্ত্রপাতি মেরামত ও রক্ষণাবেক্ষণ</h2>
+            <p data-i18n="repair_panel_d">পাওয়ার টিলার, উইডার, স্প্রেয়ার, পাম্প বা ধান কাটার যন্ত্রে কোনো সমস্যা হলে ছবি সহ মেরামতির অনুরোধ পাঠান বা সরাসরি যোগাযোগ করুন।</p>
+            <div class="btn-row">
+              <button type="button" class="btn btn-primary" onclick="navigateTo('service')" data-i18n="cta_request_repair">মেরামতির অনুরোধ পাঠান</button>
+              <button type="button" class="btn btn-outline" onclick="navigateTo('parts')" data-i18n="cta_browse_parts">স্পেয়ার পার্টস খুঁজুন</button>
+            </div>
+          </div>
+          <div class="info-panel panel-green">
+            <h2 data-i18n="why_title">কেন বেলেরহাট অ্যাগ্রিটেক বেছে নেবেন?</h2>
+            <ul class="check-list">
+              <li data-i18n="why_1">বেলেরহাট ও পূর্ব বর্ধমানের স্থানীয় কৃষি চাহিদা অনুযায়ী সঠিক যন্ত্র নির্বাচন</li>
+              <li data-i18n="why_2">বড় বিনিয়োগ ছাড়াই ভাড়ায় আধুনিক যন্ত্রপাতি ব্যবহারের সুযোগ</li>
+              <li data-i18n="why_3">স্বচ্ছ যোগাযোগ — মালিক সরাসরি প্রাপ্যতা ও দর নিশ্চিত করেন</li>
+              <li data-i18n="why_4">বিক্রয় পরবর্তী মেরামত ও স্পেয়ার পার্টসের নির্ভরযোগ্য সহায়তা</li>
+            </ul>
+            <p class="service-area-box"><strong data-i18n="service_area_label">পরিষেবা এলাকা:</strong> <span id="homeServiceAreas">বেলেরহাট, পূর্ব বর্ধমান</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="cta-banner">
+        <div class="container cta-inner">
+          <div>
+            <h2 data-i18n="cta_banner_t">কোন যন্ত্রটি আপনার জমির জন্য সঠিক বুঝতে পারছেন না?</h2>
+            <p data-i18n="cta_banner_d">সরাসরি ফোন করুন, হোয়াটসঅ্যাপ করুন অথবা অনুসন্ধান ফর্ম পূরণ করুন।</p>
+          </div>
+          <div class="btn-row">
+            <a id="ctaCallBtn" href="tel:+910000000000" class="btn btn-white" data-i18n="btn_call_now">কল করুন</a>
+            <a id="ctaWaBtn" href="#" target="_blank" rel="noopener" class="btn btn-wa" data-i18n="btn_whatsapp">হোয়াটসঅ্যাপ</a>
+            <button type="button" class="btn btn-amber" onclick="navigateTo('contact')" data-i18n="btn_send_enquiry">অনুসন্ধান পাঠান</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== B. EQUIPMENT CATALOGUE ==================== -->
+    <section id="page-catalogue" class="page-section">
+      <div class="container section-pad">
+        <div class="page-head">
+          <h1 data-i18n="cat_page_title">কৃষি যন্ত্রপাতি ক্যাটালগ</h1>
+          <p class="muted" data-i18n="cat_page_sub">ক্যাটাগরি, বিক্রয় বা ভাড়ার সুবিধা অনুযায়ী যন্ত্র খুঁজুন।</p>
+        </div>
+
+        <div class="filter-bar">
+          <input type="text" id="catSearch" data-i18n-placeholder="ph_search_machine" placeholder="যন্ত্রের নাম, ব্র্যান্ড বা মডেল খুঁজুন..." oninput="renderCatalogue()" />
+          <select id="catCategoryFilter" onchange="renderCatalogue()">
+            <option value="ALL" data-i18n="opt_all_categories">সকল ক্যাটাগরি</option>
+          </select>
+          <select id="catModeFilter" onchange="renderCatalogue()">
+            <option value="ALL" data-i18n="opt_all_modes">বিক্রয় ও ভাড়া উভয়ই</option>
+            <option value="SALE" data-i18n="opt_for_sale">শুধুমাত্র বিক্রয়</option>
+            <option value="RENT" data-i18n="opt_for_rent">শুধুমাত্র ভাড়া</option>
+          </select>
+          <select id="catAvailFilter" onchange="renderCatalogue()">
+            <option value="ALL" data-i18n="opt_all_avail">সকল প্রাপ্যতা</option>
+            <option value="AVAILABLE" data-i18n="avail_AVAILABLE">উপলব্ধ</option>
+            <option value="LIMITED" data-i18n="avail_LIMITED">সীমিত</option>
+            <option value="ON_REQUEST" data-i18n="avail_ON_REQUEST">অনুরোধে উপলব্ধ</option>
+          </select>
+        </div>
+
+        <div id="catalogueGrid" class="cards-grid"></div>
+      </div>
+    </section>
+
+    <!-- ==================== C. MACHINERY RENTAL ==================== -->
+    <section id="page-rental" class="page-section">
+      <div class="container section-pad narrow">
+        <div class="page-head">
+          <h1 data-i18n="rent_page_title">যন্ত্রপাতি ভাড়ার অনুরোধ</h1>
+          <p class="muted" data-i18n="rent_page_sub">ঘণ্টা, দিন, একর বা মৌসুম ভিত্তিক ভাড়ার জন্য অনুসন্ধান জমা দিন।</p>
+        </div>
+
+        <div class="notice-banner" data-i18n="rent_manual_notice">
+          গুরুত্বপূর্ণ: এটি একটি ভাড়ার অনুসন্ধান অনুরোধ। স্বয়ংক্রিয় বুকিং বা পেমেন্ট হয় না — মালিক প্রাপ্যতা যাচাই করে আপনাকে চূড়ান্ত দর ও সময় নিশ্চিত করবেন।
+        </div>
+        <div id="rentalPolicyBox" class="policy-box"></div>
+
+        <form id="rentalForm" class="form-card" onsubmit="handleEnquirySubmit(event, 'RENTAL')">
+          <input type="text" name="hp_website" class="hp-field" tabindex="-1" autocomplete="off" />
+          <div class="form-grid">
+            <div>
+              <label data-i18n="lbl_select_machine">যন্ত্র নির্বাচন করুন *</label>
+              <select id="rentEqSelect" name="equipmentId" onchange="onRentEquipmentChange()" required>
+                <option value="GENERAL" data-i18n="opt_general_machine">সাধারণ ভাড়ার প্রয়োজন / আলোচনা সাপেক্ষ</option>
+              </select>
+              <div id="rentRateHint" class="rate-hint"></div>
+            </div>
+            <div>
+              <label data-i18n="lbl_pref_date">পছন্দের তারিখ *</label>
+              <input type="date" id="rentDate" name="preferredDate" required />
+            </div>
+            <div>
+              <label data-i18n="lbl_duration">সময়কাল / পরিমাণ *</label>
+              <input type="number" id="rentDurVal" name="durationValue" min="1" max="365" value="1" required />
+            </div>
+            <div>
+              <label data-i18n="lbl_rate_unit">ভাড়ার একক *</label>
+              <select id="rentDurUnit" name="durationUnit" required>
+                <option value="HOUR" data-i18n="unit_HOUR">ঘণ্টা (Hour)</option>
+                <option value="DAY" data-i18n="unit_DAY">দিন (Day)</option>
+                <option value="ACRE" data-i18n="unit_ACRE">একর (Acre)</option>
+                <option value="SEASONAL" data-i18n="unit_SEASONAL">মৌসুমী প্যাকেজ (Seasonal)</option>
+              </select>
+            </div>
+            <div>
+              <label data-i18n="lbl_activity">কৃষি কাজের ধরন</label>
+              <input type="text" id="rentActivity" name="farmingActivity" data-i18n-placeholder="ph_activity" placeholder="যেমন: জমি চাষ, ধান রোপণ, কাটা" />
+            </div>
+            <div>
+              <label data-i18n="lbl_land_area">জমির পরিমাণ (একর)</label>
+              <input type="number" step="0.1" min="0" id="rentAcres" name="landAreaAcres" placeholder="e.g. 2.5" />
+            </div>
+            <div>
+              <label data-i18n="lbl_operator_req">অপারেটর প্রয়োজন?</label>
+              <select id="rentOperator" name="operatorRequired">
+                <option value="YES" data-i18n="opt_yes">হ্যাঁ</option>
+                <option value="NO" data-i18n="opt_no">না</option>
+                <option value="UNSURE" data-i18n="opt_unsure">নিশ্চিত নই</option>
+              </select>
+            </div>
+            <div>
+              <label data-i18n="lbl_transport_req">পরিবহন প্রয়োজন?</label>
+              <select id="rentTransport" name="transportRequired">
+                <option value="YES" data-i18n="opt_yes">হ্যাঁ</option>
+                <option value="SELF_PICKUP" data-i18n="opt_self_pickup">নিজে নিয়ে যাব</option>
+                <option value="NO" data-i18n="opt_no">না</option>
+              </select>
+            </div>
+            <div>
+              <label data-i18n="lbl_cust_name">আপনার নাম *</label>
+              <input type="text" id="rentName" name="customerName" required minlength="2" maxlength="100" />
+            </div>
+            <div>
+              <label data-i18n="lbl_phone">মোবাইল নম্বর (১০ সংখ্যা) *</label>
+              <input type="tel" id="rentPhone" name="phone" required pattern="[6-9][0-9]{9}" maxlength="10" placeholder="9XXXXXXXXX" />
+            </div>
+            <div class="full-span">
+              <label data-i18n="lbl_village">গ্রাম / এলাকা *</label>
+              <input type="text" id="rentVillage" name="villageLocation" required minlength="2" maxlength="140" />
+            </div>
+            <div class="full-span">
+              <label data-i18n="lbl_notes">অতিরিক্ত তথ্য (ঐচ্ছিক)</label>
+              <textarea id="rentNotes" name="customerNotes" rows="2" maxlength="1000"></textarea>
+            </div>
+          </div>
+
+          <div class="privacy-box">
+            <p class="privacy-text" data-privacy-notice></p>
+            <label class="consent-label">
+              <input type="checkbox" name="privacyConsent" required />
+              <span data-i18n="consent_text">আমি বেলেরহাট অ্যাগ্রিটেক-কে আমার অনুসন্ধানের উত্তর দিতে (ফোন বা হোয়াটসঅ্যাপের মাধ্যমে) উপরে প্রদত্ত তথ্য সংরক্ষণ ও ব্যবহারের সম্মতি দিচ্ছি। *</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block" data-i18n="btn_submit_rental">ভাড়ার অনুরোধ পাঠান</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==================== D. SALES ENQUIRY ==================== -->
+    <section id="page-sales" class="page-section">
+      <div class="container section-pad narrow">
+        <div class="page-head">
+          <h1 data-i18n="sales_page_title">যন্ত্রপাতি ক্রয় ও কোটেশন অনুসন্ধান</h1>
+          <p class="muted" data-i18n="sales_page_sub">নতুন কৃষি যন্ত্রের মূল্য, ডেলিভারি বা সরকারি ভর্তুকি/ঋণ সহায়তার জন্য জানুন।</p>
+        </div>
+
+        <div id="deliveryPolicyBox" class="policy-box"></div>
+
+        <form id="salesForm" class="form-card" onsubmit="handleEnquirySubmit(event, 'SALES')">
+          <input type="text" name="hp_website" class="hp-field" tabindex="-1" autocomplete="off" />
+          <div class="form-grid">
+            <div>
+              <label data-i18n="lbl_select_machine">পছন্দের যন্ত্র *</label>
+              <select id="salesEqSelect" name="equipmentId" required>
+                <option value="GENERAL" data-i18n="opt_general_sales">অন্যান্য / পরামর্শ প্রয়োজন</option>
+              </select>
+            </div>
+            <div>
+              <label data-i18n="lbl_quantity">সংখ্যা *</label>
+              <input type="number" id="salesQty" name="quantity" min="1" max="100" value="1" required />
+            </div>
+            <div>
+              <label data-i18n="lbl_delivery_req">ডেলিভারি প্রয়োজন?</label>
+              <select name="deliveryRequired">
+                <option value="YES" data-i18n="opt_yes">হ্যাঁ</option>
+                <option value="NO" data-i18n="opt_no">না (নিজে নেব)</option>
+              </select>
+            </div>
+            <div>
+              <label data-i18n="lbl_subsidy">ঋণ বা সরকারি ভর্তুকি সহায়তা জানতে চান?</label>
+              <select name="financingSubsidyInterest">
+                <option value="NA" data-i18n="opt_not_sure">এখনই প্রয়োজন নেই / জানা নেই</option>
+                <option value="YES" data-i18n="opt_yes">হ্যাঁ, বিস্তারিত জানতে চাই</option>
+                <option value="NO" data-i18n="opt_no">না</option>
+              </select>
+            </div>
+            <div>
+              <label data-i18n="lbl_cust_name">আপনার নাম *</label>
+              <input type="text" name="customerName" required minlength="2" maxlength="100" />
+            </div>
+            <div>
+              <label data-i18n="lbl_phone">মোবাইল নম্বর (১০ সংখ্যা) *</label>
+              <input type="tel" name="phone" required pattern="[6-9][0-9]{9}" maxlength="10" placeholder="9XXXXXXXXX" />
+            </div>
+            <div>
+              <label data-i18n="lbl_village">গ্রাম / এলাকা *</label>
+              <input type="text" name="villageLocation" required minlength="2" maxlength="140" />
+            </div>
+            <div>
+              <label data-i18n="lbl_email_opt">ইমেইল (ঐচ্ছিক)</label>
+              <input type="email" name="email" maxlength="120" />
+            </div>
+            <div class="full-span">
+              <label data-i18n="lbl_notes">অতিরিক্ত প্রশ্ন বা তথ্য</label>
+              <textarea name="customerNotes" rows="2" maxlength="1000"></textarea>
+            </div>
+          </div>
+
+          <div class="privacy-box">
+            <p class="privacy-text" data-privacy-notice></p>
+            <label class="consent-label">
+              <input type="checkbox" name="privacyConsent" required />
+              <span data-i18n="consent_text">আমি বেলেরহাট অ্যাগ্রিটেক-কে আমার অনুসন্ধানের উত্তর দিতে (ফোন বা হোয়াটসঅ্যাপের মাধ্যমে) উপরে প্রদত্ত তথ্য সংরক্ষণ ও ব্যবহারের সম্মতি দিচ্ছি। *</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block" data-i18n="btn_submit_sales">কোটেশন অনুরোধ পাঠান</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==================== E. REPAIR & MAINTENANCE ==================== -->
+    <section id="page-service" class="page-section">
+      <div class="container section-pad narrow">
+        <div class="page-head">
+          <h1 data-i18n="service_page_title">যন্ত্রপাতি মেরামত ও রক্ষণাবেক্ষণ</h1>
+          <p class="muted" data-i18n="service_page_sub">মেরামত, নিয়মিত সার্ভিসিং বা পার্টস লাগানোর জন্য ফর্ম পূরণ করুন।</p>
+        </div>
+
+        <form id="serviceForm" class="form-card" onsubmit="handleEnquirySubmit(event, 'SERVICE')">
+          <input type="text" name="hp_website" class="hp-field" tabindex="-1" autocomplete="off" />
+          <div class="form-grid">
+            <div>
+              <label data-i18n="lbl_service_type">পরিষেবার ধরন *</label>
+              <select name="serviceCategory" required>
+                <option value="REPAIR" data-i18n="srv_REPAIR">যন্ত্র মেরামত (Repair)</option>
+                <option value="PREVENTIVE_MAINTENANCE" data-i18n="srv_MAINT">নিয়মিত সার্ভিসিং (Maintenance)</option>
+                <option value="SPARE_PART_FITMENT" data-i18n="srv_FITMENT">স্পেয়ার পার্টস পরিবর্তন</option>
+              </select>
+            </div>
+            <div>
+              <label data-i18n="lbl_eq_type">যন্ত্রের ধরন *</label>
+              <input type="text" name="equipmentType" required maxlength="100" data-i18n-placeholder="ph_eq_type" placeholder="যেমন: পাওয়ার টিলার, স্প্রেয়ার, পাম্প" />
+            </div>
+            <div>
+              <label data-i18n="lbl_brand_model">ব্র্যান্ড ও মডেল (যদি জানা থাকে)</label>
+              <input type="text" name="brandModel" maxlength="120" />
+            </div>
+            <div>
+              <label data-i18n="lbl_pref_service_date">পছন্দের তারিখ (ঐচ্ছিক)</label>
+              <input type="date" id="serviceDate" name="preferredDate" />
+            </div>
+            <div class="full-span">
+              <label data-i18n="lbl_problem">সমস্যার বিবরণ *</label>
+              <textarea name="problemDescription" rows="3" required minlength="5" maxlength="1000"></textarea>
+            </div>
+            <div>
+              <label data-i18n="lbl_cust_name">আপনার নাম *</label>
+              <input type="text" name="customerName" required minlength="2" maxlength="100" />
+            </div>
+            <div>
+              <label data-i18n="lbl_phone">মোবাইল নম্বর (১০ সংখ্যা) *</label>
+              <input type="tel" name="phone" required pattern="[6-9][0-9]{9}" maxlength="10" placeholder="9XXXXXXXXX" />
+            </div>
+            <div class="full-span">
+              <label data-i18n="lbl_village">গ্রাম / এলাকা *</label>
+              <input type="text" name="villageLocation" required minlength="2" maxlength="140" />
+            </div>
+            <div class="full-span">
+              <label data-i18n="lbl_upload_photo">সমস্যার ছবি আপলোড করুন (ঐচ্ছিক, সর্বোচ্চ ২ MB — JPG/PNG/WebP)</label>
+              <input type="file" id="servicePhotoInput" accept="image/jpeg,image/png,image/webp" onchange="previewServicePhoto(this)" />
+              <small class="muted" data-i18n="photo_private_note">🔒 আপনার আপলোড করা ছবি সম্পূর্ণ গোপন রাখা হয় এবং শুধুমাত্র টেকনিশিয়ান/মালিক দেখতে পারবেন।</small>
+              <div id="servicePhotoPreview" class="photo-preview"></div>
+            </div>
+          </div>
+
+          <div class="privacy-box">
+            <p class="privacy-text" data-privacy-notice></p>
+            <label class="consent-label">
+              <input type="checkbox" name="privacyConsent" required />
+              <span data-i18n="consent_text">আমি বেলেরহাট অ্যাগ্রিটেক-কে আমার অনুসন্ধানের উত্তর দিতে (ফোন বা হোয়াটসঅ্যাপের মাধ্যমে) উপরে প্রদত্ত তথ্য সংরক্ষণ ও ব্যবহারের সম্মতি দিচ্ছি। *</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block" data-i18n="btn_submit_service">সার্ভিস অনুরোধ পাঠান</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==================== F. SPARE PARTS CATALOGUE ==================== -->
+    <section id="page-parts" class="page-section">
+      <div class="container section-pad">
+        <div class="page-head">
+          <h1 data-i18n="parts_page_title">স্পেয়ার পার্টস ও অ্যাক্সেসরিজ</h1>
+          <p class="muted" data-i18n="parts_page_sub">যন্ত্রের ক্যাটাগরি, মেশিনের নাম, ব্র্যান্ড বা পার্টসের নাম দিয়ে খুঁজুন।</p>
+        </div>
+
+        <div class="filter-bar">
+          <input type="text" id="partsSearch" data-i18n-placeholder="ph_search_parts" placeholder="পার্টসের নাম, মেশিন বা ব্র্যান্ড লিখুন..." oninput="renderSpareParts()" />
+          <select id="partsCatFilter" onchange="renderSpareParts()">
+            <option value="ALL" data-i18n="opt_all_categories">সকল ক্যাটাগরি</option>
+          </select>
+          <button type="button" class="btn btn-primary" onclick="openPartEnquiryModal(null)" data-i18n="btn_custom_part_enquiry">+ তালিকাভুক্ত নয় এমন পার্টস খুঁজুন</button>
+        </div>
+
+        <div id="partsGrid" class="cards-grid"></div>
+      </div>
+    </section>
+
+    <!-- ==================== G. ABOUT US ==================== -->
+    <section id="page-about" class="page-section">
+      <div class="container section-pad narrow">
+        <div class="page-head">
+          <h1 data-i18n="about_title">বেলেরহাট অ্যাগ্রিটেক সম্পর্কে</h1>
+        </div>
+        <div class="form-card prose-card">
+          <h3 data-i18n="about_mission_t">আমাদের লক্ষ্য</h3>
+          <p data-i18n="about_mission_p">বেলেরহাট এবং পূর্ব বর্ধমানের পার্শ্ববর্তী অঞ্চলের কৃষক, কৃষি কন্ট্রাক্টর, এফপিও ও গ্রামীণ উদ্যোক্তাদের কাছে আধুনিক কৃষি যন্ত্রপাতি সহজে ও সাশ্রয়ী মূল্যে পৌঁছে দেওয়াই আমাদের মূল লক্ষ্য।</p>
+
+          <h3 data-i18n="about_access_t">কেন আমাদের এই উদ্যোগ</h3>
+          <p data-i18n="about_access_p">প্রতিটি কৃষকের পক্ষে সব ধরনের দামি যন্ত্র কেনা সবসময় সম্ভব হয় না। তাই আমরা নতুন যন্ত্র বিক্রির পাশাপাশি সময়মতো ভাড়ার সুবিধা, মেরামতি এবং প্রয়োজনীয় স্পেয়ার পার্টসের সহায়তা এক ছাদের নিচে নিয়ে এসেছি যাতে চাষের ভরা মৌসুমে কোনো কাজ আটকে না থাকে।</p>
+
+          <h3 data-i18n="about_commit_t">কৃষকদের প্রতি আমাদের অঙ্গীকার</h3>
+          <ul class="check-list">
+            <li data-i18n="about_c1">চাহিদা ও জমির ধরন বুঝে সৎ ও সঠিক যন্ত্র পরামর্শ</li>
+            <li data-i18n="about_c2">ভাড়া ও বিক্রয়ের ক্ষেত্রে স্পষ্ট ও স্বচ্ছ যোগাযোগ</li>
+            <li data-i18n="about_c3">মাঠপর্যায়ে উৎপাদনশীলতা বাড়াতে নিয়মিত মেরামত ও পার্টস সহায়তা</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== H. CONTACT US ==================== -->
+    <section id="page-contact" class="page-section">
+      <div class="container section-pad">
+        <div class="page-head">
+          <h1 data-i18n="contact_title">যোগাযোগ করুন</h1>
+          <p class="muted" data-i18n="contact_sub">যেকোনো প্রশ্ন, পরামর্শ বা ব্যবসায়িক আলোচনার জন্য আমাদের সাথে যোগাযোগ করুন।</p>
+        </div>
+
+        <div class="split-2">
+          <div class="form-card">
+            <h3 data-i18n="contact_details_t">ঠিকানা ও যোগাযোগের তথ্য</h3>
+            <div class="contact-list">
+              <div><strong data-i18n="lbl_address">ঠিকানা:</strong> <span id="contactAddress">বেলেরহাট, পূর্ব বর্ধমান, পশ্চিমবঙ্গ</span></div>
+              <div><strong data-i18n="lbl_phone_short">টেলিফোন:</strong> <a id="contactPhoneLink" href="tel:+910000000000"><span id="contactPhone">+91-0000000000</span></a></div>
+              <div><strong>WhatsApp:</strong> <a id="contactWaLink" href="#" target="_blank" rel="noopener"><span id="contactWaText">WhatsApp Chat</span></a></div>
+              <div><strong data-i18n="lbl_email_short">ইমেইল:</strong> <a id="contactEmailLink" href="mailto:contact@belerhatagritech.example"><span id="contactEmail">contact@belerhatagritech.example</span></a></div>
+              <div><strong data-i18n="lbl_hours">খোলার সময়:</strong> <span id="contactHours">সোম - শনি: সকাল ৮:০০ - সন্ধ্যা ৭:০০</span></div>
+              <div><strong data-i18n="service_area_label">পরিষেবা এলাকা:</strong> <span id="contactAreas">বেলেরহাট, পূর্ব বর্ধমান</span></div>
+            </div>
+            <div class="btn-row" style="margin-top:16px;">
+              <a id="contactMapBtn" href="#" target="_blank" rel="noopener" class="btn btn-outline hidden" data-i18n="btn_open_map">গুগল ম্যাপে দেখুন 📍</a>
+              <a id="contactWaBtn" href="#" target="_blank" rel="noopener" class="btn btn-wa" data-i18n="cta_whatsapp_now">হোয়াটসঅ্যাপে কথা বলুন</a>
+            </div>
+          </div>
+
+          <form id="contactForm" class="form-card" onsubmit="handleEnquirySubmit(event, 'CONTACT')">
+            <input type="text" name="hp_website" class="hp-field" tabindex="-1" autocomplete="off" />
+            <h3 data-i18n="contact_form_t">বার্তা পাঠান</h3>
+            <div class="form-grid">
+              <div>
+                <label data-i18n="lbl_cust_name">আপনার নাম *</label>
+                <input type="text" name="customerName" required minlength="2" maxlength="100" />
+              </div>
+              <div>
+                <label data-i18n="lbl_phone">মোবাইল নম্বর (১০ সংখ্যা) *</label>
+                <input type="tel" name="phone" required pattern="[6-9][0-9]{9}" maxlength="10" placeholder="9XXXXXXXXX" />
+              </div>
+              <div class="full-span">
+                <label data-i18n="lbl_village">গ্রাম / এলাকা</label>
+                <input type="text" name="villageLocation" maxlength="140" />
+              </div>
+              <div class="full-span">
+                <label data-i18n="lbl_message">আপনার বার্তা *</label>
+                <textarea name="customerNotes" rows="4" required minlength="5" maxlength="1000"></textarea>
+              </div>
+            </div>
+
+            <div class="privacy-box">
+              <p class="privacy-text" data-privacy-notice></p>
+              <label class="consent-label">
+                <input type="checkbox" name="privacyConsent" required />
+                <span data-i18n="consent_text">আমি বেলেরহাট অ্যাগ্রিটেক-কে আমার অনুসন্ধানের উত্তর দিতে (ফোন বা হোয়াটসঅ্যাপের মাধ্যমে) উপরে প্রদত্ত তথ্য সংরক্ষণ ও ব্যবহারের সম্মতি দিচ্ছি। *</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block" data-i18n="btn_send_message">বার্তা পাঠান</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h3 id="footerBrandName">বেলেরহাট অ্যাগ্রিটেক</h3>
+        <p id="footerTagline" class="muted-light">আধুনিক চাষাবাদ। স্মার্ট যন্ত্রপাতি। বেশি ফলন।</p>
+        <div id="socialLinksWrap" class="social-row"></div>
+      </div>
+      <div>
+        <h4 data-i18n="footer_links">দ্রুত লিংক</h4>
+        <ul class="footer-links">
+          <li><a href="#catalogue" onclick="navigateTo('catalogue');return false;" data-i18n="nav_catalogue">যন্ত্রপাতি</a></li>
+          <li><a href="#rental" onclick="navigateTo('rental');return false;" data-i18n="nav_rental">ভাড়া</a></li>
+          <li><a href="#service" onclick="navigateTo('service');return false;" data-i18n="nav_service">মেরামত</a></li>
+          <li><a href="#parts" onclick="navigateTo('parts');return false;" data-i18n="nav_parts">স্পেয়ার পার্টস</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="nav_contact">যোগাযোগ</h4>
+        <p id="footerAddress" class="muted-light">বেলেরহাট, পূর্ব বর্ধমান, পশ্চিমবঙ্গ</p>
+        <p id="footerPhone" class="muted-light"></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">© <span id="yearNow"></span> <span id="footerCopyName">Belerhat AgriTech</span></div>
+    </div>
+  </footer>
+
+  <!-- MOBILE STICKY BAR -->
+  <div class="mobile-sticky-bar">
+    <a id="stickyCall" href="tel:+910000000000" class="sticky-btn sticky-call" data-i18n="btn_call_now">📞 কল করুন</a>
+    <a id="stickyWa" href="#" target="_blank" rel="noopener" class="sticky-btn sticky-wa" data-i18n="btn_whatsapp">💬 হোয়াটসঅ্যাপ</a>
+  </div>
+
+  <!-- EQUIPMENT DETAIL MODAL -->
+  <div id="eqDetailModal" class="modal-backdrop" onclick="if(event.target===this)closeModal('eqDetailModal')">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="eqDetailTitle"></h3>
+        <button type="button" class="modal-close" onclick="closeModal('eqDetailModal')">✕</button>
+      </div>
+      <div id="eqDetailBody"></div>
+    </div>
+  </div>
+
+  <!-- SPARE PART ENQUIRY MODAL -->
+  <div id="partEnquiryModal" class="modal-backdrop" onclick="if(event.target===this)closeModal('partEnquiryModal')">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 data-i18n="part_modal_title">স্পেয়ার পার্টস মূল্য ও প্রাপ্যতা অনুসন্ধান</h3>
+        <button type="button" class="modal-close" onclick="closeModal('partEnquiryModal')">✕</button>
+      </div>
+      <form id="partEnquiryForm" onsubmit="handleEnquirySubmit(event, 'SPARE_PART')">
+        <input type="text" name="hp_website" class="hp-field" tabindex="-1" autocomplete="off" />
+        <input type="hidden" id="pePartId" name="partId" />
+        <div class="form-grid">
+          <div class="full-span">
+            <label data-i18n="lbl_part_name">পার্টসের নাম *</label>
+            <input type="text" id="pePartName" name="partName" required maxlength="140" />
+          </div>
+          <div>
+            <label data-i18n="lbl_brand_model">মেশিন / ব্র্যান্ড / মডেল</label>
+            <input type="text" id="peMachineBrand" name="machineBrandModel" maxlength="140" />
+          </div>
+          <div>
+            <label data-i18n="lbl_quantity">সংখ্যা *</label>
+            <input type="number" name="quantity" min="1" max="500" value="1" required />
+          </div>
+          <div>
+            <label data-i18n="lbl_cust_name">আপনার নাম *</label>
+            <input type="text" name="customerName" required minlength="2" maxlength="100" />
+          </div>
+          <div>
+            <label data-i18n="lbl_phone">মোবাইল নম্বর (১০ সংখ্যা) *</label>
+            <input type="tel" name="phone" required pattern="[6-9][0-9]{9}" maxlength="10" placeholder="9XXXXXXXXX" />
+          </div>
+          <div class="full-span">
+            <label data-i18n="lbl_village">গ্রাম / এলাকা *</label>
+            <input type="text" name="villageLocation" required minlength="2" maxlength="140" />
+          </div>
+          <div class="full-span">
+            <label data-i18n="lbl_notes">অতিরিক্ত তথ্য</label>
+            <textarea name="customerNotes" rows="2" maxlength="1000"></textarea>
+          </div>
+        </div>
+        <div class="privacy-box">
+          <p class="privacy-text" data-privacy-notice></p>
+          <label class="consent-label">
+            <input type="checkbox" name="privacyConsent" required />
+            <span data-i18n="consent_text">আমি বেলেরহাট অ্যাগ্রিটেক-কে আমার অনুসন্ধানের উত্তর দিতে (ফোন বা হোয়াটসঅ্যাপের মাধ্যমে) উপরে প্রদত্ত তথ্য সংরক্ষণ ও ব্যবহারের সম্মতি দিচ্ছি। *</span>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" data-i18n="btn_submit_part">প্রাপ্যতা জানুন</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SUBMISSION SUCCESS MODAL -->
+  <div id="successModal" class="modal-backdrop" onclick="if(event.target===this)closeModal('successModal')">
+    <div class="modal modal-sm">
+      <div class="modal-head">
+        <h3 data-i18n="success_title">অনুসন্ধান সফলভাবে গৃহীত হয়েছে!</h3>
+        <button type="button" class="modal-close" onclick="closeModal('successModal')">✕</button>
+      </div>
+      <p id="successMsg"></p>
+      <div class="ref-box">
+        <span data-i18n="success_ref_lbl">রেফারেন্স নম্বর:</span>
+        <strong id="successRefId"></strong>
+      </div>
+      <div class="btn-row" style="margin-top:16px;">
+        <a id="successWaLink" href="#" target="_blank" rel="noopener" class="btn btn-wa btn-block" data-i18n="btn_send_wa_copy">হোয়াটসঅ্যাপে বিবরণ পাঠান</a>
+        <button type="button" class="btn btn-outline btn-block" onclick="closeModal('successModal')" data-i18n="btn_close">বন্ধ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
