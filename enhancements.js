@@ -81,7 +81,36 @@
     btn.textContent = open ? '✕' : '☰';
   }
 
+
+  /* Mobile input polish: right keyboards, autofill, clean paste of +91 numbers, safe-area viewport */
+  function mobileInputs() {
+    var vp = document.querySelector('meta[name=viewport]');
+    if (vp && vp.content.indexOf('viewport-fit') === -1) vp.content += ', viewport-fit=cover';
+    var map = {
+      customerName: { ac: 'name' }, phone: { ac: 'tel-national', im: 'numeric' }, email: { ac: 'email', im: 'email' },
+      durationValue: { im: 'numeric' }, quantity: { im: 'numeric' }, landAreaAcres: { im: 'decimal' }
+    };
+    document.querySelectorAll('input[name]').forEach(function (i) {
+      var m = map[i.name]; if (!m) return;
+      if (m.ac) i.setAttribute('autocomplete', m.ac);
+      if (m.im) i.setAttribute('inputmode', m.im);
+    });
+    var tr = document.getElementById('trackPhoneInput');
+    if (tr) { tr.setAttribute('autocomplete', 'tel-national'); tr.setAttribute('inputmode', 'numeric'); }
+    document.addEventListener('paste', function (e) {
+      var el = e.target;
+      if (!el || el.type !== 'tel' || !e.clipboardData) return;
+      var d = (e.clipboardData.getData('text') || '').replace(/\D/g, '');
+      if (d.length === 12 && d.indexOf('91') === 0) d = d.slice(2);
+      else if (d.length === 11 && d.charAt(0) === '0') d = d.slice(1);
+      e.preventDefault();
+      el.value = d.slice(0, 10);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
+    mobileInputs();
     hydrate();
     linkLabels();
     var nav = document.getElementById('mainNav');
