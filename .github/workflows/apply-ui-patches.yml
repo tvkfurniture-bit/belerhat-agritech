@@ -1,0 +1,54 @@
+name: Apply Belerhat UI patches
+
+# Run manually: GitHub repo > Actions tab > "Apply Belerhat UI patches" > Run workflow
+on:
+  workflow_dispatch:
+    inputs:
+      folder:
+        description: "Folder that contains index.html, app.js, i18n.js (use . if they are in the repo root)"
+        required: true
+        default: "."
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check required files
+        working-directory: ${{ inputs.folder }}
+        run: |
+          for f in index.html app.js i18n.js styles.css enhancements.js apply_patches.py; do
+            test -f "$f" || { echo "::error::Missing $f in '${{ inputs.folder }}'. Upload it to that folder first."; exit 1; }
+          done
+
+      - name: Apply patches (skips if already applied)
+        working-directory: ${{ inputs.folder }}
+        run: |
+          if grep -q "enhancements.js" index.html; then
+            echo "Patches already applied. Nothing to do."
+          else
+            python3 apply_patches.py
+            rm -f *.bak
+          fi
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Apply Belerhat UI patches (polish, accessibility, offline cache)"
+            git push
+          fi
