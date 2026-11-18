@@ -844,7 +844,7 @@
     </div>
   </div>
 
-  <!-- SUBMISSION SUCCESS MODAL -->
+ <!-- SUBMISSION SUCCESS MODAL -->
   <div id="successModal" class="modal-backdrop" onclick="if(event.target===this)closeModal('successModal')">
     <div class="modal modal-sm">
       <div class="modal-head">
@@ -856,6 +856,13 @@
         <span data-i18n="success_ref_lbl">রেফারেন্স নম্বর:</span>
         <strong id="successRefId"></strong>
       </div>
+      
+      <!-- VIRAL REFERRAL SHARE BOX -->
+      <div style="background:var(--sand-bg);border:1px dashed var(--yellow-500);padding:10px;border-radius:8px;margin:12px 0;font-size:0.86rem;text-align:center;">
+        <p style="margin:0 0 8px;font-weight:700;color:var(--ink-950);" data-i18n="ref_box_prompt">💡 আপনার বন্ধু বা চাষী ভাইদের রেফার করুন এবং পরবর্তী ভাড়ায় বিশেষ ছাড় পান!</p>
+        <a id="referralShareWaBtn" href="#" target="_blank" rel="noopener" class="btn btn-wa btn-sm btn-block" data-i18n="btn_share_referral">📲 হোয়াটসঅ্যাপে বন্ধুকে রেফার করুন</a>
+      </div>
+
       <div class="btn-row" style="margin-top:16px;">
         <a id="successWaLink" href="#" target="_blank" rel="noopener" class="btn btn-wa btn-block" data-i18n="btn_send_wa_copy">হোয়াটসঅ্যাপে বিবরণ পাঠান</a>
         <button type="button" class="btn btn-outline btn-block" onclick="closeModal('successModal')" data-i18n="btn_close">বন্ধ করুন</button>
