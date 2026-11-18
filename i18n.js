@@ -22,6 +22,9 @@ window.BELERHAT_I18N = {
     crop_all: 'সব যন্ত্র দেখুন',
     opt_all_crops: 'সকল ফসল / ব্যবহার',
 
+    ref_box_prompt: '💡 আপনার বন্ধু বা চাষী ভাইদের রেফার করুন এবং পরবর্তী ভাড়ায় বিশেষ ছাড় পান!',
+btn_share_referral: '📲 হোয়াটসঅ্যাপে বন্ধুকে রেফার করুন',
+
     home_cats_title: 'যন্ত্রপাতির ক্যাটাগরি',
     home_cats_sub: 'আপনার প্রয়োজন অনুযায়ী ক্যাটাগরিতে ক্লিক করুন',
 
@@ -294,6 +297,9 @@ window.BELERHAT_I18N = {
     crop_harvest: '🚜 Harvesting & Threshing',
     crop_all: 'View All',
     opt_all_crops: 'All Crops / Uses',
+
+    ref_box_prompt: '💡 Refer farmer friends & get special discounts on your next rental!',
+btn_share_referral: '📲 Share Referral on WhatsApp',
 
     home_cats_title: 'Equipment Categories',
     home_cats_sub: 'Click any category to browse matching machinery',
