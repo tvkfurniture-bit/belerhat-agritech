@@ -528,3 +528,15 @@ input[type="file"] { padding: 9px; background: var(--cream); border-style: dashe
 @media print {
   .utility-bar, .site-header, .mobile-sticky-bar, .cta-banner, .toast { display: none !important; }
 }
+
+/* ================= COMPAT ALIASES + ADDITIONS (v3) ================= */
+:root { --sand-bg: var(--cream); --danger: var(--red-700); --green-900: var(--g-800); }
+.pill-sale { background: #E8EEFF; color: #2F3E9E; }
+.pill-rent { background: var(--g-100); color: var(--g-800); }
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 200; background: var(--amber-500); color: var(--g-950);
+  padding: 10px 16px; border-radius: 0 0 10px 10px; font-weight: 800; text-decoration: none; transition: top .15s;
+}
+.skip-link:focus { top: 0; }
+main:focus { outline: none; }
+.product-img-placeholder { font-size: 2.4rem; }
