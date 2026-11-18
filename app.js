@@ -1,14 +1,15 @@
 /**
  * ============================================================================
- * BELERHAT AGRITECH — PUBLIC STOREFRONT APPLICATION v2 (app.js)
+ * BELERHAT AGRITECH — PUBLIC STOREFRONT APPLICATION v2.1 (app.js)
  * ============================================================================
  * Improvements Included:
+ *   - Privacy Policy (?page=privacy) & Terms & Conditions (?page=terms) routing
+ *   - Owner-verified Testimonials rendering (hidden if empty — zero fake data)
  *   - Client-side <canvas> photo auto-compression (handles 5-12 MB phone photos)
  *   - Self-service Enquiry Status Lookup (?action=checkEnquiryStatus)
  *   - Homepage 10-Category Tiles, Crop/Season Finder & Quick Search wiring
  *   - Dynamic Hero & Workshop photo slots from Admin Settings
  *   - Crawl-friendly ?page=... routing (with #hash backward compatibility)
- *   - Cold-start CTA fallback when catalogue is empty or unconfigured
  * ============================================================================
  */
 
@@ -174,7 +175,7 @@ function updatePrivacyNotices() {
 
 /**
  * ============================================================================
- * DYNAMIC BUSINESS CONFIGURATION, HERO/WORKSHOP PHOTOS & SEO
+ * DYNAMIC BUSINESS CONFIGURATION, TESTIMONIALS & SEO
  * ============================================================================
  */
 function applyBusinessSettings() {
@@ -242,7 +243,6 @@ function applyBusinessSettings() {
     }
   });
 
-  // Optional Real Hero & Workshop Photography
   const heroBox = document.getElementById('heroPhotoBox');
   const heroImg = document.getElementById('heroPhotoImg');
   if (heroBox && heroImg) {
@@ -297,16 +297,49 @@ function applyBusinessSettings() {
     ldEl.textContent = JSON.stringify(ldObj);
   }
 
+  renderTestimonials();
   updatePrivacyNotices();
+}
+
+function renderTestimonials() {
+  const sec = document.getElementById('homeTestimonialsSection');
+  const grid = document.getElementById('testimonialsGrid');
+  if (!sec || !grid) return;
+
+  let list = [];
+  try {
+    list = JSON.parse((APP_STATE.settings && APP_STATE.settings.verified_testimonials_json) || '[]');
+  } catch (ignore) { list = []; }
+
+  if (!Array.isArray(list) || !list.length) {
+    sec.classList.add('hidden');
+    grid.innerHTML = '';
+    return;
+  }
+
+  const isBn = APP_STATE.lang === 'bn';
+  sec.classList.remove('hidden');
+  grid.innerHTML = list.map(function (item) {
+    const quote = isBn ? (item.quoteBn || item.quote) : (item.quote || item.quoteBn);
+    return (
+      '<article class="testimonial-card">' +
+        '<p class="testimonial-quote">“' + esc(quote) + '”</p>' +
+        '<div>' +
+          '<div class="testimonial-author">' + esc(item.name) + '</div>' +
+          (item.village ? '<div class="testimonial-village">📍 ' + esc(item.village) + '</div>' : '') +
+        '</div>' +
+      '</article>'
+    );
+  }).join('');
 }
 
 /**
  * ============================================================================
- * CRAWL-FRIENDLY ROUTING (?page=... + #hash fallback) & HOMEPAGE FINDERS
+ * CRAWL-FRIENDLY ROUTING (?page=... + #hash fallback)
  * ============================================================================
  */
 function navigateTo(route, updateUrl) {
-  const valid = ['home', 'catalogue', 'rental', 'sales', 'service', 'parts', 'about', 'contact'];
+  const valid = ['home', 'catalogue', 'rental', 'sales', 'service', 'parts', 'about', 'contact', 'privacy', 'terms'];
   const target = valid.indexOf(route) !== -1 ? route : 'home';
 
   document.querySelectorAll('.page-section').forEach(function (sec) {
@@ -448,6 +481,7 @@ function renderAllDynamicViews() {
   renderFeatured();
   renderCatalogue();
   renderSpareParts();
+  renderTestimonials();
 }
 
 function renderHomeCategories() {
@@ -574,7 +608,6 @@ function matchesCropFilter(eq, cropCode) {
   const tags = String(eq.cropTags || '').toUpperCase();
   if (tags.indexOf(cropCode) !== -1) return true;
 
-  // Smart category/text fallback if Crop_Tags not filled manually
   const hay = [eq.name, eq.description, eq.suitableApplications].join(' ').toUpperCase();
   if (cropCode === 'PADDY') return eq.categoryId === 'CAT-02' || eq.categoryId === 'CAT-01' || hay.indexOf('PADDY') !== -1 || hay.indexOf('RICE') !== -1;
   if (cropCode === 'POTATO') return eq.categoryId === 'CAT-04' || hay.indexOf('POTATO') !== -1 || hay.indexOf('VEGETABLE') !== -1;
