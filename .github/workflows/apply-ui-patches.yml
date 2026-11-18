@@ -31,15 +31,11 @@ jobs:
             test -f "$f" || { echo "::error::Missing $f in '${{ inputs.folder }}'. Upload it to that folder first."; exit 1; }
           done
 
-      - name: Apply patches (skips if already applied)
+      - name: Apply patches (safe to re-run; already-applied edits are skipped)
         working-directory: ${{ inputs.folder }}
         run: |
-          if grep -q "enhancements.js" index.html; then
-            echo "Patches already applied. Nothing to do."
-          else
-            python3 apply_patches.py
-            rm -f *.bak
-          fi
+          python3 apply_patches.py
+          rm -f *.bak
 
       - name: Commit and push changes
         run: |
