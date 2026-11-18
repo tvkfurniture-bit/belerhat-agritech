@@ -9,6 +9,8 @@ def patch(fname, edits):
     shutil.copy(fname, fname + '.bak')
     s = open(fname, encoding='utf-8').read().replace('\r\n', '\n')
     for old, new in edits:
+        if new in s:
+            continue  # already applied
         if s.count(old) != 1:
             print('  !! %s: expected 1 match, found %d for: %s' % (fname, s.count(old), old[:60].replace('\n', ' ')))
             continue
@@ -20,6 +22,8 @@ FAV = ("<link rel=\"icon\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3
        "%3Cpath d='M10 27C14 19 20 14 29 12C27 21 22 27 13 29' stroke='%2386EFAC' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='28' r='3' fill='%23FBBF24'/%3E%3C/svg%3E\" />")
 
 patch('index.html', [
+    ('<meta name="viewport" content="width=device-width, initial-scale=1.0" />',
+     '<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />'),
     ('<link rel="stylesheet" href="styles.css" />',
      '<meta name="theme-color" content="#14452F" />\n  ' + FAV + '\n  <link rel="stylesheet" href="styles.css?v=3" />'),
     ('<body>', '<body>\n  <a class="skip-link" href="#appMain" data-i18n="skip_to_content">মূল বিষয়বস্তুতে যান</a>'),
