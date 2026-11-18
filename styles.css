@@ -540,3 +540,105 @@ input[type="file"] { padding: 9px; background: var(--cream); border-style: dashe
 .skip-link:focus { top: 0; }
 main:focus { outline: none; }
 .product-img-placeholder { font-size: 2.4rem; }
+
+/* =====================================================================
+   MOBILE HARDENING (v4) — phones first: no iOS zoom, 44px+ tap targets,
+   bottom-sheet modals, scrollable menu, compact top bar, touch-safe hovers
+   ===================================================================== */
+html { -webkit-tap-highlight-color: rgba(245,165,36,.25); }
+body { overflow-x: clip; overflow-wrap: break-word; }
+button, a, input, select, textarea, summary, label { touch-action: manipulation; }
+.product-title, .product-meta, .brand-name, .contact-list, .track-result-box, .ref-box strong { overflow-wrap: anywhere; }
+input[type="date"] { -webkit-appearance: none; appearance: none; min-height: 44px; }
+
+/* Hover effects must not "stick" after a tap on touch screens */
+@media (hover: none) {
+  .btn:hover, .cat-tile:hover, .product-card:hover, .crop-chip:hover { transform: none; }
+  .product-card:hover .product-img-wrap img { transform: none; }
+}
+@media (pointer: coarse) {
+  .nav-toggle { width: 46px; height: 46px; }
+  .modal-close { width: 44px; height: 44px; }
+  .util-btn, .lang-btn { min-height: 36px; padding-left: 12px; padding-right: 12px; }
+}
+
+@media (max-width: 767px) {
+  :root { --header-h: 60px; }
+  .container { padding: 0 14px; }
+  .section-pad { padding: 30px 0; }
+
+  /* iOS Safari zooms any field under 16px — keep fields at 16px */
+  input, select, textarea { font-size: 16px; min-height: 48px; }
+  textarea { min-height: 96px; }
+  .consent-label input[type="checkbox"] { min-height: 0; }
+  input[type="file"] { min-height: 52px; font-size: 14px; }
+
+  /* Compact top bar: hide address (it is in footer/contact), keep call, track, language */
+  .utility-bar { padding: 6px 0; }
+  #topLocationText { display: none; }
+  .utility-right { width: 100%; justify-content: space-between; gap: 6px; }
+
+  /* Menu: scrolls inside the screen instead of running off it */
+  .main-nav {
+    max-height: 70vh; max-height: calc(100dvh - 140px);
+    overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+  }
+  .nav-link { min-height: 48px; display: flex; align-items: center; font-size: 1rem; }
+  .main-nav .btn-wa { min-height: 48px; }
+
+  .hero { padding: 28px 0 34px; }
+  .hero-actions .btn { flex: 1 1 100%; }
+  .hero-photo-box img { height: 170px; }
+  .hero-card { padding: 14px; }
+
+  .quick-search-row .btn { flex: 1 1 calc(50% - 4px); min-height: 48px; }
+  .crop-chips-row {
+    flex-wrap: nowrap; overflow-x: auto; margin: 12px -14px 0; padding: 2px 14px 8px;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .crop-chips-row::-webkit-scrollbar { display: none; }
+  .crop-label, .crop-chip { flex: 0 0 auto; white-space: nowrap; }
+  .crop-chip { min-height: 40px; padding: 8px 14px; }
+
+  .filter-bar { grid-template-columns: 1fr 1fr; padding: 12px; gap: 8px; }
+  .filter-bar #catSearch, .filter-bar #partsSearch, .filter-bar #partsCatFilter, .filter-bar .btn { grid-column: 1 / -1; }
+
+  .btn { min-height: 44px; }
+  .btn-sm { min-height: 44px; padding: 10px 12px; font-size: .88rem; }
+  .btn-lg { min-height: 52px; }
+  .info-panel { padding: 20px 16px; }
+  .form-card { padding: 18px 16px; }
+  .step-card { padding: 16px; }
+  .faq-item summary { min-height: 44px; }
+  .footer-links a { display: inline-block; padding: 4px 0; }
+  .sticky-btn { min-height: 54px; display: flex; align-items: center; justify-content: center; }
+
+  /* Modals become bottom sheets */
+  .modal-backdrop, .modal-backdrop.open { padding: 0; align-items: flex-end; }
+  .modal, .modal-sm {
+    margin: 0; max-width: 100%; border-radius: 20px 20px 0 0;
+    max-height: 92vh; max-height: 92dvh; overflow-y: auto; overscroll-behavior: contain;
+    padding: 18px 16px calc(20px + env(safe-area-inset-bottom, 0px));
+    animation: sheet .24s ease;
+  }
+  .ref-box { flex-direction: column; align-items: flex-start; }
+  .spec-table td { padding: 8px 6px; }
+  .spec-table td:first-child { width: 38%; }
+  .share-row .btn, .modal .btn-row .btn { flex: 1 1 100%; }
+}
+@keyframes sheet { from { transform: translateY(40px); opacity: .6; } to { transform: none; opacity: 1; } }
+
+@media (max-width: 559px) {
+  .cards-grid { grid-template-columns: 1fr; gap: 16px; }
+  .product-img-wrap { height: 200px; }
+}
+@media (max-width: 380px) {
+  .brand-name { font-size: 1rem; }
+  .brand-tagline { max-width: 150px; }
+  .btn-row .btn { flex: 1 1 100%; }
+}
+/* Landscape phones: slimmer sticky bar so it doesn't eat the screen */
+@media (max-height: 480px) and (orientation: landscape) {
+  .sticky-btn { min-height: 40px; padding: 6px; }
+  body { padding-bottom: 44px; }
+}
