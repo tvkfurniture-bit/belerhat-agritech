@@ -36,6 +36,7 @@
     <div class="container utility-inner">
       <span id="topLocationText">📍 Belerhat, Purba Bardhaman, West Bengal</span>
       <div class="utility-right">
+        <button type="button" class="util-btn" onclick="openTrackModal()" data-i18n="btn_track_status">🔍 অনুসন্ধান ট্র্যাক করুন</button>
         <a id="topPhoneLink" href="tel:+910000000000" class="util-link">📞 <span id="topPhoneText">+91-0000000000</span></a>
         <div class="lang-switch" role="group" aria-label="Language switcher">
           <button type="button" id="btnLangBn" class="lang-btn active" onclick="setLanguage('bn')">বাংলা</button>
@@ -48,7 +49,7 @@
   <!-- MAIN HEADER -->
   <header class="site-header">
     <div class="container header-inner">
-      <a href="#home" class="brand" onclick="navigateTo('home');return false;">
+      <a href="?page=home" class="brand" onclick="navigateTo('home');return false;">
         <div id="brandLogoWrap" class="brand-logo" aria-hidden="true">
           <svg viewBox="0 0 40 40" width="38" height="38" fill="none">
             <rect width="40" height="40" rx="10" fill="#14452F"/>
@@ -65,14 +66,14 @@
       <button type="button" class="nav-toggle" id="navToggle" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
 
       <nav id="mainNav" class="main-nav">
-        <a href="#home" class="nav-link active" data-route="home" data-i18n="nav_home" onclick="navigateTo('home');return false;">হোম</a>
-        <a href="#catalogue" class="nav-link" data-route="catalogue" data-i18n="nav_catalogue" onclick="navigateTo('catalogue');return false;">যন্ত্রপাতি</a>
-        <a href="#rental" class="nav-link" data-route="rental" data-i18n="nav_rental" onclick="navigateTo('rental');return false;">ভাড়া</a>
-        <a href="#sales" class="nav-link" data-route="sales" data-i18n="nav_sales" onclick="navigateTo('sales');return false;">ক্রয় অনুসন্ধান</a>
-        <a href="#service" class="nav-link" data-route="service" data-i18n="nav_service" onclick="navigateTo('service');return false;">মেরামত</a>
-        <a href="#parts" class="nav-link" data-route="parts" data-i18n="nav_parts" onclick="navigateTo('parts');return false;">স্পেয়ার পার্টস</a>
-        <a href="#about" class="nav-link" data-route="about" data-i18n="nav_about" onclick="navigateTo('about');return false;">আমাদের সম্পর্কে</a>
-        <a href="#contact" class="nav-link" data-route="contact" data-i18n="nav_contact" onclick="navigateTo('contact');return false;">যোগাযোগ</a>
+        <a href="?page=home" class="nav-link active" data-route="home" data-i18n="nav_home" onclick="navigateTo('home');return false;">হোম</a>
+        <a href="?page=catalogue" class="nav-link" data-route="catalogue" data-i18n="nav_catalogue" onclick="navigateTo('catalogue');return false;">যন্ত্রপাতি</a>
+        <a href="?page=rental" class="nav-link" data-route="rental" data-i18n="nav_rental" onclick="navigateTo('rental');return false;">ভাড়া</a>
+        <a href="?page=sales" class="nav-link" data-route="sales" data-i18n="nav_sales" onclick="navigateTo('sales');return false;">ক্রয় অনুসন্ধান</a>
+        <a href="?page=service" class="nav-link" data-route="service" data-i18n="nav_service" onclick="navigateTo('service');return false;">মেরামত</a>
+        <a href="?page=parts" class="nav-link" data-route="parts" data-i18n="nav_parts" onclick="navigateTo('parts');return false;">স্পেয়ার পার্টস</a>
+        <a href="?page=about" class="nav-link" data-route="about" data-i18n="nav_about" onclick="navigateTo('about');return false;">আমাদের সম্পর্কে</a>
+        <a href="?page=contact" class="nav-link" data-route="contact" data-i18n="nav_contact" onclick="navigateTo('contact');return false;">যোগাযোগ</a>
         <a id="headerWaBtn" href="#" target="_blank" rel="noopener" class="btn btn-wa btn-sm" data-i18n="btn_whatsapp">হোয়াটসঅ্যাপ</a>
       </nav>
     </div>
@@ -81,6 +82,7 @@
   <main id="appMain">
     <!-- ==================== A. HOMEPAGE ==================== -->
     <section id="page-home" class="page-section active">
+      <!-- 1. Hero Section + Optional Real Hero Photo -->
       <div class="hero">
         <div class="container hero-grid">
           <div class="hero-copy">
@@ -92,20 +94,61 @@
               <button type="button" class="btn btn-white btn-lg" onclick="navigateTo('rental')" data-i18n="cta_rent_enquiry">ভাড়ার অনুসন্ধান করুন</button>
               <a id="heroWaBtn" href="#" target="_blank" rel="noopener" class="btn btn-wa btn-lg" data-i18n="cta_whatsapp_now">হোয়াটসঅ্যাপে কথা বলুন</a>
             </div>
+            <div class="hero-track-link">
+              <button type="button" class="link-light" onclick="openTrackModal()" data-i18n="hero_track_prompt">আগে অনুসন্ধান করেছেন? স্ট্যাটাস দেখুন →</button>
+            </div>
           </div>
-          <div class="hero-card">
-            <h3 data-i18n="hero_highlights_title">আমাদের মূল পরিষেবা</h3>
-            <ul class="highlight-list">
-              <li><strong data-i18n="hl_sales_t">কৃষি যন্ত্রপাতি বিক্রয়</strong><span data-i18n="hl_sales_d">সঠিক পরামর্শ, কোটেশন ও ডেলিভারি সহায়তা</span></li>
-              <li><strong data-i18n="hl_rent_t">সাশ্রয়ী যন্ত্রপাতি ভাড়া</strong><span data-i18n="hl_rent_d">ঘণ্টা, দিন, একর বা মৌসুম ভিত্তিক ভাড়ার সুবিধা</span></li>
-              <li><strong data-i18n="hl_repair_t">মেরামত ও রক্ষণাবেক্ষণ</strong><span data-i18n="hl_repair_d">ওয়ার্কশপ ও জরুরি সারাই পরিষেবা</span></li>
-              <li><strong data-i18n="hl_parts_t">জেনুইন স্পেয়ার পার্টস</strong><span data-i18n="hl_parts_d">প্রয়োজনীয় যন্ত্রাংশের সহজলভ্যতা অনুসন্ধান</span></li>
-            </ul>
+
+          <div class="hero-right">
+            <div id="heroPhotoBox" class="hero-photo-box hidden">
+              <img id="heroPhotoImg" src="" alt="Belerhat AgriTech Machinery" />
+            </div>
+            <div class="hero-card">
+              <h3 data-i18n="hero_highlights_title">আমাদের মূল পরিষেবা</h3>
+              <ul class="highlight-list">
+                <li><strong data-i18n="hl_sales_t">কৃষি যন্ত্রপাতি বিক্রয়</strong><span data-i18n="hl_sales_d">সঠিক পরামর্শ, কোটেশন ও ডেলিভারি সহায়তা</span></li>
+                <li><strong data-i18n="hl_rent_t">সাশ্রয়ী যন্ত্রপাতি ভাড়া</strong><span data-i18n="hl_rent_d">ঘণ্টা, দিন, একর বা মৌসুম ভিত্তিক ভাড়ার সুবিধা</span></li>
+                <li><strong data-i18n="hl_repair_t">মেরামত ও রক্ষণাবেক্ষণ</strong><span data-i18n="hl_repair_d">ওয়ার্কশপ ও জরুরি সারাই পরিষেবা</span></li>
+                <li><strong data-i18n="hl_parts_t">জেনুইন স্পেয়ার পার্টস</strong><span data-i18n="hl_parts_d">প্রয়োজনীয় যন্ত্রাংশের সহজলভ্যতা অনুসন্ধান</span></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Featured Equipment -->
+      <!-- 2. Quick Search & Crop/Season Finder -->
+      <div class="quick-finder-bar">
+        <div class="container">
+          <div class="quick-search-row">
+            <input type="text" id="homeQuickSearchInput" data-i18n-placeholder="ph_home_quick_search" placeholder="যন্ত্র বা স্পেয়ার পার্টসের নাম লিখুন (যেমন: পাওয়ার টিলার, ব্লেড)..." />
+            <button type="button" class="btn btn-primary" onclick="runHomeQuickSearch('catalogue')" data-i18n="btn_find_machine">যন্ত্র খুঁজুন</button>
+            <button type="button" class="btn btn-outline" onclick="runHomeQuickSearch('parts')" data-i18n="btn_find_part">পার্টস খুঁজুন</button>
+          </div>
+          <div class="crop-chips-row">
+            <span class="crop-label" data-i18n="crop_finder_lbl">ফসল / কাজ অনুযায়ী খুঁজুন:</span>
+            <button type="button" class="crop-chip" onclick="filterCatalogueByCrop('PADDY')" data-i18n="crop_paddy">🌾 ধান চাষ</button>
+            <button type="button" class="crop-chip" onclick="filterCatalogueByCrop('POTATO')" data-i18n="crop_potato">🥔 আলু ও সবজি</button>
+            <button type="button" class="crop-chip" onclick="filterCatalogueByCrop('SPRAYING')" data-i18n="crop_spray">🌿 স্প্রে ও সেচ</button>
+            <button type="button" class="crop-chip" onclick="filterCatalogueByCrop('HARVEST')" data-i18n="crop_harvest">🚜 ফসল কাটা ও ঝাড়াই</button>
+            <button type="button" class="crop-chip" onclick="filterCatalogueByCrop('ALL')" data-i18n="crop_all">সব যন্ত্র দেখুন</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 10 Equipment Categories Grid -->
+      <div class="section-pad bg-sand">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 data-i18n="home_cats_title">যন্ত্রপাতির ক্যাটাগরি</h2>
+              <p class="muted" data-i18n="home_cats_sub">আপনার প্রয়োজন অনুযায়ী ক্যাটাগরিতে ক্লিক করুন</p>
+            </div>
+          </div>
+          <div id="homeCategoryGrid" class="cat-tiles-grid"></div>
+        </div>
+      </div>
+
+      <!-- 4. Featured Equipment -->
       <div class="section-pad">
         <div class="container">
           <div class="section-head">
@@ -121,7 +164,7 @@
         </div>
       </div>
 
-      <!-- How Rental Works -->
+      <!-- 5. How Rental Works -->
       <div class="section-pad bg-sand">
         <div class="container">
           <h2 class="text-center" data-i18n="how_rental_title">আমাদের ভাড়া পরিষেবা কীভাবে কাজ করে</h2>
@@ -135,18 +178,37 @@
         </div>
       </div>
 
-      <!-- Repair & Why Choose Us + Service Area -->
+      <!-- 6. Sales & Govt Subsidy Spotlight + Repair Workshop -->
       <div class="section-pad">
         <div class="container split-2">
           <div class="info-panel">
+            <span class="badge-soft" data-i18n="sales_badge">নতুন যন্ত্র ক্রয় ও সরকারি ভর্তুকি সহায়তা</span>
+            <h2 data-i18n="sales_panel_t">নতুন যন্ত্রপাতি ক্রয় ও কোটেশন</h2>
+            <p data-i18n="sales_panel_d">সঠিক যন্ত্র নির্বাচন, ডেলিভারি সুবিধা এবং কৃষি ঋণ বা সরকারি ভর্তুকি প্রকল্প সম্পর্কে প্রাথমিক তথ্যের জন্য আমাদের সাথে যোগাযোগ করুন।</p>
+            <div class="btn-row">
+              <button type="button" class="btn btn-primary" onclick="navigateTo('sales')" data-i18n="cta_request_quote">কোটেশন চান</button>
+              <button type="button" class="btn btn-outline" onclick="navigateTo('catalogue')" data-i18n="cta_browse_machines">যন্ত্রপাতি দেখুন</button>
+            </div>
+          </div>
+
+          <div class="info-panel">
             <span class="badge-soft" data-i18n="repair_badge">ওয়ার্কশপ ও মেরামতি সহায়তা</span>
             <h2 data-i18n="repair_panel_t">কৃষি যন্ত্রপাতি মেরামত ও রক্ষণাবেক্ষণ</h2>
+            <div id="workshopPhotoWrap" class="workshop-photo-wrap hidden">
+              <img id="workshopPhotoImg" src="" alt="Belerhat AgriTech Repair Workshop" />
+            </div>
             <p data-i18n="repair_panel_d">পাওয়ার টিলার, উইডার, স্প্রেয়ার, পাম্প বা ধান কাটার যন্ত্রে কোনো সমস্যা হলে ছবি সহ মেরামতির অনুরোধ পাঠান বা সরাসরি যোগাযোগ করুন।</p>
             <div class="btn-row">
               <button type="button" class="btn btn-primary" onclick="navigateTo('service')" data-i18n="cta_request_repair">মেরামতির অনুরোধ পাঠান</button>
               <button type="button" class="btn btn-outline" onclick="navigateTo('parts')" data-i18n="cta_browse_parts">স্পেয়ার পার্টস খুঁজুন</button>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- 7. Why Choose Us + Shop Location & Hours -->
+      <div class="section-pad bg-sand">
+        <div class="container split-2">
           <div class="info-panel panel-green">
             <h2 data-i18n="why_title">কেন বেলেরহাট অ্যাগ্রিটেক বেছে নেবেন?</h2>
             <ul class="check-list">
@@ -156,6 +218,48 @@
               <li data-i18n="why_4">বিক্রয় পরবর্তী মেরামত ও স্পেয়ার পার্টসের নির্ভরযোগ্য সহায়তা</li>
             </ul>
             <p class="service-area-box"><strong data-i18n="service_area_label">পরিষেবা এলাকা:</strong> <span id="homeServiceAreas">বেলেরহাট, পূর্ব বর্ধমান</span></p>
+          </div>
+
+          <div class="info-panel" style="background:#fff;">
+            <h2 data-i18n="home_visit_title">সরাসরি যোগাযোগ ও দোকান খোলার সময়</h2>
+            <div class="contact-list" style="margin-top:12px;">
+              <div><strong data-i18n="lbl_address">ঠিকানা:</strong> <span id="homeAddressText">বেলেরহাট, পূর্ব বর্ধমান, পশ্চিমবঙ্গ</span></div>
+              <div><strong data-i18n="lbl_hours">খোলার সময়:</strong> <span id="homeHoursText">সোম - শনি: সকাল ৮:০০ - সন্ধ্যা ৭:০০</span></div>
+              <div><strong data-i18n="lbl_phone_short">টেলিফোন:</strong> <a id="homePhoneLink" href="tel:+910000000000"><span id="homePhoneText">+91-0000000000</span></a></div>
+            </div>
+            <div class="btn-row" style="margin-top:16px;">
+              <a id="homeMapBtn" href="#" target="_blank" rel="noopener" class="btn btn-outline hidden" data-i18n="btn_open_map">গুগল ম্যাপে দেখুন 📍</a>
+              <button type="button" class="btn btn-primary" onclick="navigateTo('contact')" data-i18n="btn_send_enquiry">অনুসন্ধান পাঠান</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Farmer FAQ Accordion -->
+      <div class="section-pad">
+        <div class="container narrow">
+          <h2 class="text-center" data-i18n="faq_title">সাধারণ জিজ্ঞাসা (FAQ)</h2>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary data-i18n="faq_1_q">ভাড়ার জন্য কি আগে অনলাইনে টাকা দিতে হবে?</summary>
+              <p data-i18n="faq_1_a">না। ওয়েবসাইট থেকে পাঠানো অনুরোধের জন্য কোনো অনলাইন পেমেন্ট লাগে না। মালিক প্রাপ্যতা যাচাই করে ফোন বা হোয়াটসঅ্যাপে চূড়ান্ত দর ও সময় নিশ্চিত করবেন।</p>
+            </details>
+            <details class="faq-item">
+              <summary data-i18n="faq_2_q">ভাড়ার মধ্যে কি অপারেটর এবং জ্বালানি (ডিজেল/পেট্রোল) অন্তর্ভুক্ত?</summary>
+              <p data-i18n="faq_2_a">যন্ত্র ও ভাড়ার প্যাকেজ অনুযায়ী এটি ভিন্ন হতে পারে। প্রতিটি যন্ত্রের বিস্তারিত অংশে এবং আপনার কোটেশনে অপারেটর ও জ্বালানির শর্ত স্পষ্টভাবে জানানো হয়।</p>
+            </details>
+            <details class="faq-item">
+              <summary data-i18n="faq_3_q">কোন কোন এলাকায় যন্ত্রপাতি ভাড়া ও ডেলিভারি দেওয়া হয়?</summary>
+              <p data-i18n="faq_3_a">বেলেরহাট এবং পূর্ব বর্ধমানের আশেপাশের ব্লক ও গ্রামগুলোতে আমরা পরিষেবা দিয়ে থাকি। দূরত্ব ও যন্ত্রের আকার অনুযায়ী পরিবহন সুবিধা নির্ধারিত হয়।</p>
+            </details>
+            <details class="faq-item">
+              <summary data-i18n="faq_4_q">যন্ত্র মেরামতির সময় পাঠানো ছবি কি নিরাপদ থাকবে?</summary>
+              <p data-i18n="faq_4_a">হ্যাঁ। মেরামতির জন্য আপলোড করা সমস্ত ছবি সম্পূর্ণ গোপন রাখা হয় এবং তা জনসাধারণের জন্য উন্মুক্ত নয়—শুধুমাত্র মালিক/টেকনিশিয়ান দেখতে পান।</p>
+            </details>
+            <details class="faq-item">
+              <summary data-i18n="faq_5_q">অনুসন্ধান পাঠানোর পর কীভাবে আমার অনুরোধের অবস্থা জানব?</summary>
+              <p data-i18n="faq_5_a">অনুসন্ধান জমা দেওয়ার পর আপনি একটি রেফারেন্স নম্বর (যেমন REN-...) পাবেন। উপরের 'অনুসন্ধান ট্র্যাক করুন' বাটনে আপনার নম্বর ও মোবাইল দিয়ে যেকোনো সময় স্ট্যাটাস দেখতে পারবেন।</p>
+            </details>
           </div>
         </div>
       </div>
@@ -168,7 +272,7 @@
             <p data-i18n="cta_banner_d">সরাসরি ফোন করুন, হোয়াটসঅ্যাপ করুন অথবা অনুসন্ধান ফর্ম পূরণ করুন।</p>
           </div>
           <div class="btn-row">
-            <a id="ctaCallBtn" href="tel:+910000000000" class="btn btn-white" data-i18n="btn_call_now">কল করুন</a>
+            <a id="ctaCallBtn" href="tel:+910000000000" class="btn btn-white" data-i18n="btn_call_now">📞 কল করুন</a>
             <a id="ctaWaBtn" href="#" target="_blank" rel="noopener" class="btn btn-wa" data-i18n="btn_whatsapp">হোয়াটসঅ্যাপ</a>
             <button type="button" class="btn btn-amber" onclick="navigateTo('contact')" data-i18n="btn_send_enquiry">অনুসন্ধান পাঠান</button>
           </div>
@@ -188,6 +292,13 @@
           <input type="text" id="catSearch" data-i18n-placeholder="ph_search_machine" placeholder="যন্ত্রের নাম, ব্র্যান্ড বা মডেল খুঁজুন..." oninput="renderCatalogue()" />
           <select id="catCategoryFilter" onchange="renderCatalogue()">
             <option value="ALL" data-i18n="opt_all_categories">সকল ক্যাটাগরি</option>
+          </select>
+          <select id="catCropFilter" onchange="renderCatalogue()">
+            <option value="ALL" data-i18n="opt_all_crops">সকল ফসল / ব্যবহার</option>
+            <option value="PADDY" data-i18n="crop_paddy">🌾 ধান চাষ</option>
+            <option value="POTATO" data-i18n="crop_potato">🥔 আলু ও সবজি</option>
+            <option value="SPRAYING" data-i18n="crop_spray">🌿 স্প্রে ও সেচ</option>
+            <option value="HARVEST" data-i18n="crop_harvest">🚜 ফসল কাটা ও ঝাড়াই</option>
           </select>
           <select id="catModeFilter" onchange="renderCatalogue()">
             <option value="ALL" data-i18n="opt_all_modes">বিক্রয় ও ভাড়া উভয়ই</option>
@@ -422,7 +533,7 @@
               <input type="text" name="villageLocation" required minlength="2" maxlength="140" />
             </div>
             <div class="full-span">
-              <label data-i18n="lbl_upload_photo">সমস্যার ছবি আপলোড করুন (ঐচ্ছিক, সর্বোচ্চ ২ MB — JPG/PNG/WebP)</label>
+              <label data-i18n="lbl_upload_photo">সমস্যার ছবি আপলোড করুন (ঐচ্ছিক — বড় ছবি স্বয়ংক্রিয়ভাবে ছোট করা হয়)</label>
               <input type="file" id="servicePhotoInput" accept="image/jpeg,image/png,image/webp" onchange="previewServicePhoto(this)" />
               <small class="muted" data-i18n="photo_private_note">🔒 আপনার আপলোড করা ছবি সম্পূর্ণ গোপন রাখা হয় এবং শুধুমাত্র টেকনিশিয়ান/মালিক দেখতে পারবেন।</small>
               <div id="servicePhotoPreview" class="photo-preview"></div>
@@ -558,10 +669,11 @@
       <div>
         <h4 data-i18n="footer_links">দ্রুত লিংক</h4>
         <ul class="footer-links">
-          <li><a href="#catalogue" onclick="navigateTo('catalogue');return false;" data-i18n="nav_catalogue">যন্ত্রপাতি</a></li>
-          <li><a href="#rental" onclick="navigateTo('rental');return false;" data-i18n="nav_rental">ভাড়া</a></li>
-          <li><a href="#service" onclick="navigateTo('service');return false;" data-i18n="nav_service">মেরামত</a></li>
-          <li><a href="#parts" onclick="navigateTo('parts');return false;" data-i18n="nav_parts">স্পেয়ার পার্টস</a></li>
+          <li><a href="?page=catalogue" onclick="navigateTo('catalogue');return false;" data-i18n="nav_catalogue">যন্ত্রপাতি</a></li>
+          <li><a href="?page=rental" onclick="navigateTo('rental');return false;" data-i18n="nav_rental">ভাড়া</a></li>
+          <li><a href="?page=service" onclick="navigateTo('service');return false;" data-i18n="nav_service">মেরামত</a></li>
+          <li><a href="?page=parts" onclick="navigateTo('parts');return false;" data-i18n="nav_parts">স্পেয়ার পার্টস</a></li>
+          <li><a href="#" onclick="openTrackModal();return false;" data-i18n="btn_track_status">🔍 অনুসন্ধান ট্র্যাক করুন</a></li>
         </ul>
       </div>
       <div>
@@ -641,6 +753,31 @@
         </div>
         <button type="submit" class="btn btn-primary btn-lg btn-block" data-i18n="btn_submit_part">প্রাপ্যতা জানুন</button>
       </form>
+    </div>
+  </div>
+
+  <!-- SELF-SERVICE ENQUIRY STATUS TRACKER MODAL -->
+  <div id="trackStatusModal" class="modal-backdrop" onclick="if(event.target===this)closeModal('trackStatusModal')">
+    <div class="modal modal-sm">
+      <div class="modal-head">
+        <h3 data-i18n="track_modal_title">অনুসন্ধানের অবস্থা দেখুন</h3>
+        <button type="button" class="modal-close" onclick="closeModal('trackStatusModal')">✕</button>
+      </div>
+      <p class="muted" data-i18n="track_modal_sub">আপনার রেফারেন্স নম্বর এবং জমা দেওয়ার সময় ব্যবহৃত ১০ সংখ্যার মোবাইল নম্বর দিন।</p>
+      <form onsubmit="handleStatusLookup(event)">
+        <div style="display:grid;gap:10px;">
+          <div>
+            <label data-i18n="lbl_ref_id">রেফারেন্স নম্বর *</label>
+            <input type="text" id="trackRefInput" placeholder="e.g. REN-20250420-001" required />
+          </div>
+          <div>
+            <label data-i18n="lbl_phone">মোবাইল নম্বর (১০ সংখ্যা) *</label>
+            <input type="tel" id="trackPhoneInput" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="9XXXXXXXXX" required />
+          </div>
+          <button type="submit" id="trackSubmitBtn" class="btn btn-primary btn-block" data-i18n="btn_check_status">স্ট্যাটাস দেখুন</button>
+        </div>
+      </form>
+      <div id="trackResultBox" class="track-result-box hidden"></div>
     </div>
   </div>
 
