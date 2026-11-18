@@ -96,6 +96,7 @@ async function fetchPublicBootstrap() {
     APP_STATE.spareParts = json.data.spareParts || [];
     APP_STATE.bootTs = json.data.bootTs || '';
     APP_STATE.bootSig = json.data.bootSig || '';
+    if (window.saveBootCache) window.saveBootCache(json.data);
 
     if (!localStorage.getItem('belerhat_lang') && APP_STATE.settings.default_language) {
       APP_STATE.lang = APP_STATE.settings.default_language === 'en' ? 'en' : 'bn';
@@ -114,6 +115,7 @@ async function fetchPublicBootstrap() {
 }
 
 function renderEmptyAfterInit() {
+  if (APP_STATE.equipment.length) return;
   populateDropdowns();
   renderAllDynamicViews();
 }
@@ -358,7 +360,7 @@ function navigateTo(route, updateUrl) {
 
   if (updateUrl !== false) {
     const nextUrl = target === 'home' ? window.location.pathname : (window.location.pathname + '?page=' + target);
-    history.replaceState(null, '', nextUrl);
+    if (nextUrl !== window.location.pathname + window.location.search) history.pushState(null, '', nextUrl);
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -574,8 +576,8 @@ function buildEquipmentCardHtml(eq) {
         '<div class="product-meta">' + esc([eq.brand, eq.model].filter(Boolean).join(' • ')) + '</div>' +
         '<div class="product-badges">' +
           '<span class="avail-pill avail-' + escAttr(eq.availabilityStatus) + '">' + esc(formatAvailability(eq.availabilityStatus)) + '</span>' +
-          (eq.forSale ? '<span class="avail-pill" style="background:#EEF2FF;color:#3730A3;">' + esc(t('lbl_for_sale')) + '</span>' : '') +
-          (eq.forRent ? '<span class="avail-pill" style="background:#ECFDF5;color:#065F46;">' + esc(t('lbl_for_rent')) + '</span>' : '') +
+          (eq.forSale ? '<span class="avail-pill pill-sale">' + esc(t('lbl_for_sale')) + '</span>' : '') +
+          (eq.forRent ? '<span class="avail-pill pill-rent">' + esc(t('lbl_for_rent')) + '</span>' : '') +
         '</div>' +
         (priceBits.length ? '<div class="product-price-row">' + priceBits.map(esc).join('<br>') + '</div>' : '') +
         '<div class="product-actions">' +

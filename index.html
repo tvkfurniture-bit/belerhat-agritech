@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title id="seoTitle">বেলেরহাট অ্যাগ্রিটেক | Belerhat AgriTech — Agricultural Equipment Sales, Rental &amp; Repair in Purba Bardhaman</title>
   <meta id="seoDesc" name="description" content="Belerhat AgriTech in Belerhat, Purba Bardhaman, West Bengal: Modern agricultural equipment sales, farm machinery rental (power tiller, weeder, paddy harvester), repair &amp; spare parts." />
   <meta name="keywords" content="Agricultural equipment in Belerhat, Farm machinery rental in Purba Bardhaman, Power weeder rental near Belerhat, Agricultural machinery sales in Bardhaman, Paddy harvesting machine rental, Farm equipment repair and spare parts" />
@@ -14,7 +14,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="theme-color" content="#14452F" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%2314452F'/%3E%3Cpath d='M10 27C14 19 20 14 29 12C27 21 22 27 13 29' stroke='%2386EFAC' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='28' r='3' fill='%23FBBF24'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css?v=3" />
   <script id="ldJsonLocalBusiness" type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -31,6 +33,7 @@
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#appMain" data-i18n="skip_to_content">মূল বিষয়বস্তুতে যান</a>
   <!-- TOP UTILITY BAR -->
   <div class="utility-bar">
     <div class="container utility-inner">
@@ -63,7 +66,7 @@
         </div>
       </a>
 
-      <button type="button" class="nav-toggle" id="navToggle" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mainNav" onclick="toggleMobileNav()">☰</button>
 
       <nav id="mainNav" class="main-nav">
         <a href="?page=home" class="nav-link active" data-route="home" data-i18n="nav_home" onclick="navigateTo('home');return false;">হোম</a>
@@ -79,7 +82,7 @@
     </div>
   </header>
 
-  <main id="appMain">
+  <main id="appMain" tabindex="-1">
     <!-- ==================== A. HOMEPAGE ==================== -->
     <section id="page-home" class="page-section active">
       <!-- 1. Hero Section + Optional Real Hero Photo -->
@@ -435,7 +438,7 @@
           <input type="text" name="hp_website" class="hp-field" tabindex="-1" autocomplete="off" />
           <div class="form-grid">
             <div>
-              <label data-i18n="lbl_select_machine">পছন্দের যন্ত্র *</label>
+              <label data-i18n="lbl_pref_machine">পছন্দের যন্ত্র *</label>
               <select id="salesEqSelect" name="equipmentId" required>
                 <option value="GENERAL" data-i18n="opt_general_sales">অন্যান্য / পরামর্শ প্রয়োজন</option>
               </select>
@@ -780,7 +783,7 @@
             <input type="text" id="pePartName" name="partName" required maxlength="140" />
           </div>
           <div>
-            <label data-i18n="lbl_brand_model">মেশিন / ব্র্যান্ড / মডেল</label>
+            <label data-i18n="lbl_machine_brand">মেশিন / ব্র্যান্ড / মডেল</label>
             <input type="text" id="peMachineBrand" name="machineBrandModel" maxlength="140" />
           </div>
           <div>
@@ -862,7 +865,8 @@
 
   <div id="toast" class="toast"></div>
 
-  <script src="i18n.js"></script>
-  <script src="app.js"></script>
+  <script src="i18n.js?v=3"></script>
+  <script src="app.js?v=3"></script>
+  <script src="enhancements.js?v=3"></script>
 </body>
 </html>

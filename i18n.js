@@ -183,6 +183,9 @@ window.BELERHAT_I18N = {
     btn_custom_part_enquiry: '+ তালিকাভুক্ত নয় এমন পার্টস খুঁজুন',
     part_modal_title: 'স্পেয়ার পার্টস মূল্য ও প্রাপ্যতা অনুসন্ধান',
     lbl_part_name: 'পার্টসের নাম *',
+    lbl_pref_machine: 'পছন্দের যন্ত্র *',
+    lbl_machine_brand: 'মেশিন / ব্র্যান্ড / মডেল',
+    skip_to_content: 'মূল বিষয়বস্তুতে যান',
     btn_submit_part: 'প্রাপ্যতা জানুন',
 
     about_title: 'বেলেরহাট অ্যাগ্রিটেক সম্পর্কে',
@@ -453,6 +456,9 @@ window.BELERHAT_I18N = {
     btn_custom_part_enquiry: '+ Request Unlisted Spare Part',
     part_modal_title: 'Spare Part Availability & Price Enquiry',
     lbl_part_name: 'Part Name *',
+    lbl_pref_machine: 'Preferred Equipment *',
+    lbl_machine_brand: 'Machine / Brand / Model',
+    skip_to_content: 'Skip to content',
     btn_submit_part: 'Check Availability & Price',
 
     about_title: 'About Belerhat AgriTech',
