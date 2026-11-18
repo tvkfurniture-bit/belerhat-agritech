@@ -1,15 +1,15 @@
 /**
  * ============================================================================
- * BELERHAT AGRITECH — PUBLIC STOREFRONT APPLICATION v2.1 (app.js)
+ * BELERHAT AGRITECH — PUBLIC STOREFRONT APPLICATION v2.2 (app.js)
  * ============================================================================
  * Improvements Included:
+ *   - Server-signed bootTs/bootSig + submittedAt (100% clock-skew-proof)
  *   - Privacy Policy (?page=privacy) & Terms & Conditions (?page=terms) routing
  *   - Owner-verified Testimonials rendering (hidden if empty — zero fake data)
  *   - Client-side <canvas> photo auto-compression (handles 5-12 MB phone photos)
  *   - Self-service Enquiry Status Lookup (?action=checkEnquiryStatus)
  *   - Homepage 10-Category Tiles, Crop/Season Finder & Quick Search wiring
  *   - Dynamic Hero & Workshop photo slots from Admin Settings
- *   - Crawl-friendly ?page=... routing (with #hash backward compatibility)
  * ============================================================================
  */
 
@@ -41,6 +41,8 @@ const APP_STATE = {
   equipment: [],
   rentalRates: [],
   spareParts: [],
+  bootTs: '',
+  bootSig: '',
   servicePhotoDataUrl: '',
   servicePhotoName: '',
   formOpenedAt: Date.now() - 3000
@@ -92,6 +94,8 @@ async function fetchPublicBootstrap() {
     APP_STATE.equipment = json.data.equipment || [];
     APP_STATE.rentalRates = json.data.rentalRates || [];
     APP_STATE.spareParts = json.data.spareParts || [];
+    APP_STATE.bootTs = json.data.bootTs || '';
+    APP_STATE.bootSig = json.data.bootSig || '';
 
     if (!localStorage.getItem('belerhat_lang') && APP_STATE.settings.default_language) {
       APP_STATE.lang = APP_STATE.settings.default_language === 'en' ? 'en' : 'bn';
@@ -1028,7 +1032,10 @@ async function handleEnquirySubmit(event, enquiryType) {
       body: JSON.stringify({
         action: 'submitEnquiry',
         enquiryType: enquiryType,
+        bootTs: APP_STATE.bootTs,
+        bootSig: APP_STATE.bootSig,
         formOpenedAt: APP_STATE.formOpenedAt,
+        submittedAt: Date.now(),
         hp_website: String(fd.get('hp_website') || ''),
         payload: payload
       })
