@@ -1084,6 +1084,11 @@ function showSuccessModal(refId, enquiryType, payload, itemSummary) {
   ].filter(Boolean).join('\n');
 
   document.getElementById('successWaLink').href = buildWhatsAppUrl(waMsg);
+const refMsg = (APP_STATE.lang === 'bn'
+  ? 'নমস্কার! আমি বেলেরহাট অ্যাগ্রিটেক থেকে কৃষি যন্ত্রপাতি সংক্রান্ত কাজ করিয়েছি। আপনিও যদি আধুনিক যন্ত্র ভাড়া নিতে বা কিনতে চান, তবে এই লিঙ্কে যোগাযোগ করুন: ' + window.location.origin + window.location.pathname + '\n\nবুকিং করার সময় আমার মোবাইল নম্বর (' + payload.phone + ') রেফারেন্স হিসেবে দিলে আপনিও বিশেষ ছাড় পাবেন!'
+  : 'Hello! I used Belerhat AgriTech for agricultural machinery. If you need farm equipment rental or sales, check out this link: ' + window.location.origin + window.location.pathname + '\n\nQuote my mobile number (' + payload.phone + ') as a reference when booking to claim your special discount!');
+
+document.getElementById('referralShareWaBtn').href = buildWhatsAppUrl(refMsg);
   openModal('successModal');
 }
 
