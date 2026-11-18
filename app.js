@@ -1,19 +1,42 @@
 /**
  * ============================================================================
- * BELERHAT AGRITECH — PUBLIC STOREFRONT APPLICATION (app.js)
+ * BELERHAT AGRITECH — PUBLIC STOREFRONT APPLICATION v2 (app.js)
  * ============================================================================
- * Connects GitHub Pages static frontend to Google Apps Script PublicApi.gs
- * using CORS-safe GET and text/plain POST with redirect: 'follow'.
+ * Improvements Included:
+ *   - Client-side <canvas> photo auto-compression (handles 5-12 MB phone photos)
+ *   - Self-service Enquiry Status Lookup (?action=checkEnquiryStatus)
+ *   - Homepage 10-Category Tiles, Crop/Season Finder & Quick Search wiring
+ *   - Dynamic Hero & Workshop photo slots from Admin Settings
+ *   - Crawl-friendly ?page=... routing (with #hash backward compatibility)
+ *   - Cold-start CTA fallback when catalogue is empty or unconfigured
  * ============================================================================
  */
 
 // IMPORTANT: Replace this placeholder with your deployed PublicApi.gs (/exec) URL:
-const PUBLIC_API_URL = 'https://script.google.com/macros/s/AKfycbw65bxEN6dWw3559LkFKB7o3pe0Rwyng9NQtOCsjU6TcqT19aRsBU07I1bl223-4Xej/exec';
+const PUBLIC_API_URL = 'REPLACE_WITH_YOUR_PUBLIC_API_EXEC_URL';
+
+const DEFAULT_CATEGORIES_FALLBACK = [
+  { id: 'CAT-01', name: 'Land Preparation Equipment', nameBn: 'জমি তৈরির যন্ত্রপাতি' },
+  { id: 'CAT-02', name: 'Paddy Cultivation Machinery', nameBn: 'ধান চাষের যন্ত্রপাতি' },
+  { id: 'CAT-03', name: 'Harvesting Equipment', nameBn: 'ফসল কাটার যন্ত্রপাতি' },
+  { id: 'CAT-04', name: 'Vegetable & Potato Farming Equipment', nameBn: 'সবজি ও আলু চাষের যন্ত্র' },
+  { id: 'CAT-05', name: 'Spraying Equipment', nameBn: 'স্প্রে করার যন্ত্র' },
+  { id: 'CAT-06', name: 'Irrigation Equipment', nameBn: 'সেচ যন্ত্রপাতি' },
+  { id: 'CAT-07', name: 'Post-Harvest Processing Machinery', nameBn: 'ফসল পরবর্তী প্রক্রিয়াকরণ যন্ত্র' },
+  { id: 'CAT-08', name: 'Manual Agricultural Tools', nameBn: 'হাতের কৃষি সরঞ্জাম' },
+  { id: 'CAT-09', name: 'Precision Farming Equipment', nameBn: 'আধুনিক ও নিখুঁত কৃষি যন্ত্র' },
+  { id: 'CAT-10', name: 'Spare Parts & Accessories', nameBn: 'স্পেয়ার পার্টস ও অ্যাক্সেসরিজ' }
+];
+
+const CATEGORY_ICONS = {
+  'CAT-01': '🚜', 'CAT-02': '🌾', 'CAT-03': '✂️', 'CAT-04': '🥔', 'CAT-05': '🌿',
+  'CAT-06': '💧', 'CAT-07': '⚙️', 'CAT-08': '🛠️', 'CAT-09': '📡', 'CAT-10': '🔩'
+};
 
 const APP_STATE = {
   lang: localStorage.getItem('belerhat_lang') || 'bn',
   settings: {},
-  categories: [],
+  categories: DEFAULT_CATEGORIES_FALLBACK.slice(),
   equipment: [],
   rentalRates: [],
   spareParts: [],
@@ -26,7 +49,9 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('yearNow').textContent = String(new Date().getFullYear());
   setMinDates();
   applyLanguage(APP_STATE.lang);
+  renderHomeCategories();
   handleInitialRoute();
+  window.addEventListener('popstate', handleInitialRoute);
   window.addEventListener('hashchange', handleInitialRoute);
   fetchPublicBootstrap();
 });
@@ -47,7 +72,6 @@ function setMinDates() {
 async function fetchPublicBootstrap() {
   if (!PUBLIC_API_URL || PUBLIC_API_URL.indexOf('REPLACE_WITH_') === 0) {
     renderEmptyAfterInit();
-    toast('Configure PUBLIC_API_URL in app.js to load live catalogue.');
     return;
   }
 
@@ -61,7 +85,9 @@ async function fetchPublicBootstrap() {
     }
 
     APP_STATE.settings = json.data.settings || {};
-    APP_STATE.categories = json.data.categories || [];
+    APP_STATE.categories = (json.data.categories && json.data.categories.length)
+      ? json.data.categories
+      : DEFAULT_CATEGORIES_FALLBACK.slice();
     APP_STATE.equipment = json.data.equipment || [];
     APP_STATE.rentalRates = json.data.rentalRates || [];
     APP_STATE.spareParts = json.data.spareParts || [];
@@ -83,9 +109,8 @@ async function fetchPublicBootstrap() {
 }
 
 function renderEmptyAfterInit() {
-  renderFeatured();
-  renderCatalogue();
-  renderSpareParts();
+  populateDropdowns();
+  renderAllDynamicViews();
 }
 
 /**
@@ -149,7 +174,7 @@ function updatePrivacyNotices() {
 
 /**
  * ============================================================================
- * DYNAMIC BUSINESS CONFIGURATION & SEO METADATA
+ * DYNAMIC BUSINESS CONFIGURATION, HERO/WORKSHOP PHOTOS & SEO
  * ============================================================================
  */
 function applyBusinessSettings() {
@@ -178,6 +203,9 @@ function applyBusinessSettings() {
   setText('topLocationText', '📍 ' + address);
   setText('topPhoneText', phone);
   setText('homeServiceAreas', areas || address);
+  setText('homeAddressText', address);
+  setText('homeHoursText', hours);
+  setText('homePhoneText', phone);
   setText('contactAddress', address);
   setText('footerAddress', address);
   setText('contactPhone', phone);
@@ -189,7 +217,7 @@ function applyBusinessSettings() {
   setText('rentalPolicyBox', rentalPolicy);
   setText('deliveryPolicyBox', deliveryPolicy);
 
-  ['topPhoneLink', 'ctaCallBtn', 'contactPhoneLink', 'stickyCall'].forEach(function (id) {
+  ['topPhoneLink', 'ctaCallBtn', 'contactPhoneLink', 'homePhoneLink', 'stickyCall'].forEach(function (id) {
     const el = document.getElementById(id);
     if (el) el.href = telHref;
   });
@@ -202,13 +230,38 @@ function applyBusinessSettings() {
   const emailLink = document.getElementById('contactEmailLink');
   if (emailLink && s.email) emailLink.href = 'mailto:' + s.email;
 
-  const mapBtn = document.getElementById('contactMapBtn');
-  if (mapBtn) {
-    if (s.google_maps_url) {
-      mapBtn.href = s.google_maps_url;
-      mapBtn.classList.remove('hidden');
+  ['contactMapBtn', 'homeMapBtn'].forEach(function (id) {
+    const mapBtn = document.getElementById(id);
+    if (mapBtn) {
+      if (s.google_maps_url) {
+        mapBtn.href = s.google_maps_url;
+        mapBtn.classList.remove('hidden');
+      } else {
+        mapBtn.classList.add('hidden');
+      }
+    }
+  });
+
+  // Optional Real Hero & Workshop Photography
+  const heroBox = document.getElementById('heroPhotoBox');
+  const heroImg = document.getElementById('heroPhotoImg');
+  if (heroBox && heroImg) {
+    if (s.hero_image_url) {
+      heroImg.src = s.hero_image_url;
+      heroBox.classList.remove('hidden');
     } else {
-      mapBtn.classList.add('hidden');
+      heroBox.classList.add('hidden');
+    }
+  }
+
+  const wsWrap = document.getElementById('workshopPhotoWrap');
+  const wsImg = document.getElementById('workshopPhotoImg');
+  if (wsWrap && wsImg) {
+    if (s.workshop_image_url) {
+      wsImg.src = s.workshop_image_url;
+      wsWrap.classList.remove('hidden');
+    } else {
+      wsWrap.classList.add('hidden');
     }
   }
 
@@ -249,10 +302,10 @@ function applyBusinessSettings() {
 
 /**
  * ============================================================================
- * ROUTING & DROPDOWNS
+ * CRAWL-FRIENDLY ROUTING (?page=... + #hash fallback) & HOMEPAGE FINDERS
  * ============================================================================
  */
-function navigateTo(route) {
+function navigateTo(route, updateUrl) {
   const valid = ['home', 'catalogue', 'rental', 'sales', 'service', 'parts', 'about', 'contact'];
   const target = valid.indexOf(route) !== -1 ? route : 'home';
 
@@ -265,31 +318,83 @@ function navigateTo(route) {
 
   document.getElementById('mainNav').classList.remove('open');
   APP_STATE.formOpenedAt = Date.now();
-  if (window.location.hash !== '#' + target) {
-    history.replaceState(null, '', '#' + target);
+
+  if (updateUrl !== false) {
+    const nextUrl = target === 'home' ? window.location.pathname : (window.location.pathname + '?page=' + target);
+    history.replaceState(null, '', nextUrl);
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function handleInitialRoute() {
-  const raw = (window.location.hash || '#home').replace('#', '');
-  if (raw.indexOf('equipment=') === 0) {
-    navigateTo('catalogue');
+  const params = new URLSearchParams(window.location.search);
+  const pageParam = params.get('page');
+  const eqParam = params.get('eq');
+  const hashRaw = (window.location.hash || '').replace('#', '');
+
+  if (eqParam || hashRaw.indexOf('equipment=') === 0) {
+    navigateTo('catalogue', false);
     return;
   }
-  navigateTo(raw);
+  if (pageParam) {
+    navigateTo(pageParam, false);
+    return;
+  }
+  if (hashRaw) {
+    navigateTo(hashRaw, false);
+    return;
+  }
+  navigateTo('home', false);
 }
 
 function checkDeepLinkedEquipment() {
-  const raw = (window.location.hash || '').replace('#', '');
-  if (raw.indexOf('equipment=') === 0) {
-    const eqId = raw.split('=')[1];
-    if (eqId) openEquipmentDetail(eqId);
+  const params = new URLSearchParams(window.location.search);
+  let eqId = params.get('eq');
+  if (!eqId) {
+    const hashRaw = (window.location.hash || '').replace('#', '');
+    if (hashRaw.indexOf('equipment=') === 0) eqId = hashRaw.split('=')[1];
   }
+  if (eqId) openEquipmentDetail(eqId);
 }
 
 function toggleMobileNav() {
   document.getElementById('mainNav').classList.toggle('open');
+}
+
+function runHomeQuickSearch(dest) {
+  const q = (document.getElementById('homeQuickSearchInput').value || '').trim();
+  if (dest === 'parts') {
+    document.getElementById('partsSearch').value = q;
+    navigateTo('parts');
+    renderSpareParts();
+  } else {
+    document.getElementById('catSearch').value = q;
+    document.getElementById('catCategoryFilter').value = 'ALL';
+    document.getElementById('catCropFilter').value = 'ALL';
+    navigateTo('catalogue');
+    renderCatalogue();
+  }
+}
+
+function filterCatalogueByCategory(catId) {
+  if (catId === 'CAT-10') {
+    navigateTo('parts');
+    renderSpareParts();
+    return;
+  }
+  document.getElementById('catCategoryFilter').value = catId;
+  document.getElementById('catCropFilter').value = 'ALL';
+  document.getElementById('catSearch').value = '';
+  navigateTo('catalogue');
+  renderCatalogue();
+}
+
+function filterCatalogueByCrop(cropCode) {
+  document.getElementById('catCategoryFilter').value = 'ALL';
+  document.getElementById('catSearch').value = '';
+  document.getElementById('catCropFilter').value = cropCode;
+  navigateTo('catalogue');
+  renderCatalogue();
 }
 
 function populateDropdowns() {
@@ -335,13 +440,30 @@ function populateDropdowns() {
 
 /**
  * ============================================================================
- * EQUIPMENT & SPARE PARTS RENDERING
+ * EQUIPMENT, CATEGORY TILES & SPARE PARTS RENDERING
  * ============================================================================
  */
 function renderAllDynamicViews() {
+  renderHomeCategories();
   renderFeatured();
   renderCatalogue();
   renderSpareParts();
+}
+
+function renderHomeCategories() {
+  const wrap = document.getElementById('homeCategoryGrid');
+  if (!wrap) return;
+  const isBn = APP_STATE.lang === 'bn';
+  wrap.innerHTML = APP_STATE.categories.map(function (c) {
+    const icon = CATEGORY_ICONS[c.id] || '🚜';
+    const label = isBn ? (c.nameBn || c.name) : c.name;
+    return (
+      '<button type="button" class="cat-tile" onclick="filterCatalogueByCategory(\'' + escAttr(c.id) + '\')">' +
+        '<span class="cat-tile-icon">' + icon + '</span>' +
+        '<span class="cat-tile-name">' + esc(label) + '</span>' +
+      '</button>'
+    );
+  }).join('');
 }
 
 function getCatName(catId) {
@@ -356,6 +478,14 @@ function getEqName(eq) {
 
 function getEqDesc(eq) {
   return APP_STATE.lang === 'bn' ? (eq.descriptionBn || eq.description) : eq.description;
+}
+
+function getEqSpecs(eq) {
+  return APP_STATE.lang === 'bn' ? (eq.specificationsBn || eq.specifications) : eq.specifications;
+}
+
+function getEqApps(eq) {
+  return APP_STATE.lang === 'bn' ? (eq.suitableApplicationsBn || eq.suitableApplications) : eq.suitableApplications;
 }
 
 function getPublicRatesForEq(eqId) {
@@ -426,26 +556,49 @@ function renderFeatured() {
   let featured = APP_STATE.equipment.filter(function (e) { return e.isFeatured; });
   if (!featured.length) featured = APP_STATE.equipment.slice(0, 6);
   if (!featured.length) {
-    wrap.innerHTML = '<div class="empty-state">' + esc(t('msg_no_equipment')) + '</div>';
+    wrap.innerHTML =
+      '<div class="empty-state">' +
+        '<p style="margin:0 0 12px;">' + esc(t('msg_cold_start_cta')) + '</p>' +
+        '<div class="btn-row" style="justify-content:center;">' +
+          '<button type="button" class="btn btn-primary btn-sm" onclick="navigateTo(\'rental\')">' + esc(t('cta_rent_enquiry')) + '</button>' +
+          '<button type="button" class="btn btn-outline btn-sm" onclick="navigateTo(\'sales\')">' + esc(t('lbl_sales_enq')) + '</button>' +
+        '</div>' +
+      '</div>';
     return;
   }
   wrap.innerHTML = featured.slice(0, 6).map(buildEquipmentCardHtml).join('');
+}
+
+function matchesCropFilter(eq, cropCode) {
+  if (!cropCode || cropCode === 'ALL') return true;
+  const tags = String(eq.cropTags || '').toUpperCase();
+  if (tags.indexOf(cropCode) !== -1) return true;
+
+  // Smart category/text fallback if Crop_Tags not filled manually
+  const hay = [eq.name, eq.description, eq.suitableApplications].join(' ').toUpperCase();
+  if (cropCode === 'PADDY') return eq.categoryId === 'CAT-02' || eq.categoryId === 'CAT-01' || hay.indexOf('PADDY') !== -1 || hay.indexOf('RICE') !== -1;
+  if (cropCode === 'POTATO') return eq.categoryId === 'CAT-04' || hay.indexOf('POTATO') !== -1 || hay.indexOf('VEGETABLE') !== -1;
+  if (cropCode === 'SPRAYING') return eq.categoryId === 'CAT-05' || eq.categoryId === 'CAT-06' || hay.indexOf('SPRAY') !== -1 || hay.indexOf('PUMP') !== -1;
+  if (cropCode === 'HARVEST') return eq.categoryId === 'CAT-03' || eq.categoryId === 'CAT-07' || hay.indexOf('HARVEST') !== -1 || hay.indexOf('THRESH') !== -1;
+  return false;
 }
 
 function renderCatalogue() {
   const wrap = document.getElementById('catalogueGrid');
   const q = (document.getElementById('catSearch').value || '').toLowerCase().trim();
   const cat = document.getElementById('catCategoryFilter').value;
+  const crop = document.getElementById('catCropFilter').value;
   const mode = document.getElementById('catModeFilter').value;
   const avail = document.getElementById('catAvailFilter').value;
 
   const filtered = APP_STATE.equipment.filter(function (e) {
     if (cat !== 'ALL' && e.categoryId !== cat) return false;
+    if (!matchesCropFilter(e, crop)) return false;
     if (mode === 'SALE' && !e.forSale) return false;
     if (mode === 'RENT' && !e.forRent) return false;
     if (avail !== 'ALL' && e.availabilityStatus !== avail) return false;
     if (q) {
-      const hay = [e.name, e.nameBn, e.brand, e.model, e.description, e.descriptionBn, e.suitableApplications].join(' ').toLowerCase();
+      const hay = [e.name, e.nameBn, e.brand, e.model, e.description, e.descriptionBn, e.suitableApplications, e.cropTags].join(' ').toLowerCase();
       if (hay.indexOf(q) === -1) return false;
     }
     return true;
@@ -477,7 +630,7 @@ function openEquipmentDetail(eqId) {
         : '');
   }
 
-  const specLines = (eq.specifications || '').split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean);
+  const specLines = (getEqSpecs(eq) || '').split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean);
   let specsHtml = '';
   if (specLines.length) {
     specsHtml = '<h4>' + esc(t('lbl_specs')) + '</h4><table class="spec-table">' +
@@ -511,6 +664,7 @@ function openEquipmentDetail(eqId) {
     (APP_STATE.lang === 'bn' ? 'নমস্কার, আমি এই যন্ত্রটি সম্পর্কে বিস্তারিত জানতে চাই: ' : 'Hello, please share quotation & details for: ') + name
   );
 
+  const appsText = getEqApps(eq);
   document.getElementById('eqDetailBody').innerHTML =
     galleryHtml +
     '<div style="margin-top:12px;">' +
@@ -518,7 +672,7 @@ function openEquipmentDetail(eqId) {
       '<span class="muted">' + esc([eq.brand, eq.model].filter(Boolean).join(' • ')) + '</span>' +
     '</div>' +
     (getEqDesc(eq) ? '<p>' + esc(getEqDesc(eq)) + '</p>' : '') +
-    (eq.suitableApplications ? '<p><strong>' + esc(t('lbl_suitable_apps')) + ':</strong> ' + esc(eq.suitableApplications) + '</p>' : '') +
+    (appsText ? '<p><strong>' + esc(t('lbl_suitable_apps')) + ':</strong> ' + esc(appsText) + '</p>' : '') +
     specsHtml +
     ratesHtml +
     '<div class="btn-row" style="margin-top:16px;">' +
@@ -541,7 +695,7 @@ function switchDetailImage(thumbEl, url) {
 
 function shareEquipment(eqId) {
   const eq = APP_STATE.equipment.find(function (e) { return e.id === eqId; });
-  const shareUrl = window.location.origin + window.location.pathname + '#equipment=' + encodeURIComponent(eqId);
+  const shareUrl = window.location.origin + window.location.pathname + '?eq=' + encodeURIComponent(eqId);
   const title = eq ? getEqName(eq) : 'Belerhat AgriTech';
 
   if (navigator.share) {
@@ -644,7 +798,68 @@ function openPartEnquiryModal(partId) {
 
 /**
  * ============================================================================
- * REPAIR PHOTO PREVIEW & VALIDATION
+ * SELF-SERVICE ENQUIRY STATUS TRACKER
+ * ============================================================================
+ */
+function openTrackModal() {
+  document.getElementById('trackResultBox').classList.add('hidden');
+  document.getElementById('trackResultBox').innerHTML = '';
+  openModal('trackStatusModal');
+}
+
+async function handleStatusLookup(event) {
+  event.preventDefault();
+  if (!PUBLIC_API_URL || PUBLIC_API_URL.indexOf('REPLACE_WITH_') === 0) {
+    toast('Backend PUBLIC_API_URL is not configured.');
+    return;
+  }
+
+  const refId = String(document.getElementById('trackRefInput').value || '').trim().toUpperCase();
+  const phone = String(document.getElementById('trackPhoneInput').value || '').replace(/\D/g, '');
+  const btn = document.getElementById('trackSubmitBtn');
+  const box = document.getElementById('trackResultBox');
+
+  if (!/^[6-9]\d{9}$/.test(phone)) {
+    toast(t('msg_invalid_phone'));
+    return;
+  }
+
+  btn.disabled = true;
+  const origTxt = btn.textContent;
+  btn.textContent = t('msg_checking_status');
+
+  try {
+    const sep = PUBLIC_API_URL.indexOf('?') === -1 ? '?' : '&';
+    const url = PUBLIC_API_URL + sep + 'action=checkEnquiryStatus&refId=' + encodeURIComponent(refId) + '&phone=' + encodeURIComponent(phone);
+    const res = await fetch(url, { method: 'GET', redirect: 'follow' });
+    const json = await res.json();
+
+    box.classList.remove('hidden');
+    if (!json || !json.ok || !json.data) {
+      box.innerHTML = '<span style="color:var(--danger);font-weight:700;">' + esc((json && json.error) || 'Not found') + '</span>';
+      return;
+    }
+
+    const d = json.data;
+    box.innerHTML =
+      '<div><strong>' + esc(d.enquiryId) + '</strong></div>' +
+      '<div>' + esc(t('lbl_item')) + ': <strong>' + esc(d.itemName) + '</strong></div>' +
+      (d.preferredDate ? '<div>' + esc(t('lbl_pref_date')) + ' ' + esc(d.preferredDate) + '</div>' : '') +
+      '<div>' + esc(t('lbl_status')) + ': <strong style="color:var(--green-900);">' + esc(d.status) + '</strong></div>' +
+      (d.quotedAmount ? '<div>' + esc(t('lbl_quoted_amt')) + ': <strong>₹' + Number(d.quotedAmount).toLocaleString('en-IN') + '</strong></div>' : '') +
+      '<div class="muted">' + esc(t('lbl_last_updated')) + ': ' + esc(String(d.updatedAt || '').slice(0, 16).replace('T', ' ')) + '</div>';
+  } catch (err) {
+    box.classList.remove('hidden');
+    box.innerHTML = '<span style="color:var(--danger);">' + esc(t('msg_submit_error')) + '</span>';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = origTxt;
+  }
+}
+
+/**
+ * ============================================================================
+ * REPAIR PHOTO AUTO-COMPRESSION (<canvas>) & PREVIEW
  * ============================================================================
  */
 function previewServicePhoto(input) {
@@ -662,17 +877,31 @@ function previewServicePhoto(input) {
     toast(t('msg_img_invalid_type'));
     return;
   }
-  if (file.size > 2 * 1024 * 1024) {
-    input.value = '';
-    toast(t('msg_img_too_large'));
-    return;
-  }
 
+  preview.innerHTML = '<span class="muted">' + esc(t('msg_img_compressing')) + '</span>';
   const reader = new FileReader();
-  reader.onload = function () {
-    APP_STATE.servicePhotoDataUrl = reader.result;
-    APP_STATE.servicePhotoName = file.name;
-    preview.innerHTML = '<img src="' + reader.result + '" alt="Upload preview" />';
+  reader.onload = function (ev) {
+    const img = new Image();
+    img.onload = function () {
+      const maxDim = 1280;
+      let w = img.width;
+      let h = img.height;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) { h = Math.round(h * (maxDim / w)); w = maxDim; }
+        else { w = Math.round(w * (maxDim / h)); h = maxDim; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.78);
+      APP_STATE.servicePhotoDataUrl = compressedDataUrl;
+      APP_STATE.servicePhotoName = file.name.replace(/\.[^.]+$/, '') + '.jpg';
+      preview.innerHTML = '<img src="' + compressedDataUrl + '" alt="Upload preview" />';
+    };
+    img.src = ev.target.result;
   };
   reader.readAsDataURL(file);
 }
