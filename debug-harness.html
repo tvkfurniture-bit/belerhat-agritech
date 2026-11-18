@@ -105,12 +105,13 @@
       btn.disabled = true;
 
       let pass = 0, fail = 0;
+      let bootTs = '', bootSig = '';
       function record(name, ok, details) {
         if (ok) pass++; else fail++;
         addResult(name, ok ? 'PASS' : 'FAIL', details);
       }
 
-      // 1. GET Ping (CORS + 302 redirect test)
+      // 1. GET Ping
       try {
         const res = await fetch(apiUrl + '?action=ping', { method: 'GET', redirect: 'follow' });
         const json = await res.json();
@@ -119,28 +120,32 @@
         record('1. GET ping (CORS & 302 Redirect)', false, e.message);
       }
 
-      // 2. GET getPublicBootstrap + Private Key Leak Check
+      // 2. GET getPublicBootstrap + Private Key Leak Check + HMAC Token Check
       try {
         const res = await fetch(apiUrl + '?action=getPublicBootstrap&nocache=1', { method: 'GET', redirect: 'follow' });
         const json = await res.json();
         const s = (json && json.data && json.data.settings) || {};
+        bootTs = (json && json.data && json.data.bootTs) || '';
+        bootSig = (json && json.data && json.data.bootSig) || '';
         const leakedPrivate = Boolean(s.notification_email || s.drive_private_folder_id || s.admin_dashboard_url);
         const catCount = (json && json.data && json.data.categories && json.data.categories.length) || 0;
         record(
-          '2. Public Bootstrap & Zero Private Data Leak',
-          Boolean(json && json.ok && !leakedPrivate && catCount === 10),
-          'Categories: ' + catCount + ' | Equipment: ' + ((json.data.equipment || []).length) + ' | Private leaked: ' + leakedPrivate
+          '2. Public Bootstrap, HMAC Token & Zero Private Data Leak',
+          Boolean(json && json.ok && !leakedPrivate && catCount === 10 && bootTs && bootSig),
+          'Categories: ' + catCount + ' | Equipment: ' + ((json.data.equipment || []).length) + ' | HMAC Token: ' + Boolean(bootSig) + ' | Private leaked: ' + leakedPrivate
         );
       } catch (e) {
-        record('2. Public Bootstrap & Zero Private Data Leak', false, e.message);
+        record('2. Public Bootstrap, HMAC Token & Zero Private Data Leak', false, e.message);
       }
 
       // 3. POST Missing Privacy Consent Rejection
       try {
+        const now = Date.now();
         const res = await postTextPlain(apiUrl, {
           action: 'submitEnquiry',
           enquiryType: 'CONTACT',
-          formOpenedAt: Date.now() - 4000,
+          formOpenedAt: now - 4000,
+          submittedAt: now,
           hp_website: '',
           payload: { customerName: 'Browser Test', phone: '9876543210', customerNotes: 'Testing consent block', privacyConsent: false }
         });
@@ -151,10 +156,12 @@
 
       // 4. POST Honeypot Rejection
       try {
+        const now = Date.now();
         const res = await postTextPlain(apiUrl, {
           action: 'submitEnquiry',
           enquiryType: 'CONTACT',
-          formOpenedAt: Date.now() - 4000,
+          formOpenedAt: now - 4000,
+          submittedAt: now,
           hp_website: 'https://bot.example',
           payload: { customerName: 'Bot', phone: '9876543210', customerNotes: 'Spam', privacyConsent: true }
         });
@@ -163,12 +170,14 @@
         record('4. POST Rejects Honeypot Bot Trap', false, e.message);
       }
 
-      // 5. POST Fast-Bot Timing Rejection
+      // 5. POST Fast-Bot Timing Rejection (100ms fill duration)
       try {
+        const now = Date.now();
         const res = await postTextPlain(apiUrl, {
           action: 'submitEnquiry',
           enquiryType: 'CONTACT',
-          formOpenedAt: Date.now() - 100, // 100ms (< 1800ms minimum)
+          formOpenedAt: now - 100,
+          submittedAt: now,
           hp_website: '',
           payload: { customerName: 'FastBot', phone: '9876543210', customerNotes: 'Too fast', privacyConsent: true }
         });
@@ -185,7 +194,6 @@
         const ctx = c.getContext('2d');
         ctx.fillStyle = '#14452F';
         ctx.fillRect(0, 0, 2400, 1800);
-        // Simulate 1280px downscale
         const outC = document.createElement('canvas');
         outC.width = 1280;
         outC.height = 960;
@@ -201,14 +209,20 @@
         record('6. Browser <canvas> Photo Resize & Compression', false, e.message);
       }
 
-      // 7. Optional Live Write + Status Lookup
+      // 7. Optional Live Write + Status Lookup (uses server-signed bootTs/bootSig)
       if (document.getElementById('chkLiveWrite').checked) {
         const testPhone = '99' + String(Date.now()).slice(-8);
         try {
+          // Ensure >= 2s elapsed since bootstrap if user clicked super fast
+          await new Promise(r => setTimeout(r, 2000));
+          const now = Date.now();
           const sub = await postTextPlain(apiUrl, {
             action: 'submitEnquiry',
             enquiryType: 'CONTACT',
-            formOpenedAt: Date.now() - 5000,
+            bootTs: bootTs,
+            bootSig: bootSig,
+            formOpenedAt: now - 5000,
+            submittedAt: now,
             hp_website: '',
             payload: {
               customerName: 'Browser Debug User',
