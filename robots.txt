@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Replace YOUR_GITHUB_PAGES_URL with your live GitHub Pages URL (e.g. https://username.github.io/belerhat-agritech)
-Sitemap: https://YOUR_GITHUB_PAGES_URL/sitemap.xml
+Sitemap: https://github.com/tvkfurniture-bit/belerhat-agritech/sitemap.xml
