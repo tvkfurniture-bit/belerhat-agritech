@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * BELERHAT AGRITECH — BILINGUAL DICTIONARY (Bengali Default + English)
+ * BELERHAT AGRITECH — BILINGUAL DICTIONARY v2 (Bengali Default + English)
  * ============================================================================
  */
 window.BELERHAT_I18N = {
@@ -8,6 +8,22 @@ window.BELERHAT_I18N = {
     seo_title: 'বেলেরহাট অ্যাগ্রিটেক | Belerhat AgriTech — কৃষি যন্ত্রপাতি বিক্রয়, ভাড়া ও মেরামত (পূর্ব বর্ধমান)',
     seo_desc: 'বেলেরহাট, পূর্ব বর্ধমান, পশ্চিমবঙ্গে আধুনিক কৃষি যন্ত্রপাতি বিক্রয়, সাশ্রয়ী ভাড়া, মেরামত এবং স্পেয়ার পার্টস সহায়তা।',
     wa_chat_text: 'হোয়াটসঅ্যাপ চ্যাট',
+
+    btn_track_status: '🔍 অনুসন্ধান ট্র্যাক করুন',
+    hero_track_prompt: 'আগে অনুসন্ধান করেছেন? স্ট্যাটাস দেখুন →',
+    ph_home_quick_search: 'যন্ত্র বা স্পেয়ার পার্টসের নাম লিখুন (যেমন: পাওয়ার টিলার, ব্লেড)...',
+    btn_find_machine: 'যন্ত্র খুঁজুন',
+    btn_find_part: 'পার্টস খুঁজুন',
+    crop_finder_lbl: 'ফসল / কাজ অনুযায়ী খুঁজুন:',
+    crop_paddy: '🌾 ধান চাষ',
+    crop_potato: '🥔 আলু ও সবজি',
+    crop_spray: '🌿 স্প্রে ও সেচ',
+    crop_harvest: '🚜 ফসল কাটা ও ঝাড়াই',
+    crop_all: 'সব যন্ত্র দেখুন',
+    opt_all_crops: 'সকল ফসল / ব্যবহার',
+
+    home_cats_title: 'যন্ত্রপাতির ক্যাটাগরি',
+    home_cats_sub: 'আপনার প্রয়োজন অনুযায়ী ক্যাটাগরিতে ক্লিক করুন',
 
     nav_home: 'হোম',
     nav_catalogue: 'যন্ত্রপাতি',
@@ -51,6 +67,11 @@ window.BELERHAT_I18N = {
     step4_t: 'নিশ্চিতকরণ ও কাজ শুরু',
     step4_d: 'আপনার সম্মতির পর বুকিং নিশ্চিত হবে এবং সময়মতো যন্ত্র পৌঁছে যাবে।',
 
+    sales_badge: 'নতুন যন্ত্র ক্রয় ও সরকারি ভর্তুকি সহায়তা',
+    sales_panel_t: 'নতুন যন্ত্রপাতি ক্রয় ও কোটেশন',
+    sales_panel_d: 'সঠিক যন্ত্র নির্বাচন, ডেলিভারি সুবিধা এবং কৃষি ঋণ বা সরকারি ভর্তুকি প্রকল্প সম্পর্কে প্রাথমিক তথ্যের জন্য আমাদের সাথে যোগাযোগ করুন।',
+    cta_request_quote: 'কোটেশন চান',
+
     repair_badge: 'ওয়ার্কশপ ও মেরামতি সহায়তা',
     repair_panel_t: 'কৃষি যন্ত্রপাতি মেরামত ও রক্ষণাবেক্ষণ',
     repair_panel_d: 'পাওয়ার টিলার, উইডার, স্প্রেয়ার, পাম্প বা ধান কাটার যন্ত্রে কোনো সমস্যা হলে ছবি সহ মেরামতির অনুরোধ পাঠান বা সরাসরি যোগাযোগ করুন।',
@@ -63,6 +84,19 @@ window.BELERHAT_I18N = {
     why_3: 'স্বচ্ছ যোগাযোগ — মালিক সরাসরি প্রাপ্যতা ও দর নিশ্চিত করেন',
     why_4: 'বিক্রয় পরবর্তী মেরামত ও স্পেয়ার পার্টসের নির্ভরযোগ্য সহায়তা',
     service_area_label: 'পরিষেবা এলাকা:',
+    home_visit_title: 'সরাসরি যোগাযোগ ও দোকান খোলার সময়',
+
+    faq_title: 'সাধারণ জিজ্ঞাসা (FAQ)',
+    faq_1_q: 'ভাড়ার জন্য কি আগে অনলাইনে টাকা দিতে হবে?',
+    faq_1_a: 'না। ওয়েবসাইট থেকে পাঠানো অনুরোধের জন্য কোনো অনলাইন পেমেন্ট লাগে না। মালিক প্রাপ্যতা যাচাই করে ফোন বা হোয়াটসঅ্যাপে চূড়ান্ত দর ও সময় নিশ্চিত করবেন।',
+    faq_2_q: 'ভাড়ার মধ্যে কি অপারেটর এবং জ্বালানি (ডিজেল/পেট্রোল) অন্তর্ভুক্ত?',
+    faq_2_a: 'যন্ত্র ও ভাড়ার প্যাকেজ অনুযায়ী এটি ভিন্ন হতে পারে। প্রতিটি যন্ত্রের বিস্তারিত অংশে এবং আপনার কোটেশনে অপারেটর ও জ্বালানির শর্ত স্পষ্টভাবে জানানো হয়।',
+    faq_3_q: 'কোন কোন এলাকায় যন্ত্রপাতি ভাড়া ও ডেলিভারি দেওয়া হয়?',
+    faq_3_a: 'বেলেরহাট এবং পূর্ব বর্ধমানের আশেপাশের ব্লক ও গ্রামগুলোতে আমরা পরিষেবা দিয়ে থাকি। দূরত্ব ও যন্ত্রের আকার অনুযায়ী পরিবহন সুবিধা নির্ধারিত হয়।',
+    faq_4_q: 'যন্ত্র মেরামতির সময় পাঠানো ছবি কি নিরাপদ থাকবে?',
+    faq_4_a: 'হ্যাঁ। মেরামতির জন্য আপলোড করা সমস্ত ছবি সম্পূর্ণ গোপন রাখা হয় এবং তা জনসাধারণের জন্য উন্মুক্ত নয়—শুধুমাত্র মালিক/টেকনিশিয়ান দেখতে পান।',
+    faq_5_q: 'অনুসন্ধান পাঠানোর পর কীভাবে আমার অনুরোধের অবস্থা জানব?',
+    faq_5_a: 'অনুসন্ধান জমা দেওয়ার পর আপনি একটি রেফারেন্স নম্বর (যেমন REN-...) পাবেন। উপরের \'অনুসন্ধান ট্র্যাক করুন\' বাটনে আপনার নম্বর ও মোবাইল দিয়ে যেকোনো সময় স্ট্যাটাস দেখতে পারবেন।',
 
     cta_banner_t: 'কোন যন্ত্রটি আপনার জমির জন্য সঠিক বুঝতে পারছেন না?',
     cta_banner_d: 'সরাসরি ফোন করুন, হোয়াটসঅ্যাপ করুন অথবা অনুসন্ধান ফর্ম পূরণ করুন।',
@@ -134,7 +168,7 @@ window.BELERHAT_I18N = {
     lbl_brand_model: 'ব্র্যান্ড ও মডেল (যদি জানা থাকে)',
     lbl_pref_service_date: 'পছন্দের তারিখ (ঐচ্ছিক)',
     lbl_problem: 'সমস্যার বিবরণ *',
-    lbl_upload_photo: 'সমস্যার ছবি আপলোড করুন (ঐচ্ছিক, সর্বোচ্চ ২ MB — JPG/PNG/WebP)',
+    lbl_upload_photo: 'সমস্যার ছবি আপলোড করুন (ঐচ্ছিক — বড় ছবি স্বয়ংক্রিয়ভাবে ছোট করা হয়)',
     photo_private_note: '🔒 আপনার আপলোড করা ছবি সম্পূর্ণ গোপন রাখা হয় এবং শুধুমাত্র টেকনিশিয়ান/মালিক দেখতে পারবেন।',
     btn_submit_service: 'সার্ভিস অনুরোধ পাঠান',
 
@@ -169,6 +203,11 @@ window.BELERHAT_I18N = {
     btn_send_message: 'বার্তা পাঠান',
 
     footer_links: 'দ্রুত লিংক',
+    track_modal_title: 'অনুসন্ধানের অবস্থা দেখুন',
+    track_modal_sub: 'আপনার রেফারেন্স নম্বর এবং জমা দেওয়ার সময় ব্যবহৃত ১০ সংখ্যার মোবাইল নম্বর দিন।',
+    lbl_ref_id: 'রেফারেন্স নম্বর *',
+    btn_check_status: 'স্ট্যাটাস দেখুন',
+
     success_title: 'অনুসন্ধান সফলভাবে গৃহীত হয়েছে!',
     success_ref_lbl: 'রেফারেন্স নম্বর:',
     btn_send_wa_copy: 'হোয়াটসঅ্যাপে বিবরণ পাঠান',
@@ -192,19 +231,41 @@ window.BELERHAT_I18N = {
     lbl_copy_link: 'লিংক কপি করুন',
     msg_link_copied: 'লিংক কপি হয়েছে!',
     msg_no_equipment: 'এখনো কোনো যন্ত্র পাওয়া যায়নি অথবা ফিল্টার পরিবর্তন করে দেখুন।',
+    msg_cold_start_cta: 'আমাদের ক্যাটালগ আপডেট হচ্ছে — যেকোনো যন্ত্রের প্রাপ্যতা ও দরের জন্য সরাসরি কল বা হোয়াটসঅ্যাপ করুন।',
     msg_no_parts: 'কোনো স্পেয়ার পার্টস পাওয়া যায়নি। উপরের বাটনে ক্লিক করে সরাসরি অনুসন্ধান পাঠান।',
     msg_submitting: 'পাঠানো হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন',
     msg_invalid_phone: 'অনুগ্রহ করে সঠিক ১০ সংখ্যার মোবাইল নম্বর দিন (৬-৯ দিয়ে শুরু)।',
-    msg_img_too_large: 'ছবির সাইজ ২ MB-এর কম হতে হবে।',
+    msg_img_compressing: 'ছবি অপ্টিমাইজ করা হচ্ছে...',
     msg_img_invalid_type: 'শুধুমাত্র JPG, PNG বা WebP ছবি আপলোড করা যাবে।',
     msg_submit_error: 'অনুরোধ পাঠানো যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন বা ফোনে যোগাযোগ করুন।',
-    msg_success_body: 'আপনার অনুরোধটি সফলভাবে নথিভুক্ত হয়েছে। আমাদের প্রতিনিধি শীঘ্রই আপনার সাথে যোগাযোগ করবেন।'
+    msg_success_body: 'আপনার অনুরোধটি সফলভাবে নথিভুক্ত হয়েছে। আমাদের প্রতিনিধি শীঘ্রই আপনার সাথে যোগাযোগ করবেন।',
+    msg_checking_status: 'যাচাই করা হচ্ছে...',
+    lbl_status: 'বর্তমান অবস্থা',
+    lbl_item: 'যন্ত্র / বিষয়',
+    lbl_quoted_amt: 'নির্ধারিত / কোটেশন মূল্য',
+    lbl_last_updated: 'সর্বশেষ আপডেট'
   },
 
   en: {
     seo_title: 'Belerhat AgriTech — Agricultural Equipment Sales, Rental & Repair in Purba Bardhaman',
     seo_desc: 'Agricultural equipment sales, affordable farm machinery rental, repair & maintenance, and spare parts support in Belerhat, Purba Bardhaman, West Bengal.',
     wa_chat_text: 'WhatsApp Chat',
+
+    btn_track_status: '🔍 Track Enquiry',
+    hero_track_prompt: 'Already submitted an enquiry? Check Status →',
+    ph_home_quick_search: 'Search machinery or spare parts (e.g., power tiller, blade)...',
+    btn_find_machine: 'Find Machine',
+    btn_find_part: 'Find Spare Part',
+    crop_finder_lbl: 'Find by Crop / Season:',
+    crop_paddy: '🌾 Paddy Farming',
+    crop_potato: '🥔 Potato & Vegetables',
+    crop_spray: '🌿 Spraying & Irrigation',
+    crop_harvest: '🚜 Harvesting & Threshing',
+    crop_all: 'View All',
+    opt_all_crops: 'All Crops / Uses',
+
+    home_cats_title: 'Equipment Categories',
+    home_cats_sub: 'Click any category to browse matching machinery',
 
     nav_home: 'Home',
     nav_catalogue: 'Equipment',
@@ -248,6 +309,11 @@ window.BELERHAT_I18N = {
     step4_t: 'Confirm & Deploy',
     step4_d: 'Once you approve the quote, your booking is confirmed for delivery/pickup.',
 
+    sales_badge: 'New Equipment Sales & Subsidy Support',
+    sales_panel_t: 'Machinery Purchase & Quotations',
+    sales_panel_d: 'Request quotations, local delivery options, and initial guidance on agricultural loans or government subsidy assistance.',
+    cta_request_quote: 'Request Quotation',
+
     repair_badge: 'Workshop & Repair Support',
     repair_panel_t: 'Machinery Repair & Maintenance',
     repair_panel_d: 'Facing an issue with a power tiller, weeder, sprayer, water pump, or harvester? Submit a repair request with an optional photo.',
@@ -260,6 +326,19 @@ window.BELERHAT_I18N = {
     why_3: 'Transparent process — owner manually confirms availability and final rates',
     why_4: 'Dependable repair and spare parts backing after sales or during season',
     service_area_label: 'Service Areas:',
+    home_visit_title: 'Visit Us & Business Hours',
+
+    faq_title: 'Frequently Asked Questions',
+    faq_1_q: 'Do I need to pay online when submitting a rental request?',
+    faq_1_a: 'No. Submitting a rental enquiry is completely free. The owner will verify machine availability and confirm final pricing with you before booking.',
+    faq_2_q: 'Are operator and fuel included in the rental rate?',
+    faq_2_a: 'This varies by machine and package. Operator and fuel terms are clearly shown on each machine listing and confirmed in your quotation.',
+    faq_3_q: 'Which areas do you cover for rentals and delivery?',
+    faq_3_a: 'We serve Belerhat and nearby blocks/villages across Purba Bardhaman. Transport charges depend on distance and machine size.',
+    faq_4_q: 'Are my uploaded repair photos kept private?',
+    faq_4_a: 'Yes. Customer repair photos are stored in a strictly private folder and are never visible on the public website.',
+    faq_5_q: 'How can I check the status of my enquiry after submitting?',
+    faq_5_a: 'You receive a Reference ID (like REN-...) on submission. Use the "Track Enquiry" button anytime with your Reference ID and mobile number.',
 
     cta_banner_t: 'Not sure which machine fits your field requirement?',
     cta_banner_d: 'Call us directly, message on WhatsApp, or submit an enquiry online.',
@@ -331,7 +410,7 @@ window.BELERHAT_I18N = {
     lbl_brand_model: 'Brand & Model (if known)',
     lbl_pref_service_date: 'Preferred Date (Optional)',
     lbl_problem: 'Problem Description *',
-    lbl_upload_photo: 'Upload Problem Photo (Optional, Max 2 MB — JPG/PNG/WebP)',
+    lbl_upload_photo: 'Upload Problem Photo (Optional — Large phone photos are auto-resized)',
     photo_private_note: '🔒 Uploaded repair photos remain strictly private and are only visible to Belerhat AgriTech.',
     btn_submit_service: 'Submit Service Request',
 
@@ -366,6 +445,11 @@ window.BELERHAT_I18N = {
     btn_send_message: 'Send Message',
 
     footer_links: 'Quick Links',
+    track_modal_title: 'Track Your Enquiry Status',
+    track_modal_sub: 'Enter your Reference ID and the 10-digit mobile number used during submission.',
+    lbl_ref_id: 'Reference ID *',
+    btn_check_status: 'Check Status',
+
     success_title: 'Enquiry Submitted Successfully!',
     success_ref_lbl: 'Reference ID:',
     btn_send_wa_copy: 'Send Summary on WhatsApp',
@@ -389,12 +473,18 @@ window.BELERHAT_I18N = {
     lbl_copy_link: 'Copy Link',
     msg_link_copied: 'Link copied!',
     msg_no_equipment: 'No equipment found. Try clearing your filters or contact us directly.',
+    msg_cold_start_cta: 'Our catalogue is being updated — call or WhatsApp us directly for immediate machinery availability and pricing.',
     msg_no_parts: 'No matching spare parts listed. Use the button above to enquire directly.',
     msg_submitting: 'Submitting... Please wait',
     msg_invalid_phone: 'Please enter a valid 10-digit Indian mobile number (starting with 6-9).',
-    msg_img_too_large: 'Image must be under 2 MB.',
+    msg_img_compressing: 'Optimizing photo...',
     msg_img_invalid_type: 'Only JPG, PNG, or WebP images are allowed.',
     msg_submit_error: 'Could not submit enquiry. Please try again or call us directly.',
-    msg_success_body: 'Your enquiry has been recorded reliably. Our team will review it and reach out to you shortly.'
+    msg_success_body: 'Your enquiry has been recorded reliably. Our team will review it and reach out to you shortly.',
+    msg_checking_status: 'Checking status...',
+    lbl_status: 'Current Status',
+    lbl_item: 'Item / Topic',
+    lbl_quoted_amt: 'Quoted Amount',
+    lbl_last_updated: 'Last Updated'
   }
 };
