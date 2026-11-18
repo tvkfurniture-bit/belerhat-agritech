@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * BELERHAT AGRITECH — BILINGUAL DICTIONARY v2 (Bengali Default + English)
+ * BELERHAT AGRITECH — BILINGUAL DICTIONARY v2.1 (Bengali Default + English)
  * ============================================================================
  */
 window.BELERHAT_I18N = {
@@ -25,6 +25,9 @@ window.BELERHAT_I18N = {
     home_cats_title: 'যন্ত্রপাতির ক্যাটাগরি',
     home_cats_sub: 'আপনার প্রয়োজন অনুযায়ী ক্যাটাগরিতে ক্লিক করুন',
 
+    testimonials_title: 'কৃষকদের অভিজ্ঞতা ও মতামত',
+    testimonials_sub: 'আমাদের পরিষেবা ব্যবহারকারী স্থানীয় কৃষকদের যাচাইকৃত মতামত',
+
     nav_home: 'হোম',
     nav_catalogue: 'যন্ত্রপাতি',
     nav_rental: 'ভাড়া',
@@ -33,6 +36,8 @@ window.BELERHAT_I18N = {
     nav_parts: 'স্পেয়ার পার্টস',
     nav_about: 'আমাদের সম্পর্কে',
     nav_contact: 'যোগাযোগ',
+    nav_privacy: 'গোপনীয়তা নীতি',
+    nav_terms: 'শর্তাবলী',
     btn_whatsapp: 'হোয়াটসঅ্যাপ',
 
     hero_pill: 'বেলেরহাট ও পূর্ব বর্ধমানের কৃষকদের জন্য আধুনিক কৃষি পরিষেবা',
@@ -202,7 +207,30 @@ window.BELERHAT_I18N = {
     lbl_message: 'আপনার বার্তা *',
     btn_send_message: 'বার্তা পাঠান',
 
+    privacy_page_title: 'গোপনীয়তা নীতি (Privacy Policy)',
+    privacy_page_sub: 'বেলেরহাট অ্যাগ্রিটেক — গ্রাহকের তথ্যের সুরক্ষা ও ব্যবহারবিধি',
+    priv_1_t: '১. আমরা কী তথ্য সংগ্রহ করি',
+    priv_1_p: 'আমরা শুধুমাত্র আপনার অনুসন্ধানের উত্তর দেওয়ার জন্য প্রয়োজনীয় তথ্য সংগ্রহ করি — যেমন আপনার নাম, মোবাইল নম্বর, গ্রাম/এলাকা এবং যন্ত্রপাতি ভাড়া, ক্রয় বা মেরামতি সংক্রান্ত বিবরণ।',
+    priv_2_t: '২. তথ্যের ব্যবহার',
+    priv_2_p: 'আপনার প্রদত্ত তথ্য শুধুমাত্র ফোন কল বা হোয়াটসঅ্যাপের মাধ্যমে কোটেশন পাঠানো, যন্ত্রের প্রাপ্যতা জানানো এবং মেরামত বা ডেলিভারি পরিষেবা প্রদানের জন্য ব্যবহৃত হয়। আমরা কখনোই গ্রাহকের তথ্য তৃতীয় পক্ষের কাছে বিক্রি বা ভাড়া দিই না।',
+    priv_3_t: '৩. মেরামতির ছবি ও গোপনীয়তা',
+    priv_3_p: 'মেরামতি ফর্মে আপলোড করা যেকোনো ছবি সম্পূর্ণ ব্যক্তিগত ও সুরক্ষিত ফোল্ডারে সংরক্ষিত থাকে এবং জনসাধারণের জন্য প্রদর্শিত হয় না।',
+    priv_4_t: '৪. তথ্য সংশোধন বা মুছে ফেলার অনুরোধ',
+    priv_4_p: 'আপনি যদি আপনার সংরক্ষিত যোগাযোগের তথ্য সংশোধন বা মুছে ফেলতে চান, তবে আমাদের যোগাযোগ পৃষ্ঠায় প্রদত্ত ফোন বা ইমেইলের মাধ্যমে সরাসরি অনুরোধ জানাতে পারেন।',
+
+    terms_page_title: 'শর্তাবলী (Terms & Conditions)',
+    terms_page_sub: 'যন্ত্রপাতি ভাড়া, বিক্রয়, মেরামত ও ওয়েবসাইট ব্যবহারের সাধারণ শর্তাবলী',
+    term_1_t: '১. অনুসন্ধান ও বুকিং নিশ্চিতকরণ',
+    term_1_p: 'এই ওয়েবসাইটের মাধ্যমে পাঠানো সমস্ত ভাড়া বা ক্রয়ের ফর্ম কেবলমাত্র একটি অনুরোধ (Enquiry)। মালিকের দ্বারা যন্ত্রের প্রাপ্যতা, তারিখ ও চূড়ান্ত কোটেশন যাচাই করে নিশ্চিত করার আগে কোনো বুকিং চূড়ান্ত বলে গণ্য হবে না।',
+    term_2_t: '২. মূল্য, জ্বালানি ও অপারেটর শর্ত',
+    term_2_p: 'ওয়েবসাইটে প্রদর্শিত আনুমানিক দর বা মূল্য পরিবর্তনশীল হতে পারে। ভাড়ার ক্ষেত্রে জ্বালানি, অপারেটর ও পরিবহন খরচ চূড়ান্ত কোটেশনের সময় স্পষ্টভাবে নির্ধারণ করা হয়।',
+    term_3_t: '৩. যন্ত্রপাতির ব্যবহার ও যত্ন',
+    term_3_p: 'ভাড়া নেওয়া যন্ত্রপাতি শুধুমাত্র নির্ধারিত কৃষি কাজে এবং নিরাপদ নির্দেশনা অনুযায়ী ব্যবহার করতে হবে। অস্বাভাবিক বা অসাবধান ব্যবহারে যন্ত্রের ক্ষতি হলে মেরামতি সংক্রান্ত দায়িত্ব প্রযোজ্য হতে পারে।',
+    term_4_t: '৪. বাতিলকরণ ও সময় পরিবর্তন',
+    term_4_p: 'আবহাওয়া বা অন্য কোনো কারণে তারিখ পরিবর্তন বা বাতিল করতে চাইলে অনুগ্রহ করে যত দ্রুত সম্ভব ফোন বা হোয়াটসঅ্যাপে আমাদের জানান।',
+
     footer_links: 'দ্রুত লিংক',
+    footer_legal: 'নীতিমালা ও যোগাযোগ',
     track_modal_title: 'অনুসন্ধানের অবস্থা দেখুন',
     track_modal_sub: 'আপনার রেফারেন্স নম্বর এবং জমা দেওয়ার সময় ব্যবহৃত ১০ সংখ্যার মোবাইল নম্বর দিন।',
     lbl_ref_id: 'রেফারেন্স নম্বর *',
@@ -267,6 +295,9 @@ window.BELERHAT_I18N = {
     home_cats_title: 'Equipment Categories',
     home_cats_sub: 'Click any category to browse matching machinery',
 
+    testimonials_title: 'Farmer Experiences & Feedback',
+    testimonials_sub: 'Verified feedback from local farmers using our services',
+
     nav_home: 'Home',
     nav_catalogue: 'Equipment',
     nav_rental: 'Rental',
@@ -275,6 +306,8 @@ window.BELERHAT_I18N = {
     nav_parts: 'Spare Parts',
     nav_about: 'About Us',
     nav_contact: 'Contact',
+    nav_privacy: 'Privacy Policy',
+    nav_terms: 'Terms & Conditions',
     btn_whatsapp: 'WhatsApp',
 
     hero_pill: 'Serving Farmers Across Belerhat & Purba Bardhaman',
@@ -444,7 +477,30 @@ window.BELERHAT_I18N = {
     lbl_message: 'Your Message *',
     btn_send_message: 'Send Message',
 
+    privacy_page_title: 'Privacy Policy',
+    privacy_page_sub: 'Belerhat AgriTech — Customer Data Protection & Usage',
+    priv_1_t: '1. Information We Collect',
+    priv_1_p: 'We collect only the essential details needed to respond to your enquiry—such as your name, 10-digit mobile number, village/location, and machinery rental, purchase, or service requirements.',
+    priv_2_t: '2. How We Use Your Information',
+    priv_2_p: 'Your details are used strictly to communicate quotations, check machine availability, and coordinate repairs or deliveries via phone or WhatsApp. We never sell or rent customer information to third parties.',
+    priv_3_t: '3. Private Repair Photographs',
+    priv_3_p: 'Any machinery photographs uploaded through our Repair & Maintenance form are stored in a restricted private folder accessible only to Belerhat AgriTech and are never displayed publicly.',
+    priv_4_t: '4. Data Correction or Deletion',
+    priv_4_p: 'You may request correction or deletion of your stored contact details at any time by contacting us via the phone number or email listed on our Contact page.',
+
+    terms_page_title: 'Terms & Conditions',
+    terms_page_sub: 'General Terms for Equipment Rental, Sales, Repair & Website Use',
+    term_1_t: '1. Enquiries vs. Confirmed Bookings',
+    term_1_p: 'Submitting a rental, sales, or service form on this website constitutes an enquiry request only. Bookings and orders are not confirmed until availability, dates, and final pricing are manually approved by Belerhat AgriTech.',
+    term_2_t: '2. Pricing, Fuel & Operator Terms',
+    term_2_p: 'Displayed rates and prices are indicative and subject to change. Fuel, operator, and transport charges for rentals or deliveries are finalized and communicated in the quotation.',
+    term_3_t: '3. Equipment Care & Usage',
+    term_3_p: 'Rented machinery must be operated only for intended agricultural tasks and according to safe operating instructions. Damage resulting from misuse may incur repair charges.',
+    term_4_t: '4. Cancellations & Rescheduling',
+    term_4_p: 'If weather or field conditions require rescheduling or cancelling a confirmed rental, please inform us via phone or WhatsApp as early as possible.',
+
     footer_links: 'Quick Links',
+    footer_legal: 'Policies & Contact',
     track_modal_title: 'Track Your Enquiry Status',
     track_modal_sub: 'Enter your Reference ID and the 10-digit mobile number used during submission.',
     lbl_ref_id: 'Reference ID *',
