@@ -2,7 +2,6 @@
    Belerhat AgriTech — Editorial Commerce & Modern Utility UI (styles.css)
    Direction: Google clarity + Grok typography + Facebook discovery +
               Lifestyle commerce imagery & generous whitespace.
-   Preserves 100% of existing classes, IDs, v3 aliases & v4 mobile hardening.
    ===================================================================== */
 :root {
   --g-950: #071E15;
@@ -112,7 +111,7 @@ p { margin-top: 0; }
 }
 .lang-btn.active { background: #fff; color: var(--g-950); box-shadow: var(--shadow-xs); }
 
-/* ================= HEADER & NAV (Facebook familiarity + Google clarity) ================= */
+/* ================= HEADER & NAV ================= */
 .site-header {
   background: rgba(255, 255, 255, 0.90);
   backdrop-filter: saturate(1.6) blur(16px);
@@ -274,7 +273,7 @@ p { margin-top: 0; }
 .highlight-list strong { color: #fff; font-size: .88rem; font-weight: 700; }
 .highlight-list span { color: #B8CEC1; font-size: .78rem; line-height: 1.45; }
 
-/* ================= QUICK SEARCH & DISCOVERY BAR (Google Search + FB Discovery) ================= */
+/* ================= QUICK SEARCH & DISCOVERY BAR ================= */
 .quick-finder-bar {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -341,7 +340,7 @@ p { margin-top: 0; }
 .page-head { margin-bottom: 28px; }
 .page-head h1 { font-size: clamp(1.6rem, 3.1vw, 2.2rem); }
 
-/* ================= EDITORIAL PRODUCT CARDS (Lifestyle Commerce) ================= */
+/* ================= EDITORIAL PRODUCT CARDS ================= */
 .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }
 .product-card {
   background: var(--surface);
@@ -355,10 +354,11 @@ p { margin-top: 0; }
 .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--border-strong); }
 .product-img-wrap {
   height: 220px;
-  background: var(--cream);
+  background: #FFFFFF;
   position: relative;
   overflow: hidden;
   display: flex; align-items: center; justify-content: center;
+  border-bottom: 1px solid var(--border);
 }
 .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s var(--ease); }
 .product-card:hover .product-img-wrap img { transform: scale(1.05); }
@@ -544,7 +544,7 @@ input[type="file"] { padding: 10px; background: var(--cream); border-style: dash
 .sticky-wa { background: var(--wa); color: #fff; }
 @media (min-width: 768px) { .mobile-sticky-bar { display: none; } }
 
-/* ================= MODALS & TOAST ================= */
+/* ================= MODALS & GOOGLE/FB-STYLE PRODUCT DETAIL SHEET ================= */
 .modal-backdrop {
   display: none; position: fixed; inset: 0; background: rgba(7, 30, 21, 0.56);
   backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
@@ -552,20 +552,95 @@ input[type="file"] { padding: 10px; background: var(--cream); border-style: dash
 }
 .modal-backdrop.open { display: flex; align-items: flex-start; justify-content: center; }
 .modal {
-  background: #fff; width: 100%; max-width: 700px; border-radius: var(--radius-xl);
+  background: #fff; width: 100%; max-width: 720px; border-radius: var(--radius-xl);
   padding: 24px; margin: 28px auto;
   box-shadow: var(--shadow-lg); animation: pop .22s var(--ease);
 }
 @keyframes pop { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
 .modal-sm { max-width: 460px; }
-.modal-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 14px; margin-bottom: 18px; }
-.modal-head h3 { margin: 0; color: var(--text); font-size: 1.15rem; }
+.modal-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; border-bottom: 1px solid var(--border); padding-bottom: 14px; margin-bottom: 18px; }
+.modal-head h3 { margin: 0; color: var(--text); font-size: 1.2rem; font-weight: 800; line-height: 1.32; }
 .modal-close {
   border: 0; background: var(--cream); width: 36px; height: 36px; border-radius: 50%;
   cursor: pointer; font-size: 1rem; font-weight: 700; flex-shrink: 0; color: var(--text);
   transition: background .15s;
 }
 .modal-close:hover { background: var(--g-100); }
+
+/* Product Detail Sheet (pd-*) */
+.pd-stage {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  max-height: 320px;
+}
+.pd-stage img {
+  max-height: 280px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+.pd-thumbs { display: flex; gap: 10px; margin-top: 10px; overflow-x: auto; padding-bottom: 4px; }
+.pd-thumb {
+  width: 64px; height: 64px; object-fit: contain; background: #fff;
+  border: 1.5px solid var(--border); border-radius: 10px; padding: 4px; cursor: pointer; flex-shrink: 0;
+  transition: border-color .15s var(--ease);
+}
+.pd-thumb.active { border-color: var(--g-700); box-shadow: 0 0 0 2px rgba(27, 94, 63, 0.14); }
+
+.pd-top-bar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 16px;
+}
+.pd-pills { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pd-share-btn {
+  background: var(--cream); border: 1px solid var(--border); color: var(--text);
+  border-radius: 999px; padding: 6px 13px; font-size: .78rem; font-weight: 700;
+  cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px;
+  transition: background .15s, border-color .15s;
+}
+.pd-share-btn:hover { background: var(--g-50); border-color: var(--g-600); }
+
+.pd-brand-line { margin-top: 8px; font-size: .86rem; color: var(--muted); line-height: 1.5; }
+.pd-price-cards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 14px 0;
+}
+.pd-price-box {
+  background: var(--cream); border: 1px solid var(--border); border-radius: 12px; padding: 11px 14px;
+}
+.pd-price-lbl { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.pd-price-val { font-size: 1.04rem; font-weight: 800; color: var(--text); margin-top: 2px; }
+.pd-desc { font-size: .95rem; line-height: 1.68; color: #26302A; margin: 12px 0 0; }
+
+.pd-section { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
+.pd-section-title {
+  margin: 0 0 10px; font-size: .78rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--muted);
+}
+.pd-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.pd-chip {
+  background: var(--g-50); border: 1px solid rgba(27, 94, 63, 0.16); color: var(--g-900);
+  padding: 5px 12px; border-radius: 999px; font-size: .83rem; font-weight: 600;
+}
+.pd-spec-list { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: #fff; }
+.pd-spec-row {
+  display: grid; grid-template-columns: minmax(110px, 34%) 1fr; gap: 12px;
+  padding: 11px 14px; border-bottom: 1px solid var(--border); font-size: .9rem; align-items: start;
+}
+.pd-spec-row:last-child { border-bottom: 0; }
+.pd-spec-key { font-weight: 700; color: var(--muted); font-size: .84rem; }
+.pd-spec-val { color: var(--text); font-weight: 500; line-height: 1.55; }
+
+.pd-actions {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;
+  margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
+}
+.pd-actions .btn { width: 100%; min-height: 46px; border-radius: 12px; font-size: .92rem; }
+
 .gallery-thumbs { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
 .gallery-thumb { width: 68px; height: 68px; object-fit: cover; border-radius: 10px; border: 2px solid transparent; cursor: pointer; }
 .gallery-thumb.active { border-color: var(--g-700); }
@@ -614,8 +689,7 @@ main:focus { outline: none; }
 .product-img-placeholder { font-size: 2.4rem; }
 
 /* =====================================================================
-   MOBILE HARDENING (v4) — phones first: no iOS zoom, 44px+ tap targets,
-   bottom-sheet modals, scrollable menu, compact top bar, touch-safe hovers
+   MOBILE HARDENING (v4)
    ===================================================================== */
 html { -webkit-tap-highlight-color: rgba(242, 163, 24, 0.22); }
 body { overflow-x: clip; overflow-wrap: break-word; }
@@ -689,6 +763,10 @@ input[type="date"] { -webkit-appearance: none; appearance: none; min-height: 44p
     padding: 20px 18px calc(22px + env(safe-area-inset-bottom, 0px));
     animation: sheet .24s var(--ease);
   }
+  .pd-stage { min-height: 180px; max-height: 250px; padding: 12px; }
+  .pd-stage img { max-height: 220px; }
+  .pd-spec-row { grid-template-columns: 1fr; gap: 3px; }
+  .pd-actions { grid-template-columns: 1fr; }
   .ref-box { flex-direction: column; align-items: flex-start; }
   .spec-table td { padding: 9px 8px; }
   .spec-table td:first-child { width: 38%; }
