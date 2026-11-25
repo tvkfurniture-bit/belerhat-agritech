@@ -1,20 +1,18 @@
 /**
  * ============================================================================
- * BELERHAT AGRITECH — PUBLIC STOREFRONT APPLICATION v2.2 (app.js)
+ * BELERHAT AGRITECH — PUBLIC STOREFRONT APPLICATION v2.3 (app.js)
  * ============================================================================
  * Improvements Included:
+ *   - Upgraded Google/Facebook-style Product Detail Sheet (.pd-* classes)
+ *   - WhatsApp Referral Share integration inside Success Modal
  *   - Server-signed bootTs/bootSig + submittedAt (100% clock-skew-proof)
- *   - Privacy Policy (?page=privacy) & Terms & Conditions (?page=terms) routing
- *   - Owner-verified Testimonials rendering (hidden if empty — zero fake data)
- *   - Client-side <canvas> photo auto-compression (handles 5-12 MB phone photos)
- *   - Self-service Enquiry Status Lookup (?action=checkEnquiryStatus)
- *   - Homepage 10-Category Tiles, Crop/Season Finder & Quick Search wiring
- *   - Dynamic Hero & Workshop photo slots from Admin Settings
+ *   - Privacy Policy (?page=privacy) & Terms & Conditions (?page=terms)
+ *   - Client-side <canvas> photo auto-compression & Status Lookup
  * ============================================================================
  */
 
-// IMPORTANT: Replace this placeholder with your deployed PublicApi.gs (/exec) URL:
-const PUBLIC_API_URL = 'https://script.google.com/macros/s/AKfycbxupcFElkUzIDPKltGFA4r7QNuhtuIHROj7X8moyprw-MNUtpbbuLjRznLxKa41kUnVYg/exec';
+// IMPORTANT: Paste your Project #1 (PublicApi.gs) /exec URL below:
+const PUBLIC_API_URL = 'REPLACE_WITH_YOUR_PUBLIC_API_EXEC_URL';
 
 const DEFAULT_CATEGORIES_FALLBACK = [
   { id: 'CAT-01', name: 'Land Preparation Equipment', nameBn: 'জমি তৈরির যন্ত্রপাতি' },
@@ -96,7 +94,6 @@ async function fetchPublicBootstrap() {
     APP_STATE.spareParts = json.data.spareParts || [];
     APP_STATE.bootTs = json.data.bootTs || '';
     APP_STATE.bootSig = json.data.bootSig || '';
-    if (window.saveBootCache) window.saveBootCache(json.data);
 
     if (!localStorage.getItem('belerhat_lang') && APP_STATE.settings.default_language) {
       APP_STATE.lang = APP_STATE.settings.default_language === 'en' ? 'en' : 'bn';
@@ -115,7 +112,6 @@ async function fetchPublicBootstrap() {
 }
 
 function renderEmptyAfterInit() {
-  if (APP_STATE.equipment.length) return;
   populateDropdowns();
   renderAllDynamicViews();
 }
@@ -341,7 +337,7 @@ function renderTestimonials() {
 
 /**
  * ============================================================================
- * CRAWL-FRIENDLY ROUTING (?page=... + #hash fallback)
+ * ROUTING (?page=... + #hash fallback)
  * ============================================================================
  */
 function navigateTo(route, updateUrl) {
@@ -360,7 +356,7 @@ function navigateTo(route, updateUrl) {
 
   if (updateUrl !== false) {
     const nextUrl = target === 'home' ? window.location.pathname : (window.location.pathname + '?page=' + target);
-    if (nextUrl !== window.location.pathname + window.location.search) history.pushState(null, '', nextUrl);
+    history.replaceState(null, '', nextUrl);
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -568,7 +564,7 @@ function buildEquipmentCardHtml(eq) {
       '<div class="product-img-wrap">' +
         (imgUrl
           ? '<img src="' + escAttr(imgUrl) + '" alt="' + escAttr(name) + '" loading="lazy" />'
-          : '<div class="product-img-placeholder">🚜 ' + esc(name) + '</div>') +
+          : '<div class="product-img-placeholder">🚜</div>') +
       '</div>' +
       '<div class="product-body">' +
         '<div class="product-cat">' + esc(catName) + '</div>' +
@@ -648,79 +644,138 @@ function renderCatalogue() {
     : '<div class="empty-state">' + esc(t('msg_no_equipment')) + '</div>';
 }
 
+/**
+ * Upgraded Google/Facebook/Editorial Commerce Product Detail Sheet
+ */
 function openEquipmentDetail(eqId) {
   const eq = APP_STATE.equipment.find(function (e) { return e.id === eqId; });
   if (!eq) return;
 
   const name = getEqName(eq);
+  const catName = getCatName(eq.categoryId);
   document.getElementById('eqDetailTitle').textContent = name;
 
   const imgs = eq.imageUrls || [];
   let galleryHtml = '';
   if (imgs.length) {
     galleryHtml =
-      '<div style="background:var(--sand-bg);border-radius:10px;overflow:hidden;max-height:300px;display:flex;justify-content:center;">' +
-        '<img id="eqDetailMainImg" src="' + escAttr(imgs[0]) + '" alt="' + escAttr(name) + '" style="max-height:300px;object-fit:contain;" />' +
+      '<div class="pd-stage">' +
+        '<img id="eqDetailMainImg" src="' + escAttr(imgs[0]) + '" alt="' + escAttr(name) + '" />' +
       '</div>' +
       (imgs.length > 1
-        ? '<div class="gallery-thumbs">' + imgs.map(function (u, i) {
-            return '<img src="' + escAttr(u) + '" class="gallery-thumb' + (i === 0 ? ' active' : '') + '" onclick="switchDetailImage(this, \'' + escAttr(u) + '\')" />';
+        ? '<div class="pd-thumbs">' + imgs.map(function (u, i) {
+            return '<img src="' + escAttr(u) + '" class="pd-thumb' + (i === 0 ? ' active' : '') + '" onclick="switchDetailImage(this, \'' + escAttr(u) + '\')" />';
           }).join('') + '</div>'
         : '');
   }
 
-  const specLines = (getEqSpecs(eq) || '').split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean);
+  // Price & Rental summary boxes
+  const rates = getPublicRatesForEq(eq.id);
+  const priceBoxes = [];
+  if (eq.forSale) {
+    const saleTxt = eq.salePrice !== null
+      ? '₹' + Number(eq.salePrice).toLocaleString('en-IN')
+      : t('lbl_price_quote');
+    priceBoxes.push(
+      '<div class="pd-price-box">' +
+        '<div class="pd-price-lbl">' + esc(t('lbl_for_sale')) + '</div>' +
+        '<div class="pd-price-val">' + esc(saleTxt) + '</div>' +
+      '</div>'
+    );
+  }
+  if (eq.forRent) {
+    const numRates = rates.filter(function (r) { return r.rateAmount !== null; });
+    const rentTxt = numRates.length
+      ? ('₹' + Number(numRates[0].rateAmount).toLocaleString('en-IN') + ' / ' + t('unit_' + numRates[0].rateType))
+      : t('lbl_price_quote');
+    priceBoxes.push(
+      '<div class="pd-price-box">' +
+        '<div class="pd-price-lbl">' + esc(t('lbl_for_rent')) + '</div>' +
+        '<div class="pd-price-val">' + esc(rentTxt) + '</div>' +
+      '</div>'
+    );
+  }
+  const priceCardsHtml = priceBoxes.length ? '<div class="pd-price-cards">' + priceBoxes.join('') + '</div>' : '';
+
+  // Applications split cleanly into pill chips
+  const appsText = getEqApps(eq) || '';
+  const appChips = appsText.split(/[,।;]+/).map(function (s) { return s.trim(); }).filter(Boolean);
+  const appsHtml = appChips.length
+    ? '<div class="pd-section">' +
+        '<h4 class="pd-section-title">' + esc(t('lbl_suitable_apps')) + '</h4>' +
+        '<div class="pd-chips">' + appChips.map(function (c) { return '<span class="pd-chip">' + esc(c) + '</span>'; }).join('') + '</div>' +
+      '</div>'
+    : '';
+
+  // Clean hairline Specifications list (handles real newlines AND literal \n)
+  const specLines = (getEqSpecs(eq) || '').replace(/\\n/g, '\n').split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean);
   let specsHtml = '';
   if (specLines.length) {
-    specsHtml = '<h4>' + esc(t('lbl_specs')) + '</h4><table class="spec-table">' +
-      specLines.map(function (line) {
-        const idx = line.indexOf(':');
-        if (idx !== -1) {
-          return '<tr><td>' + esc(line.slice(0, idx).trim()) + '</td><td>' + esc(line.slice(idx + 1).trim()) + '</td></tr>';
-        }
-        return '<tr><td colspan="2">' + esc(line) + '</td></tr>';
-      }).join('') + '</table>';
+    specsHtml =
+      '<div class="pd-section">' +
+        '<h4 class="pd-section-title">' + esc(t('lbl_specs')) + '</h4>' +
+        '<div class="pd-spec-list">' +
+          specLines.map(function (line) {
+            const idx = line.indexOf(':');
+            if (idx !== -1) {
+              return '<div class="pd-spec-row"><div class="pd-spec-key">' + esc(line.slice(0, idx).trim()) + '</div><div class="pd-spec-val">' + esc(line.slice(idx + 1).trim()) + '</div></div>';
+            }
+            return '<div class="pd-spec-row"><div class="pd-spec-key">•</div><div class="pd-spec-val">' + esc(line) + '</div></div>';
+          }).join('') +
+        '</div>' +
+      '</div>';
   }
 
-  const rates = getPublicRatesForEq(eq.id);
+  // Rental Rate Breakdown
   let ratesHtml = '';
   if (eq.forRent && rates.length) {
-    ratesHtml = '<h4>' + esc(t('lbl_rental_rates')) + '</h4><table class="spec-table">' +
-      rates.map(function (r) {
-        const priceTxt = r.rateAmount !== null
-          ? '₹' + Number(r.rateAmount).toLocaleString('en-IN')
-          : t('lbl_price_quote');
-        const extras = [];
-        if (r.operatorIncluded) extras.push(t('lbl_operator_incl'));
-        if (r.fuelIncluded) extras.push(t('lbl_fuel_incl'));
-        if (r.notes) extras.push(r.notes);
-        return '<tr><td>' + esc(t('unit_' + r.rateType)) + '</td><td><strong>' + esc(priceTxt) + '</strong>' +
-          (extras.length ? '<br><span class="muted">' + esc(extras.join(' • ')) + '</span>' : '') + '</td></tr>';
-      }).join('') + '</table>';
+    ratesHtml =
+      '<div class="pd-section">' +
+        '<h4 class="pd-section-title">' + esc(t('lbl_rental_rates')) + '</h4>' +
+        '<div class="pd-spec-list">' +
+          rates.map(function (r) {
+            const priceTxt = r.rateAmount !== null
+              ? '₹' + Number(r.rateAmount).toLocaleString('en-IN')
+              : t('lbl_price_quote');
+            const extras = [];
+            if (r.operatorIncluded) extras.push(t('lbl_operator_incl'));
+            if (r.fuelIncluded) extras.push(t('lbl_fuel_incl'));
+            if (r.notes) extras.push(r.notes);
+            return '<div class="pd-spec-row">' +
+              '<div class="pd-spec-key">' + esc(t('unit_' + r.rateType)) + '</div>' +
+              '<div class="pd-spec-val"><strong>' + esc(priceTxt) + '</strong>' +
+                (extras.length ? '<br><span class="muted" style="font-size:0.82rem;">' + esc(extras.join(' • ')) + '</span>' : '') +
+              '</div></div>';
+          }).join('') +
+        '</div>' +
+      '</div>';
   }
 
   const waUrl = buildWhatsAppUrl(
     (APP_STATE.lang === 'bn' ? 'নমস্কার, আমি এই যন্ত্রটি সম্পর্কে বিস্তারিত জানতে চাই: ' : 'Hello, please share quotation & details for: ') + name
   );
+  const brandMeta = [catName, eq.brand, eq.model].filter(Boolean).join(' • ');
 
-  const appsText = getEqApps(eq);
   document.getElementById('eqDetailBody').innerHTML =
     galleryHtml +
-    '<div style="margin-top:12px;">' +
-      '<span class="avail-pill avail-' + escAttr(eq.availabilityStatus) + '">' + esc(formatAvailability(eq.availabilityStatus)) + '</span> ' +
-      '<span class="muted">' + esc([eq.brand, eq.model].filter(Boolean).join(' • ')) + '</span>' +
+    '<div class="pd-top-bar">' +
+      '<div class="pd-pills">' +
+        '<span class="avail-pill avail-' + escAttr(eq.availabilityStatus) + '">' + esc(formatAvailability(eq.availabilityStatus)) + '</span>' +
+        (eq.forSale ? '<span class="avail-pill pill-sale">' + esc(t('lbl_for_sale')) + '</span>' : '') +
+        (eq.forRent ? '<span class="avail-pill pill-rent">' + esc(t('lbl_for_rent')) + '</span>' : '') +
+      '</div>' +
+      '<button type="button" class="pd-share-btn" onclick="shareEquipment(\'' + escAttr(eq.id) + '\')">↗ ' + esc(t('lbl_share')) + '</button>' +
     '</div>' +
-    (getEqDesc(eq) ? '<p>' + esc(getEqDesc(eq)) + '</p>' : '') +
-    (appsText ? '<p><strong>' + esc(t('lbl_suitable_apps')) + ':</strong> ' + esc(appsText) + '</p>' : '') +
+    (brandMeta ? '<div class="pd-brand-line">' + esc(brandMeta) + '</div>' : '') +
+    priceCardsHtml +
+    (getEqDesc(eq) ? '<p class="pd-desc">' + esc(getEqDesc(eq)) + '</p>' : '') +
+    appsHtml +
     specsHtml +
     ratesHtml +
-    '<div class="btn-row" style="margin-top:16px;">' +
+    '<div class="pd-actions">' +
       (eq.forSale ? '<button type="button" class="btn btn-primary" onclick="closeModal(\'eqDetailModal\');goToEnquiryWithMachine(\'SALES\', \'' + escAttr(eq.id) + '\')">' + esc(t('lbl_sales_enq')) + '</button>' : '') +
       (eq.forRent ? '<button type="button" class="btn btn-amber" onclick="closeModal(\'eqDetailModal\');goToEnquiryWithMachine(\'RENTAL\', \'' + escAttr(eq.id) + '\')">' + esc(t('lbl_rent_enq')) + '</button>' : '') +
       '<a href="' + escAttr(waUrl) + '" target="_blank" rel="noopener" class="btn btn-wa">💬 ' + esc(t('btn_whatsapp')) + '</a>' +
-    '</div>' +
-    '<div class="share-row">' +
-      '<button type="button" class="btn btn-outline btn-sm" onclick="shareEquipment(\'' + escAttr(eq.id) + '\')">🔗 ' + esc(t('lbl_share')) + ' / ' + esc(t('lbl_copy_link')) + '</button>' +
     '</div>';
 
   openModal('eqDetailModal');
@@ -728,7 +783,7 @@ function openEquipmentDetail(eqId) {
 
 function switchDetailImage(thumbEl, url) {
   document.getElementById('eqDetailMainImg').src = url;
-  document.querySelectorAll('.gallery-thumb').forEach(function (img) { img.classList.remove('active'); });
+  document.querySelectorAll('.pd-thumb, .gallery-thumb').forEach(function (img) { img.classList.remove('active'); });
   thumbEl.classList.add('active');
 }
 
@@ -807,7 +862,7 @@ function renderSpareParts() {
         '<div class="product-img-wrap">' +
           (p.imageUrl
             ? '<img src="' + escAttr(p.imageUrl) + '" alt="' + escAttr(pName) + '" loading="lazy" />'
-            : '<div class="product-img-placeholder">⚙️ ' + esc(pName) + '</div>') +
+            : '<div class="product-img-placeholder">⚙️</div>') +
         '</div>' +
         '<div class="product-body">' +
           '<div class="product-cat">' + esc(getCatName(p.categoryId)) + (p.partCode ? ' • ' + esc(p.partCode) : '') + '</div>' +
@@ -1084,11 +1139,15 @@ function showSuccessModal(refId, enquiryType, payload, itemSummary) {
   ].filter(Boolean).join('\n');
 
   document.getElementById('successWaLink').href = buildWhatsAppUrl(waMsg);
-const refMsg = (APP_STATE.lang === 'bn'
-  ? 'নমস্কার! আমি বেলেরহাট অ্যাগ্রিটেক থেকে কৃষি যন্ত্রপাতি সংক্রান্ত কাজ করিয়েছি। আপনিও যদি আধুনিক যন্ত্র ভাড়া নিতে বা কিনতে চান, তবে এই লিঙ্কে যোগাযোগ করুন: ' + window.location.origin + window.location.pathname + '\n\nবুকিং করার সময় আমার মোবাইল নম্বর (' + payload.phone + ') রেফারেন্স হিসেবে দিলে আপনিও বিশেষ ছাড় পাবেন!'
-  : 'Hello! I used Belerhat AgriTech for agricultural machinery. If you need farm equipment rental or sales, check out this link: ' + window.location.origin + window.location.pathname + '\n\nQuote my mobile number (' + payload.phone + ') as a reference when booking to claim your special discount!');
 
-document.getElementById('referralShareWaBtn').href = buildWhatsAppUrl(refMsg);
+  const refBtn = document.getElementById('referralShareWaBtn');
+  if (refBtn) {
+    const refMsg = (APP_STATE.lang === 'bn'
+      ? 'নমস্কার! আমি বেলেরহাট অ্যাগ্রিটেক থেকে কৃষি যন্ত্রপাতি সংক্রান্ত কাজ করিয়েছি। আপনিও যদি আধুনিক যন্ত্র ভাড়া নিতে বা কিনতে চান, তবে এই লিঙ্কে যোগাযোগ করুন: ' + window.location.origin + window.location.pathname + '\n\nবুকিং করার সময় আমার মোবাইল নম্বর (' + payload.phone + ') রেফারেন্স হিসেবে দিলে আপনিও বিশেষ ছাড় পাবেন!'
+      : 'Hello! I used Belerhat AgriTech for agricultural machinery. If you need farm equipment rental or sales, check out this link: ' + window.location.origin + window.location.pathname + '\n\nQuote my mobile number (' + payload.phone + ') as a reference when booking to claim your special discount!');
+    refBtn.href = buildWhatsAppUrl(refMsg);
+  }
+
   openModal('successModal');
 }
 
