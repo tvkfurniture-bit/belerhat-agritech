@@ -12,7 +12,7 @@
  */
 
 // IMPORTANT: Paste your Project #1 (PublicApi.gs) /exec URL below:
-const PUBLIC_API_URL = 'REPLACE_WITH_YOUR_PUBLIC_API_EXEC_URL';
+const PUBLIC_API_URL = 'https://script.google.com/macros/s/AKfycby1mp5c92uPk5GpIj32k4tyWx4btCEV7ZKQ8MBP5DtQut7-u_KwTozcSsfwk5QzoiGh0A/exec';
 
 const DEFAULT_CATEGORIES_FALLBACK = [
   { id: 'CAT-01', name: 'Land Preparation Equipment', nameBn: 'জমি তৈরির যন্ত্রপাতি' },
