@@ -14,7 +14,7 @@
  */
 
 // IMPORTANT: Replace this placeholder with your deployed PublicApi.gs (/exec) URL:
-const PUBLIC_API_URL = 'https://script.google.com/macros/s/AKfycbwqkEa8k_-VWTmqafJYXdF-C8bTTOTUiVBRhYMytxRWNgPH6wLUO2RQAKdvN9uUB2xa/exec';
+const PUBLIC_API_URL = 'https://script.google.com/macros/s/AKfycbxupcFElkUzIDPKltGFA4r7QNuhtuIHROj7X8moyprw-MNUtpbbuLjRznLxKa41kUnVYg/exec';
 
 const DEFAULT_CATEGORIES_FALLBACK = [
   { id: 'CAT-01', name: 'Land Preparation Equipment', nameBn: 'জমি তৈরির যন্ত্রপাতি' },
